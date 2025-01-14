@@ -8,7 +8,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class CreateClassParams {
+public class SchoolCreateClassParams {
     private int grade;
     private char classLetter;
 }

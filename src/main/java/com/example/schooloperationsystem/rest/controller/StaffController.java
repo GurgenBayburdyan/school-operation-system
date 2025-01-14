@@ -6,6 +6,9 @@ import com.example.schooloperationsystem.rest.dto.request.CreateStaffRequestDto;
 import com.example.schooloperationsystem.rest.dto.response.StaffDetailsDto;
 import com.example.schooloperationsystem.service.StaffService;
 import com.example.schooloperationsystem.service.params.CreateStaffParams;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,27 +17,36 @@ import java.util.List;
 @RequestMapping("/staff")
 public class StaffController {
 
+    private static final Logger logger = LoggerFactory.getLogger(HeadMasterController.class);
+
     private final StaffService service;
     private final StaffMapper mapper;
+    private final ResourceLoader resourceLoader;
 
-    public StaffController(StaffService service, StaffMapper mapper) {
+    public StaffController(StaffService service, StaffMapper mapper, ResourceLoader resourceLoader) {
         this.service = service;
         this.mapper = mapper;
+        this.resourceLoader = resourceLoader;
     }
 
     @GetMapping
     public List<StaffDetailsDto> getAllStaff() {
-        List<Staff> staffList = service.getStaff();
-        return mapper.mapList(staffList);
+        logger.info("Getting Staff...");
+        List<Staff> response = service.getStaff();
+        logger.info("Got Staff {}", response);
+        return mapper.mapList(response);
     }
 
     @PostMapping
     public StaffDetailsDto createStaff(@RequestBody CreateStaffRequestDto requestDto) {
+        logger.info("Creating Staff with firstName: {}, lastName: {}, dateOfBirth: {}",
+                requestDto.getFirstName(), requestDto.getLastName(), requestDto.getDateOfBirth());
         CreateStaffParams params = new CreateStaffParams();
         params.setFirstName(requestDto.getFirstName());
-        params.setLastName(params.getLastName());
-        params.setDateOfBirth(params.getDateOfBirth());
-        Staff staff = service.addStaff(params);
-        return mapper.map(staff);
+        params.setLastName(requestDto.getLastName());
+        params.setDateOfBirth(requestDto.getDateOfBirth());
+        Staff response = service.addStaff(params);
+        logger.info("Created Staff {}", requestDto);
+        return mapper.map(response);
     }
 }

@@ -16,4 +16,12 @@ public class Teacher {
     @OneToOne
     @JoinColumn(name = "staffId", nullable = false, foreignKey = @ForeignKey(name = "FK_TEACHER_STAFF_ID"))
     private Staff staff;
+
+    @Override
+    public String toString() {
+        return "Teacher{" +
+                "id=" + id +
+                ", staff=" + staff +
+                '}';
+    }
 }

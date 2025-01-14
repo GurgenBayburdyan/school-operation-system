@@ -21,4 +21,13 @@ public class HeadMaster {
     @OneToOne
     @JoinColumn(name = "classId", nullable = false, foreignKey = @ForeignKey(name = "FK_HEAD_MASTER_CLASS_ID"))
     private SchoolClass schoolClass;
+
+    @Override
+    public String toString() {
+        return "HeadMaster{" +
+                "id=" + id +
+                ", teacher=" + teacher +
+                ", schoolClass=" + schoolClass +
+                '}';
+    }
 }

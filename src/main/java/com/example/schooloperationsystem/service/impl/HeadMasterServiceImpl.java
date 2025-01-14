@@ -5,13 +5,14 @@ import com.example.schooloperationsystem.repository.HeadMasterRepository;
 import com.example.schooloperationsystem.service.HeadMasterService;
 import com.example.schooloperationsystem.service.TeacherService;
 import com.example.schooloperationsystem.service.params.CreateHeadMasterParams;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import com.example.schooloperationsystem.entity.Teacher;
 
 import java.util.List;
 
 @Service
-public class HeadMasterServiceImpl implements HeadMasterService {
+class HeadMasterServiceImpl implements HeadMasterService {
     private final HeadMasterRepository repository;
 
     private final TeacherService teacherService;
@@ -24,11 +25,13 @@ public class HeadMasterServiceImpl implements HeadMasterService {
     }
 
     @Override
+    @Transactional
     public List<HeadMaster> getHeadMasters() {
         return repository.findAll();
     }
 
     @Override
+    @Transactional
     public HeadMaster addHeadMaster(CreateHeadMasterParams params) {
         HeadMaster headMaster = new HeadMaster();
         Teacher teacher = teacherService.getTeacherById(params.getTeacherId());

@@ -24,15 +24,15 @@ public class TeacherController {
 
     @GetMapping
     public List<TeacherDetailsDto> getAllTeachers() {
-        List<Teacher> teacherList = service.getTeachers();
-        return mapper.mapList(teacherList);
+        List<Teacher> response = service.getTeachers();
+        return mapper.mapList(response);
     }
 
     @PostMapping
     public TeacherDetailsDto createTeacher(@RequestBody CreateTeacherRequestDto requestDto) {
         CreateTeacherParams params=new CreateTeacherParams();
         params.setStaffId(requestDto.getStaffId());
-        Teacher teacher = service.addTeacher(params);
-        return mapper.map(teacher);
+        Teacher response = service.addTeacher(params);
+        return mapper.map(response);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.schooloperationsystem.service.params;
 
+import com.example.schooloperationsystem.rest.dto.TeacherDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +10,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class CreateHeadMasterParams {
-    private Long teacherId;
-    private Long classId;
+    private TeacherDto teacherDto;
+    private SchoolClassDto schoolClassDto;
 
 }

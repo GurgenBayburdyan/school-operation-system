@@ -13,7 +13,7 @@ public class PupilInClass {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "class_id", nullable = false, foreignKey = @ForeignKey(name = "FK_PUPIL_IN_CLASS_CLASS_ID"))
     private SchoolClass schoolClass;
 

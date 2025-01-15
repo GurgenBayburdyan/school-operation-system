@@ -1,11 +1,12 @@
 package com.example.schooloperationsystem.service.impl;
 
 import com.example.schooloperationsystem.entity.HeadMaster;
+import com.example.schooloperationsystem.entity.SchoolClass;
 import com.example.schooloperationsystem.entity.Staff;
 import com.example.schooloperationsystem.repository.HeadMasterRepository;
+import com.example.schooloperationsystem.rest.dto.SchoolClassDto;
 import com.example.schooloperationsystem.rest.dto.TeacherDto;
 import com.example.schooloperationsystem.service.HeadMasterService;
-import com.example.schooloperationsystem.service.TeacherService;
 import com.example.schooloperationsystem.service.params.CreateHeadMasterParams;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -17,11 +18,8 @@ import java.util.List;
 class HeadMasterServiceImpl implements HeadMasterService {
     private final HeadMasterRepository repository;
 
-    private final TeacherService teacherService;
-
-    public HeadMasterServiceImpl(HeadMasterRepository repository, TeacherService teacherService) {
+    public HeadMasterServiceImpl(HeadMasterRepository repository) {
         this.repository = repository;
-        this.teacherService = teacherService;
     }
 
     @Override
@@ -47,7 +45,7 @@ class HeadMasterServiceImpl implements HeadMasterService {
         staff.setDateOfBirth(teacherDto.getStaffDto().getDateOfBirth());
 
         schoolClass.setGrade(schoolClassDto.getGrade());
-        schoolClass.setClassLetter(schoolClassDto.getClassLetter());
+        schoolClass.setLetter(schoolClassDto.getClassLetter());
 
         teacher.setStaff(staff);
         headMaster.setTeacher(teacher);

@@ -20,15 +20,15 @@ public class SchoolClass {
     @Column(name = "grade", nullable = false)
     private Integer grade;
 
-    @Column(name = "classLetter", nullable = false)
-    private Character classLetter;
+    @Column(name = "class_letter", nullable = false)
+    private Character letter;
 
     @Override
     public String toString() {
         return "SchoolClass{" +
                 "id=" + id +
                 ", grade=" + grade +
-                ", classLetter=" + classLetter +
+                ", classLetter=" + letter +
                 '}';
     }
 }

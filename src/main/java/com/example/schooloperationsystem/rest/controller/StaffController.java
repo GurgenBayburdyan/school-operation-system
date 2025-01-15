@@ -8,7 +8,6 @@ import com.example.schooloperationsystem.service.StaffService;
 import com.example.schooloperationsystem.service.params.CreateStaffParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,12 +20,10 @@ public class StaffController {
 
     private final StaffService service;
     private final StaffMapper mapper;
-    private final ResourceLoader resourceLoader;
 
-    public StaffController(StaffService service, StaffMapper mapper, ResourceLoader resourceLoader) {
+    public StaffController(StaffService service, StaffMapper mapper) {
         this.service = service;
         this.mapper = mapper;
-        this.resourceLoader = resourceLoader;
     }
 
     @GetMapping

@@ -9,7 +9,7 @@ import lombok.Setter;
  */
 @Setter
 @Getter
-public class SchoolCreateClassRequestDto {
+public class CreateSchoolClassRequestDto {
     @JsonProperty("grade")
     private int grade;
 

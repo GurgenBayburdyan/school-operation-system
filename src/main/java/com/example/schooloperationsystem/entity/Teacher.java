@@ -15,7 +15,7 @@ public class Teacher {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "staffId", nullable = false, foreignKey = @ForeignKey(name = "FK_TEACHER_STAFF_ID"))
+    @JoinColumn(name = "staff_Id", nullable = false, foreignKey = @ForeignKey(name = "FK_TEACHER_STAFF_ID"))
     private Staff staff;
 
     @Override

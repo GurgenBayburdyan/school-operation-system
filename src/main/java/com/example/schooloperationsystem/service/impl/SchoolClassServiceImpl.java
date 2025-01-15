@@ -30,7 +30,13 @@ class SchoolClassServiceImpl implements SchoolClassService {
     public SchoolClass addClass(SchoolCreateClassParams params) {
         SchoolClass classEntity = new SchoolClass();
         classEntity.setGrade(params.getGrade());
-        classEntity.setClassLetter(params.getClassLetter());
+        classEntity.setLetter(params.getClassLetter());
         return repository.save(classEntity);
+    }
+
+    @Override
+    @Transactional
+    public SchoolClass getClassById(Long id) {
+        return repository.findById(id).orElse(null);
     }
 }

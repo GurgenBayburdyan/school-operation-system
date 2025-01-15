@@ -4,6 +4,7 @@ import com.example.schooloperationsystem.entity.Pupil;
 import com.example.schooloperationsystem.repository.PupilRepository;
 import com.example.schooloperationsystem.service.PupilService;
 import com.example.schooloperationsystem.service.params.CreatePupilParams;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +16,13 @@ class PupilServiceImpl implements PupilService {
     private final PupilRepository repository;
 
     @Override
+    @Transactional
     public List<Pupil> getPupils() {
         return repository.findAll();
     }
 
     @Override
+    @Transactional
     public Pupil addPupil(CreatePupilParams params) {
         Pupil pupil = new Pupil();
         pupil.setFirstName(params.getFirstName());
@@ -29,6 +32,7 @@ class PupilServiceImpl implements PupilService {
     }
 
     @Override
+    @Transactional
     public Pupil getPupilById(Long id) {
         return repository.getReferenceById(id);
     }

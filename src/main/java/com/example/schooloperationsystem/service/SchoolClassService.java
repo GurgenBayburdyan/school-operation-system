@@ -12,4 +12,6 @@ public interface SchoolClassService {
     List<SchoolClass> getClasses();
 
     SchoolClass addClass(SchoolCreateClassParams params);
+
+    SchoolClass getClassById(Long id);
 }

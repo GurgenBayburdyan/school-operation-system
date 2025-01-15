@@ -15,11 +15,11 @@ public class HeadMaster {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "teacherId", nullable = false, foreignKey = @ForeignKey(name = "FK_HEAD_MASTER_TEACHER_ID"))
+    @JoinColumn(name = "teacher_Id", nullable = false, foreignKey = @ForeignKey(name = "FK_HEAD_MASTER_TEACHER_ID"))
     private Teacher teacher;
 
     @OneToOne
-    @JoinColumn(name = "classId", nullable = false, foreignKey = @ForeignKey(name = "FK_HEAD_MASTER_CLASS_ID"))
+    @JoinColumn(name = "class_Id", nullable = false, foreignKey = @ForeignKey(name = "FK_HEAD_MASTER_CLASS_ID"))
     private SchoolClass schoolClass;
 
     @Override

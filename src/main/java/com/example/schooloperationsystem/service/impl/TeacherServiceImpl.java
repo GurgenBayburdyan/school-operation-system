@@ -41,6 +41,6 @@ class TeacherServiceImpl implements TeacherService {
     @Override
     @Transactional
     public Teacher getTeacherById(Long id) {
-        return repository.getReferenceById(id);
+        return repository.findById(id).orElse(null);
     }
 }

@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface TeacherService {
     List<Teacher> getTeachers();
+
     Teacher addTeacher(CreateTeacherParams params);
+
     Teacher getTeacherById(Long id);
 }

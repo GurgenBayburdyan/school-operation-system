@@ -16,7 +16,7 @@ import java.util.List;
 @Component
 public class PupilInClassMapper {
 
-    private static final Logger logger = LoggerFactory.getLogger(PupilMapper.class);
+    private static final Logger logger = LoggerFactory.getLogger(PupilInClassMapper.class);
 
     public PupilInClassDetailsDto map(PupilInClass pupilInClass) {
         log.trace("Mapping pupilInClass - {} to pupilInClass details dto", pupilInClass);

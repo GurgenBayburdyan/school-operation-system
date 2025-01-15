@@ -16,13 +16,13 @@ public class Staff {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "firstName", nullable = false)
+    @Column(name = "first_Name", nullable = false)
     private String firstName;
 
-    @Column(name = "lastName", nullable = false)
+    @Column(name = "last_Name", nullable = false)
     private String lastName;
 
-    @Column(name = "dateOfBirth", nullable = false)
+    @Column(name = "date_Of_Birth", nullable = false)
     private LocalDateTime dateOfBirth;
 
     @Override

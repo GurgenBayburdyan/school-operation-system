@@ -32,4 +32,10 @@ class StaffServiceImpl implements StaffService {
         staff.setDateOfBirth(params.getDateOfBirth());
         return repository.save(staff);
     }
+
+    @Override
+    @Transactional
+    public Staff getStaffById(Long id) {
+        return repository.findById(id).orElse(null);
+    }
 }

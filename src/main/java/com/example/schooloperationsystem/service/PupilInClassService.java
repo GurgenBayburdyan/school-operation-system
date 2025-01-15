@@ -12,4 +12,8 @@ public interface PupilInClassService {
     List<PupilInClass> getPupilInClasses();
 
     PupilInClass addPupil(CreatePupilInClassParams params);
+
+    PupilInClass deletePupilById(Long id);
+
+    List<PupilInClass> getPupilsBySchoolClassId(Long schoolClassId);
 }

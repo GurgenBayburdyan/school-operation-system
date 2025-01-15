@@ -2,7 +2,7 @@ package com.example.schooloperationsystem.rest.controller;
 
 import com.example.schooloperationsystem.entity.SchoolClass;
 import com.example.schooloperationsystem.mapper.SchoolClassMapper;
-import com.example.schooloperationsystem.rest.dto.request.SchoolCreateClassRequestDto;
+import com.example.schooloperationsystem.rest.dto.request.CreateSchoolClassRequestDto;
 import com.example.schooloperationsystem.rest.dto.response.SchoolClassDetailsDto;
 import com.example.schooloperationsystem.service.SchoolClassService;
 import com.example.schooloperationsystem.service.params.SchoolCreateClassParams;
@@ -40,7 +40,7 @@ public class SchoolClassController {
     }
 
     @PostMapping
-    public SchoolClassDetailsDto createClass(@RequestBody SchoolCreateClassRequestDto requestDto) {
+    public SchoolClassDetailsDto createClass(@RequestBody CreateSchoolClassRequestDto requestDto) {
         logger.info("Creating a new class with letter: {} and grade: {}", requestDto.getClassLetter(), requestDto.getGrade());
 
         SchoolCreateClassParams params = new SchoolCreateClassParams();

@@ -10,14 +10,20 @@ import lombok.Setter;
 @Setter
 @Getter
 public class PupilInClassDetailsDto {
+
     @JsonProperty("firstName")
     private String firstName;
+
     @JsonProperty("lastName")
     private String lastName;
+
     @JsonProperty("dateOfBirth")
     private String dateOfBirth;
+
     @JsonProperty("classId")
     private Long classId;
+
     @JsonProperty("pupilId")
     private Long pupilId;
+
 }

@@ -12,8 +12,11 @@ import lombok.Setter;
 public class CreatePupilRequestDto {
     @JsonProperty("firstName")
     private String firstName;
+
     @JsonProperty("lastName")
     private String lastName;
+
     @JsonProperty("dateOfBirth")
     private String dateOfBirth;
+
 }

@@ -4,26 +4,31 @@ import com.example.schooloperationsystem.entity.Pupil;
 import com.example.schooloperationsystem.entity.PupilInClass;
 import com.example.schooloperationsystem.entity.SchoolClass;
 import com.example.schooloperationsystem.rest.dto.response.PupilInClassDetailsDto;
-import com.example.schooloperationsystem.service.PupilService;
-import com.example.schooloperationsystem.service.SchoolClassService;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Component
 public class PupilInClassMapper {
+
+    private static final Logger logger = LoggerFactory.getLogger(PupilMapper.class);
+
     public PupilInClassDetailsDto map(PupilInClass pupilInClass) {
+        log.trace("Mapping pupilInClass - {} to pupilInClass details dto", pupilInClass);
         Pupil pupil = pupilInClass.getPupil();
         SchoolClass schoolClass = pupilInClass.getSchoolClass();
-
         PupilInClassDetailsDto detailsDto = new PupilInClassDetailsDto();
         detailsDto.setFirstName(pupil.getFirstName());
         detailsDto.setLastName(pupil.getLastName());
         detailsDto.setDateOfBirth(pupil.getDateOfBirth());
         detailsDto.setClassId(schoolClass.getId());
         detailsDto.setPupilId(pupil.getId());
-
+        log.trace("Mapped pupilInClass to {}", detailsDto);
         return detailsDto;
     }
 

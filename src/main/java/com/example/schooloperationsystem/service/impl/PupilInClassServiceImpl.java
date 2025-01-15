@@ -4,17 +4,15 @@ import com.example.schooloperationsystem.entity.PupilInClass;
 import com.example.schooloperationsystem.repository.PupilInClassRepository;
 import com.example.schooloperationsystem.service.PupilInClassService;
 import com.example.schooloperationsystem.service.params.CreatePupilInClassParams;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class PupilInClassServiceImpl implements PupilInClassService {
+@AllArgsConstructor
+class PupilInClassServiceImpl implements PupilInClassService {
     private final PupilInClassRepository repository;
-
-    public PupilInClassServiceImpl(PupilInClassRepository repository) {
-        this.repository = repository;
-    }
 
     @Override
     public List<PupilInClass> getPupilInClasses() {

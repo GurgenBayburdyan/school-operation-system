@@ -6,6 +6,11 @@ import com.example.schooloperationsystem.rest.dto.request.CreatePupilRequestDto;
 import com.example.schooloperationsystem.rest.dto.response.PupilDetailsDto;
 import com.example.schooloperationsystem.service.PupilService;
 import com.example.schooloperationsystem.service.params.CreatePupilParams;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,30 +18,34 @@ import java.util.List;
 /**
  * @author Gurgen Bayburdyan
  */
+
+@Slf4j
 @RestController
+@AllArgsConstructor
 @RequestMapping("/pupils")
 public class PupilController {
     private final PupilService pupilService;
     private final PupilMapper pupilMapper;
 
-    public PupilController(PupilService pupilService, PupilMapper pupilMapper) {
-        this.pupilService = pupilService;
-        this.pupilMapper = pupilMapper;
-    }
+    private static final Logger logger = LoggerFactory.getLogger(PupilController.class);
 
     @GetMapping
-    public List<PupilDetailsDto> getPupils() {
+    public ResponseEntity<List<PupilDetailsDto>> getPupils() {
+        log.info("Executing get all pupils rest API");
         List<Pupil> response = pupilService.getPupils();
-        return pupilMapper.mapList(response);
+        log.info("Got pupils {}", response);
+        return ResponseEntity.ok(pupilMapper.mapList(response));
     }
 
     @PostMapping
-    public PupilDetailsDto addPupil(@RequestBody CreatePupilRequestDto requestDto) {
+    public ResponseEntity<PupilDetailsDto> addPupil(@RequestBody CreatePupilRequestDto requestDto) {
+        log.info("Executing add pupil rest API");
         CreatePupilParams params = new CreatePupilParams();
         params.setFirstName(requestDto.getFirstName());
         params.setLastName(requestDto.getLastName());
         params.setDateOfBirth(requestDto.getDateOfBirth());
         Pupil response = pupilService.addPupil(params);
-        return pupilMapper.map(response);
+        log.info("Saved pupil {}", response);
+        return ResponseEntity.ok(pupilMapper.map(response));
     }
 }

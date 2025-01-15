@@ -10,10 +10,14 @@ import lombok.Setter;
 @Setter
 @Getter
 public class PupilDetailsDto {
+
     @JsonProperty("firstName")
     private String firstName;
+
     @JsonProperty("lastName")
     private String lastName;
+
     @JsonProperty("dateOfBirth")
     private String dateOfBirth;
+
 }

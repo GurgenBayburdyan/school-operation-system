@@ -15,19 +15,17 @@ import java.util.List;
 @Component
 public class TeacherMapper {
 
-    private static final Logger logger = LoggerFactory.getLogger(TeacherMapper.class);
+    private static final Logger logger = LoggerFactory.getLogger(StaffMapper.class);
 
     public TeacherDetailsDto map(Teacher teacher) {
-        logger.trace("Mapping teacher - {} to teacher details dto", teacher);
-
+        log.trace("Mapping teacher - {} to teacher details dto", teacher);
         Staff staff = teacher.getStaff();
         TeacherDetailsDto detailsDto = new TeacherDetailsDto();
         detailsDto.setFirstName(staff.getFirstName());
         detailsDto.setLastName(staff.getLastName());
         detailsDto.setDateOfBirth(staff.getDateOfBirth());
         detailsDto.setStaffId(staff.getId());
-
-        logger.trace("Mapped teacher {}", detailsDto);
+        log.trace("Mapped teacher {}", detailsDto);
         return detailsDto;
     }
 

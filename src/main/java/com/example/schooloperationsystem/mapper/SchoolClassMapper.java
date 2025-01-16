@@ -10,20 +10,21 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Gurgen Bayburdyan
+ */
 @Slf4j
 @Component
 public class SchoolClassMapper {
 
-    private static final Logger logger = LoggerFactory.getLogger(SchoolClassMapper.class);
+    private static final Logger logger = LoggerFactory.getLogger(PupilMapper.class);
 
     public SchoolClassDetailsDto map(SchoolClass classEntity) {
-        logger.trace("Mapping class - {} to class details dto", classEntity);
-
+        log.trace("Mapping class - {} to class details dto", classEntity);
         SchoolClassDetailsDto classDetailsDto = new SchoolClassDetailsDto();
         classDetailsDto.setClassLetter(classEntity.getLetter());
         classDetailsDto.setGrade(classEntity.getGrade());
-
-        logger.trace("Mapped class {}", classDetailsDto);
+        log.trace("Mapped class {}", classDetailsDto);
         return classDetailsDto;
     }
 

@@ -8,7 +8,5 @@ import java.util.List;
 
 @Repository
 public interface PupilInClassRepository extends JpaRepository<PupilInClass, Long> {
-
     List<PupilInClass> getBySchoolClassId(Long classId);
-
 }

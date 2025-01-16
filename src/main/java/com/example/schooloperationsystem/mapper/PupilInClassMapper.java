@@ -19,8 +19,7 @@ public class PupilInClassMapper {
     private static final Logger logger = LoggerFactory.getLogger(PupilInClassMapper.class);
 
     public PupilInClassDetailsDto map(PupilInClass pupilInClass) {
-        logger.trace("Mapping pupilInClass - {} to pupilInClass details dto", pupilInClass);
-
+        log.trace("Mapping pupilInClass - {} to pupilInClass details dto", pupilInClass);
         Pupil pupil = pupilInClass.getPupil();
         SchoolClass schoolClass = pupilInClass.getSchoolClass();
         PupilInClassDetailsDto detailsDto = new PupilInClassDetailsDto();
@@ -29,8 +28,7 @@ public class PupilInClassMapper {
         detailsDto.setDateOfBirth(pupil.getDateOfBirth());
         detailsDto.setClassId(schoolClass.getId());
         detailsDto.setPupilId(pupil.getId());
-
-        logger.trace("Mapped pupilInClass to {}", detailsDto);
+        log.trace("Mapped pupilInClass to {}", detailsDto);
         return detailsDto;
     }
 

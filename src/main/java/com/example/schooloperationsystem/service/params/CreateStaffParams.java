@@ -5,7 +5,9 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-
+/**
+ * @author Gurgen Bayburdyan
+ */
 @Setter
 @Getter
 public class CreateStaffParams {

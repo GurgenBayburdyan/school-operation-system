@@ -24,6 +24,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/headmasters")
+//todo please use lombok @AllArgsConstrctor    
 public class HeadMasterController {
 
     private static final Logger logger = LoggerFactory.getLogger(HeadMasterController.class);
@@ -41,21 +42,27 @@ public class HeadMasterController {
     }
 
     @GetMapping
+    // todo please return ResponseEntity
     public List<HeadMasterDetailsDto> getAllHeadMasters() {
+        //todo lets write "Executing get all head masters rest api"
         logger.info("Getting HeadMasters...");
         List<HeadMaster> headMasters = service.getHeadMasters();
         logger.info("Got HeadMasters {}", headMasters);
+        //todo "Successfully executed get all head masters rest API, response entity - {}"
         return mapper.mapList(headMasters);
     }
 
     @PostMapping
+    //todo lets rename the method to create
     public HeadMasterDetailsDto createHeadMaster(@RequestBody CreateHeadMasterRequestDto requestDto) {
+        //todo please write "Executing create head master fr the provided request to - {}"
         logger.info("Creating HeadMaster with teacherId: {} and classId: {}",
                 requestDto.getTeacherId(),
                 requestDto.getClassId());
         CreateHeadMasterParams params = new CreateHeadMasterParams();
 
         SchoolClass schoolClass=schoolClassService.getClassById(requestDto.getTeacherId());
+        //todo lets first finish everything with services, then start doing mappings
         SchoolClassDto schoolClassDto=new SchoolClassDto();
         schoolClassDto.setClassLetter(schoolClass.getLetter());
         schoolClassDto.setGrade(schoolClass.getGrade());

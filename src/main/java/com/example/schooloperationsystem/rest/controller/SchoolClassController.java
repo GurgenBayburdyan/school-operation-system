@@ -34,13 +34,17 @@ public class SchoolClassController {
     @GetMapping
     public List<SchoolClassDetailsDto> getClasses() {
         logger.info("Getting all classes");
+        //todo please add a new line
         List<SchoolClass> response = classService.getClasses();
+        //todo please add a new line
         logger.info("Got classes {}", response);
         return classMapper.mapList(response);
     }
 
     @PostMapping
+    //please return response entity
     public SchoolClassDetailsDto createClass(@RequestBody CreateSchoolClassRequestDto requestDto) {
+        //todo always log the argument, not its fields, because in future you will add fields in dto and will forget to update the log
         logger.info("Creating a new class with letter: {} and grade: {}", requestDto.getClassLetter(), requestDto.getGrade());
 
         SchoolCreateClassParams params = new SchoolCreateClassParams();

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+//todo please add logs in all methods
 @Service
 class TeacherServiceImpl implements TeacherService {
 
@@ -27,8 +28,10 @@ class TeacherServiceImpl implements TeacherService {
 
     @Override
     @Transactional
+    //todo please rename to create
     public Teacher addTeacher(CreateTeacherParams params) {
         Teacher teacher = new Teacher();
+        //todo you must get staff by staffId using staff service 
         Staff staff = new Staff();
         StaffDto staffDetailsDto = params.getStaffDto();
         staff.setFirstName(staffDetailsDto.getFirstName());
@@ -40,6 +43,7 @@ class TeacherServiceImpl implements TeacherService {
 
     @Override
     @Transactional
+    //todo please rename to getById
     public Teacher getTeacherById(Long id) {
         return repository.findById(id).orElse(null);
     }

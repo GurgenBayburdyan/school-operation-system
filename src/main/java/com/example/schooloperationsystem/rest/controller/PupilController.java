@@ -15,10 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * @author Gurgen Bayburdyan
- */
-
 @Slf4j
 @RestController
 @AllArgsConstructor
@@ -31,21 +27,25 @@ public class PupilController {
 
     @GetMapping
     public ResponseEntity<List<PupilDetailsDto>> getPupils() {
-        log.info("Executing get all pupils rest API");
+        logger.info("Executing get all pupils rest API");
+
+
         List<Pupil> response = pupilService.getPupils();
-        log.info("Got pupils {}", response);
+        logger.info("Successfully executed get all pupils rest API, response entity - {}", response);
         return ResponseEntity.ok(pupilMapper.mapList(response));
     }
 
     @PostMapping
     public ResponseEntity<PupilDetailsDto> addPupil(@RequestBody CreatePupilRequestDto requestDto) {
-        log.info("Executing add pupil rest API");
+        logger.info("Executing add pupil for the provided request to - {}:", requestDto);
+
         CreatePupilParams params = new CreatePupilParams();
         params.setFirstName(requestDto.getFirstName());
         params.setLastName(requestDto.getLastName());
         params.setDateOfBirth(requestDto.getDateOfBirth());
         Pupil response = pupilService.addPupil(params);
-        log.info("Saved pupil {}", response);
+
+        logger.info("Successfully executed add pupil rest API, response entity - {}", response);
         return ResponseEntity.ok(pupilMapper.map(response));
     }
 }

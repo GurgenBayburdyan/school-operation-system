@@ -3,13 +3,11 @@ package com.example.schooloperationsystem.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
-/**
- * @author Gurgen Bayburdyan
- */
+import lombok.ToString;
 
 @Setter
 @Getter
+@ToString
 @Entity
 @Table(name = "pupil")
 public class Pupil {
@@ -25,14 +23,4 @@ public class Pupil {
 
     @Column(name = "date_Of_Birth", nullable = false)
     private String dateOfBirth;
-
-    @Override
-    public String toString() {
-        return "Pupil{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", dateOfBirth='" + dateOfBirth + '\'' +
-                '}';
-    }
 }

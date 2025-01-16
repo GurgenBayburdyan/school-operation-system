@@ -5,6 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class TeacherDto {
-    private StaffDto staffDto;
+public class SchoolClassDto {
+    private int grade;
+    private char classLetter;
 }

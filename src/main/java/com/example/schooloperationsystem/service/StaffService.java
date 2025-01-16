@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface StaffService {
     List<Staff> getStaff();
+
     Staff addStaff(CreateStaffParams params);
-    Staff getStaffById(Long id);
+
+    Staff getById(Long id);
 }

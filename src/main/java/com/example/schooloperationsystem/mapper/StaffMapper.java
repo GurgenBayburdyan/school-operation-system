@@ -13,15 +13,18 @@ import java.util.List;
 @Slf4j
 @Component
 public class StaffMapper {
+
     private static final Logger logger = LoggerFactory.getLogger(StaffMapper.class);
 
     public StaffDetailsDto map(Staff staff) {
-        log.trace("Mapping staff - {} to staff details dto", staff);
+        logger.trace("Mapping staff - {} to staff details dto", staff);
+
         StaffDetailsDto staffDetailsDto = new StaffDetailsDto();
         staffDetailsDto.setFirstName(staff.getFirstName());
         staffDetailsDto.setLastName(staff.getLastName());
         staffDetailsDto.setDateOfBirth(staff.getDateOfBirth());
-        log.trace("Mapped staff - {}", staffDetailsDto);
+
+        logger.trace("Mapped staff - {}", staffDetailsDto);
         return staffDetailsDto;
     }
 

@@ -7,29 +7,30 @@ import com.example.schooloperationsystem.rest.dto.response.HeadMasterDetailsDto;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-@Service
+@Component
 public class HeadMasterMapper {
 
     private static final Logger logger = LoggerFactory.getLogger(HeadMasterMapper.class);
 
     public HeadMasterDetailsDto map(HeadMaster headMaster) {
-        log.trace("Mapping headMaster - {} to headMaster details dto", headMaster);
+        logger.trace("Mapping headMaster - {} to headMaster details dto", headMaster);
+
         Teacher teacher = headMaster.getTeacher();
         Staff staff = teacher.getStaff();
-
         HeadMasterDetailsDto detailsDto = new HeadMasterDetailsDto();
         detailsDto.setClassId(headMaster.getSchoolClass().getId());
         detailsDto.setTeacherId(teacher.getId());
         detailsDto.setFirstName(staff.getFirstName());
         detailsDto.setLastName(staff.getLastName());
         detailsDto.setDateOfBirth(staff.getDateOfBirth());
-        log.trace("Mapped headMaster {}", detailsDto);
+
+        logger.trace("Mapped headMaster {}", detailsDto);
         return detailsDto;
     }
 

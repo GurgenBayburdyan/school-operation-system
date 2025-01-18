@@ -23,18 +23,17 @@ public class SchoolClassController {
     private final SchoolClassMapper classMapper;
 
     @GetMapping
-    public List<SchoolClassDetailsDto> getClasses() {
+    public ResponseEntity<List<SchoolClassDetailsDto>> getClasses() {
         log.info("Executing get all classes rest API");
 
         List<SchoolClass> response = classService.getClasses();
+        ResponseEntity<List<SchoolClassDetailsDto>> responseEntity=ResponseEntity.ok(classMapper.mapList(response));
 
-        log.info("Successfully executed get classes rest API, response entity - {}", response);
-        return classMapper.mapList(response);
+        log.info("Successfully executed get classes rest API, response entity - {}", responseEntity);
+        return responseEntity;
     }
 
     @PostMapping
-    //todo when class letter or grade is not provided we should return ErrorType.MISSING_CLASS_LETTER/ ErrorType.MISSING_GRADE enum values
-    // Please add ErrorType enum in SchoolClassDeatilsDto
     public ResponseEntity<SchoolClassDetailsDto> create(@RequestBody CreateSchoolClassRequestDto requestDto) {
         log.info("Executing create class for the provided request to - {}:", requestDto);
 
@@ -42,12 +41,10 @@ public class SchoolClassController {
                 requestDto.getClassLetter(),
                 requestDto.getGrade()
         );
-
         SchoolClass response = classService.addClass(params);
+        ResponseEntity<SchoolClassDetailsDto> responseEntity = ResponseEntity.ok(classMapper.mapToSchoolClassDetailsDto(response));
 
-        //todo in log you have response entity but you print school class
         log.info("Successfully executed create class rest API, response entity - {}", response);
-
-        return ResponseEntity.ok(classMapper.mapToSchoolClassDetailsDto(response));
+        return responseEntity;
     }
 }

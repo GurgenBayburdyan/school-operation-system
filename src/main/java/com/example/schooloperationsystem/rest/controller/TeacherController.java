@@ -41,8 +41,8 @@ public class TeacherController {
         );
 
         Teacher response = service.create(params);
-
-        log.info("Successfully executed create teacher rest API, response entity - {}", response);
-        return ResponseEntity.ok(mapper.mapToTeacherDetailsDto(response));
+        ResponseEntity<TeacherDetailsDto> responseEntity = ResponseEntity.ok(mapper.mapToTeacherDetailsDto(response));
+        log.info("Successfully executed create teacher rest API, response entity - {}", responseEntity);
+        return responseEntity;
     }
 }

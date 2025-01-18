@@ -8,6 +8,7 @@ import com.example.schooloperationsystem.service.StaffService;
 import com.example.schooloperationsystem.service.params.CreateStaffParams;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,17 +23,18 @@ public class StaffController {
     private final StaffMapper mapper;
 
     @GetMapping
-    public List<StaffDetailsDto> getAllStaff() {
+    public ResponseEntity<List<StaffDetailsDto>> getAllStaff() {
         log.info("Executing get all staff rest API");
 
         List<Staff> response = service.getStaff();
+        ResponseEntity<List<StaffDetailsDto>> responseEntity = ResponseEntity.ok(mapper.mapList(response));
 
-        log.info("Successfully executed get staff rest API, response entity - {}", response);
-        return mapper.mapList(response);
+        log.info("Successfully executed get staff rest API, response entity - {}", responseEntity);
+        return responseEntity;
     }
 
     @PostMapping
-    public StaffDetailsDto create(@RequestBody CreateStaffRequestDto requestDto) {
+    public ResponseEntity<StaffDetailsDto> create(@RequestBody CreateStaffRequestDto requestDto) {
         log.info("Executing create staff for the provided request to - {}:", requestDto);
 
         CreateStaffParams params = new CreateStaffParams(
@@ -42,8 +44,9 @@ public class StaffController {
         );
 
         Staff response = service.addStaff(params);
+        ResponseEntity<StaffDetailsDto> responseEntity = ResponseEntity.ok(mapper.mapToStaffDetailsDto(response));
 
-        log.info("Successfully executed create staff rest API, response entity - {}", response);
-        return mapper.mapToStaffDetailsDto(response);
+        log.info("Successfully executed create staff rest API, response entity - {}", responseEntity);
+        return responseEntity;
     }
 }

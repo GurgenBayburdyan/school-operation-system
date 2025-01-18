@@ -27,8 +27,10 @@ public class PupilController {
 
 
         List<Pupil> response = pupilService.getPupils();
-        log.info("Successfully executed get all pupils rest API, response entity - {}", response);
-        return ResponseEntity.ok(pupilMapper.mapList(response));
+        ResponseEntity<List<PupilDetailsDto>> responseEntity = ResponseEntity.ok(pupilMapper.mapList(response));
+
+        log.info("Successfully executed get all pupils rest API, response entity - {}", responseEntity);
+        return responseEntity;
     }
 
     @PostMapping
@@ -42,8 +44,9 @@ public class PupilController {
         );
 
         Pupil response = pupilService.addPupil(params);
+        ResponseEntity<PupilDetailsDto> responseEntity = ResponseEntity.ok(pupilMapper.map(response));
 
-        log.info("Successfully executed add pupil rest API, response entity - {}", response);
-        return ResponseEntity.ok(pupilMapper.map(response));
+        log.info("Successfully executed add pupil rest API, response entity - {}", responseEntity);
+        return responseEntity;
     }
 }

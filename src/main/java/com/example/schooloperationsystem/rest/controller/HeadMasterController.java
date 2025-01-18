@@ -39,13 +39,14 @@ public class HeadMasterController {
         log.info("Executing get all head masters rest API");
 
         List<HeadMaster> response = headMasterService.getHeadMasters();
+        ResponseEntity<List<HeadMasterDetailsDto>> responseEntity = ResponseEntity.ok(headMasterMapper.mapList(response));
 
-        log.info("Successfully executed get all head masters rest API, response entity - {}", response);
-        return ResponseEntity.ok(headMasterMapper.mapList(response));
+        log.info("Successfully executed get all head masters rest API, response entity - {}", responseEntity);
+        return responseEntity;
     }
 
     @PostMapping
-    public HeadMasterDetailsDto create(@RequestBody CreateHeadMasterRequestDto requestDto) {
+    public ResponseEntity<HeadMasterDetailsDto> create(@RequestBody CreateHeadMasterRequestDto requestDto) {
         log.info("Executing create head master for the provided request to - {}:", requestDto);
 
         SchoolClass schoolClass = schoolClassService.getClassById(requestDto.getTeacherId());
@@ -57,7 +58,9 @@ public class HeadMasterController {
         CreateHeadMasterParams params = new CreateHeadMasterParams(teacherDto, schoolClassDto);
 
         HeadMaster headMaster = headMasterService.addHeadMaster(params);
-        log.info("Successfully executed create head master rest API, response entity - {}", headMaster);
-        return headMasterMapper.map(headMaster);
+        ResponseEntity<HeadMasterDetailsDto> responseEntity = ResponseEntity.ok(headMasterMapper.map(headMaster));
+
+        log.info("Successfully executed create head master rest API, response entity - {}", responseEntity);
+        return responseEntity;
     }
 }

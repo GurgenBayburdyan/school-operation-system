@@ -28,9 +28,10 @@ public class PupilInClassController {
         log.info("Executing get all pupils in classes rest API");
 
         List<PupilInClass> response = pupilInClassService.getPupilInClasses();
+        ResponseEntity<List<PupilInClassDetailsDto>> responseEntity = ResponseEntity.ok(pupilInClassMapper.mapList(response));
 
-        log.info("Successfully executed get pupils in class rest API, response entity - {}", response);
-        return ResponseEntity.ok(pupilInClassMapper.mapList(response));
+        log.info("Successfully executed get pupils in class rest API, response entity - {}", responseEntity);
+        return responseEntity;
     }
 
     @PostMapping
@@ -43,9 +44,10 @@ public class PupilInClassController {
         );
 
         PupilInClass response = pupilInClassService.addPupil(params);
+        ResponseEntity<PupilInClassDetailsDto> responseEntity = ResponseEntity.ok(pupilInClassMapper.map(response));
 
-        log.info("Successfully executed add pupil in class rest API, response entity - {}", response);
-        return ResponseEntity.ok(pupilInClassMapper.map(response));
+        log.info("Successfully executed add pupil in class rest API, response entity - {}", responseEntity);
+        return responseEntity;
     }
 
     @GetMapping("/{classId}")
@@ -53,9 +55,10 @@ public class PupilInClassController {
         log.info("Executing get pupil in class by class id-{}", classId);
 
         List<PupilInClass> response = pupilInClassService.getPupilsBySchoolClassId(classId);
+        ResponseEntity<List<PupilInClassDetailsDto>> responseEntity = ResponseEntity.of(Optional.ofNullable(pupilInClassMapper.mapList(response)));
 
-        log.info("Successfully executed get pupil in class by class id rest API, response entity - {}", response);
-        return ResponseEntity.of(Optional.ofNullable(pupilInClassMapper.mapList(response)));
+        log.info("Successfully executed get pupil in class by class id rest API, response entity - {}", responseEntity);
+        return responseEntity;
     }
 
     @DeleteMapping("/{pupilId}")
@@ -63,8 +66,9 @@ public class PupilInClassController {
         log.info("Executing delete pupil in class by id-{}", pupilId);
 
         PupilInClass response = pupilInClassService.deletePupilById(pupilId);
+        ResponseEntity<PupilInClassDetailsDto> responseEntity = ResponseEntity.ok(pupilInClassMapper.map(response));
 
-        log.info("Successfully executed delete pupil in class by id rest API, response entity - {}", response);
-        return ResponseEntity.ok(pupilInClassMapper.map(response));
+        log.info("Successfully executed delete pupil in class by id rest API, response entity - {}", responseEntity);
+        return responseEntity;
     }
 }

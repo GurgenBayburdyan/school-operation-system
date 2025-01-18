@@ -8,7 +8,7 @@ import java.util.List;
 public interface TeacherService {
     List<Teacher> getTeachers();
 
-    Teacher addTeacher(CreateTeacherParams params);
+    Teacher create(CreateTeacherParams params);
 
-    Teacher getTeacherById(Long id);
+    Teacher getById(Long id);
 }

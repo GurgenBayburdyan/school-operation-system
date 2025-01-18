@@ -1,15 +1,17 @@
 package com.example.schooloperationsystem.service.params;
 
-import com.example.schooloperationsystem.rest.dto.StaffDto;
 import lombok.Getter;
 import lombok.Setter;
-
-/**
- * @author Gurgen Bayburdyan
- */
 
 @Setter
 @Getter
 public class CreateTeacherParams {
-    private StaffDto staffDto;
+    private Long staffId;
+
+    public CreateTeacherParams(Long staffId) {
+        if (staffId == null) {
+            throw new IllegalArgumentException();
+        }
+        this.staffId = staffId;
+    }
 }

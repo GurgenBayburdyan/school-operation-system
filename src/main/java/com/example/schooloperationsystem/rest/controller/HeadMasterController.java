@@ -2,11 +2,11 @@ package com.example.schooloperationsystem.rest.controller;
 
 import com.example.schooloperationsystem.entity.HeadMaster;
 import com.example.schooloperationsystem.entity.SchoolClass;
-import com.example.schooloperationsystem.entity.Staff;
 import com.example.schooloperationsystem.entity.Teacher;
 import com.example.schooloperationsystem.mapper.HeadMasterMapper;
+import com.example.schooloperationsystem.mapper.SchoolClassMapper;
+import com.example.schooloperationsystem.mapper.TeacherMapper;
 import com.example.schooloperationsystem.rest.dto.SchoolClassDto;
-import com.example.schooloperationsystem.rest.dto.StaffDto;
 import com.example.schooloperationsystem.rest.dto.TeacherDto;
 import com.example.schooloperationsystem.rest.dto.request.CreateHeadMasterRequestDto;
 import com.example.schooloperationsystem.rest.dto.response.HeadMasterDetailsDto;
@@ -14,9 +14,9 @@ import com.example.schooloperationsystem.service.HeadMasterService;
 import com.example.schooloperationsystem.service.SchoolClassService;
 import com.example.schooloperationsystem.service.TeacherService;
 import com.example.schooloperationsystem.service.params.CreateHeadMasterParams;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,63 +24,40 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/headmasters")
-//todo please use lombok @AllArgsConstrctor    
+@AllArgsConstructor
 public class HeadMasterController {
 
-    private static final Logger logger = LoggerFactory.getLogger(HeadMasterController.class);
-
-    private final HeadMasterService service;
-    private final HeadMasterMapper mapper;
+    private final HeadMasterService headMasterService;
+    private final HeadMasterMapper headMasterMapper;
     private final SchoolClassService schoolClassService;
     private final TeacherService teacherService;
-
-    public HeadMasterController(HeadMasterService service, HeadMasterMapper mapper, SchoolClassService schoolClassService, TeacherService teacherService) {
-        this.service = service;
-        this.mapper = mapper;
-        this.schoolClassService = schoolClassService;
-        this.teacherService = teacherService;
-    }
+    private final TeacherMapper teacherMapper;
+    private final SchoolClassMapper schoolClassMapper;
 
     @GetMapping
-    // todo please return ResponseEntity
-    public List<HeadMasterDetailsDto> getAllHeadMasters() {
-        //todo lets write "Executing get all head masters rest api"
-        logger.info("Getting HeadMasters...");
-        List<HeadMaster> headMasters = service.getHeadMasters();
-        logger.info("Got HeadMasters {}", headMasters);
-        //todo "Successfully executed get all head masters rest API, response entity - {}"
-        return mapper.mapList(headMasters);
+    public ResponseEntity<List<HeadMasterDetailsDto>> getAllHeadMasters() {
+        log.info("Executing get all head masters rest API");
+
+        List<HeadMaster> response = headMasterService.getHeadMasters();
+
+        log.info("Successfully executed get all head masters rest API, response entity - {}", response);
+        return ResponseEntity.ok(headMasterMapper.mapList(response));
     }
 
     @PostMapping
-    //todo lets rename the method to create
-    public HeadMasterDetailsDto createHeadMaster(@RequestBody CreateHeadMasterRequestDto requestDto) {
-        //todo please write "Executing create head master fr the provided request to - {}"
-        logger.info("Creating HeadMaster with teacherId: {} and classId: {}",
-                requestDto.getTeacherId(),
-                requestDto.getClassId());
-        CreateHeadMasterParams params = new CreateHeadMasterParams();
+    public HeadMasterDetailsDto create(@RequestBody CreateHeadMasterRequestDto requestDto) {
+        log.info("Executing create head master for the provided request to - {}:", requestDto);
 
-        SchoolClass schoolClass=schoolClassService.getClassById(requestDto.getTeacherId());
-        //todo lets first finish everything with services, then start doing mappings
-        SchoolClassDto schoolClassDto=new SchoolClassDto();
-        schoolClassDto.setClassLetter(schoolClass.getLetter());
-        schoolClassDto.setGrade(schoolClass.getGrade());
+        SchoolClass schoolClass = schoolClassService.getClassById(requestDto.getTeacherId());
+        Teacher teacher = teacherService.getById(requestDto.getTeacherId());
 
-        Teacher teacher=teacherService.getTeacherById(requestDto.getTeacherId());
-        TeacherDto teacherDto=new TeacherDto();
-        Staff staff=teacher.getStaff();
-        StaffDto staffDto=new StaffDto();
-        staffDto.setFirstName(staff.getFirstName());
-        staffDto.setLastName(staff.getLastName());
-        staffDto.setDateOfBirth(staff.getDateOfBirth());
-        teacherDto.setStaffDto(staffDto);
+        SchoolClassDto schoolClassDto = schoolClassMapper.mapToSchoolClassDto(schoolClass);
+        TeacherDto teacherDto = teacherMapper.mapToTeacherDto(teacher);
 
-        params.setTeacherDto(teacherDto);
-        params.setSchoolClassDto(schoolClassDto);
+        CreateHeadMasterParams params = new CreateHeadMasterParams(teacherDto, schoolClassDto);
 
-        HeadMaster headMaster = service.addHeadMaster(params);
-        logger.info("Created HeadMaster {}", headMaster);
-        return mapper.map(headMaster);
+        HeadMaster headMaster = headMasterService.addHeadMaster(params);
+        log.info("Successfully executed create head master rest API, response entity - {}", headMaster);
+        return headMasterMapper.map(headMaster);
     }
 }

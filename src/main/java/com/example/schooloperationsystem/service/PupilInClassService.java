@@ -5,9 +5,6 @@ import com.example.schooloperationsystem.service.params.CreatePupilInClassParams
 
 import java.util.List;
 
-/**
- * @author Gurgen Bayburdyan
- */
 public interface PupilInClassService {
     List<PupilInClass> getPupilInClasses();
 

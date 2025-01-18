@@ -33,6 +33,8 @@ public class SchoolClassController {
     }
 
     @PostMapping
+    //todo when class letter or grade is not provided we should return ErrorType.MISSING_CLASS_LETTER/ ErrorType.MISSING_GRADE enum values
+    // Please add ErrorType enum in SchoolClassDeatilsDto
     public ResponseEntity<SchoolClassDetailsDto> create(@RequestBody CreateSchoolClassRequestDto requestDto) {
         log.info("Executing create class for the provided request to - {}:", requestDto);
 
@@ -43,6 +45,7 @@ public class SchoolClassController {
 
         SchoolClass response = classService.addClass(params);
 
+        //todo in log you have response entity but you print school class
         log.info("Successfully executed create class rest API, response entity - {}", response);
 
         return ResponseEntity.ok(classMapper.mapToSchoolClassDetailsDto(response));

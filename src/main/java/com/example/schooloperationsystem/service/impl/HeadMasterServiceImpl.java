@@ -8,11 +8,9 @@ import com.example.schooloperationsystem.rest.dto.SchoolClassDto;
 import com.example.schooloperationsystem.rest.dto.TeacherDto;
 import com.example.schooloperationsystem.service.HeadMasterService;
 import com.example.schooloperationsystem.service.params.CreateHeadMasterParams;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import com.example.schooloperationsystem.entity.Teacher;
 
@@ -25,23 +23,21 @@ class HeadMasterServiceImpl implements HeadMasterService {
 
     private final HeadMasterRepository repository;
 
-    private static final Logger logger = LoggerFactory.getLogger(HeadMasterServiceImpl.class);
-
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<HeadMaster> getHeadMasters() {
-        logger.info("Executing get all headmasters");
+        log.debug("Executing get all headmasters");
 
         List<HeadMaster> headMasters = repository.findAll();
 
-        logger.info("Successfully executed get headmasters, {}", headMasters);
+        log.debug("Successfully executed get headmasters, {}", headMasters);
         return headMasters;
     }
 
     @Override
     @Transactional
     public HeadMaster addHeadMaster(CreateHeadMasterParams params) {
-        logger.info("Executing add headmaster, params-{}", params);
+        log.debug("Executing add headmaster, params-{}", params);
         HeadMaster headMaster = new HeadMaster();
         Teacher teacher = new Teacher();
 
@@ -62,7 +58,7 @@ class HeadMasterServiceImpl implements HeadMasterService {
         headMaster.setTeacher(teacher);
         headMaster.setSchoolClass(schoolClass);
 
-        logger.info("Successfully executed add headmaster, {}", headMaster);
+        log.debug("Successfully executed add headmaster, {}", headMaster);
         return repository.save(headMaster);
     }
 

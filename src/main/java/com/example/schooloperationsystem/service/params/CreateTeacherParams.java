@@ -3,12 +3,15 @@ package com.example.schooloperationsystem.service.params;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * @author Gurgen Bayburdyan
- */
-
 @Setter
 @Getter
 public class CreateTeacherParams {
     private Long staffId;
+
+    public CreateTeacherParams(Long staffId) {
+        if (staffId == null) {
+            throw new IllegalArgumentException();
+        }
+        this.staffId = staffId;
+    }
 }

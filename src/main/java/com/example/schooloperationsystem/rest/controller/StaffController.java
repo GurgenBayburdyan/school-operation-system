@@ -8,8 +8,6 @@ import com.example.schooloperationsystem.service.StaffService;
 import com.example.schooloperationsystem.service.params.CreateStaffParams;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,32 +18,32 @@ import java.util.List;
 @RequestMapping("/staff")
 public class StaffController {
 
-    private static final Logger logger = LoggerFactory.getLogger(StaffController.class);
-
     private final StaffService service;
     private final StaffMapper mapper;
 
     @GetMapping
     public List<StaffDetailsDto> getAllStaff() {
-        logger.info("Executing get all staff rest API");
+        log.info("Executing get all staff rest API");
 
         List<Staff> response = service.getStaff();
 
-        logger.info("Successfully executed get staff rest API, response entity - {}", response);
+        log.info("Successfully executed get staff rest API, response entity - {}", response);
         return mapper.mapList(response);
     }
 
     @PostMapping
     public StaffDetailsDto create(@RequestBody CreateStaffRequestDto requestDto) {
-        logger.info("Executing create staff for the provided request to - {}:", requestDto);
+        log.info("Executing create staff for the provided request to - {}:", requestDto);
 
-        CreateStaffParams params = new CreateStaffParams();
-        params.setFirstName(requestDto.getFirstName());
-        params.setLastName(requestDto.getLastName());
-        params.setDateOfBirth(requestDto.getDateOfBirth());
+        CreateStaffParams params = new CreateStaffParams(
+                requestDto.getFirstName(),
+                requestDto.getLastName(),
+                requestDto.getDateOfBirth()
+        );
+
         Staff response = service.addStaff(params);
 
-        logger.info("Successfully executed create staff rest API, response entity - {}", response);
-        return mapper.map(response);
+        log.info("Successfully executed create staff rest API, response entity - {}", response);
+        return mapper.mapToStaffDetailsDto(response);
     }
 }

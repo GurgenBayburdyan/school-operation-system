@@ -13,8 +13,10 @@ import java.time.LocalDateTime;
 public class CreateStaffRequestDto {
     @JsonProperty("firstName")
     private String firstName;
+
     @JsonProperty("lastName")
     private String lastName;
+
     @JsonProperty("dateOfBirth")
     private LocalDateTime dateOfBirth;
 }

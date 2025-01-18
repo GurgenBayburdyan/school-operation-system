@@ -5,8 +5,6 @@ import com.example.schooloperationsystem.entity.PupilInClass;
 import com.example.schooloperationsystem.entity.SchoolClass;
 import com.example.schooloperationsystem.rest.dto.response.PupilInClassDetailsDto;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -16,10 +14,8 @@ import java.util.List;
 @Component
 public class PupilInClassMapper {
 
-    private static final Logger logger = LoggerFactory.getLogger(PupilInClassMapper.class);
-
     public PupilInClassDetailsDto map(PupilInClass pupilInClass) {
-        logger.trace("Mapping pupilInClass - {} to pupilInClass details dto", pupilInClass);
+        log.trace("Mapping pupilInClass - {} to pupilInClass details dto", pupilInClass);
 
         Pupil pupil = pupilInClass.getPupil();
         SchoolClass schoolClass = pupilInClass.getSchoolClass();
@@ -30,7 +26,7 @@ public class PupilInClassMapper {
         detailsDto.setClassId(schoolClass.getId());
         detailsDto.setPupilId(pupil.getId());
 
-        logger.trace("Mapped pupilInClass to {}", detailsDto);
+        log.trace("Mapped pupilInClass to {}", detailsDto);
         return detailsDto;
     }
 

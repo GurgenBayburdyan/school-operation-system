@@ -3,12 +3,17 @@ package com.example.schooloperationsystem.service.params;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * @author Gurgen Bayburdyan
- */
 @Getter
 @Setter
 public class CreateSchoolClassParams {
-    private int grade;
-    private char classLetter;
+    private Integer grade;
+    private Character classLetter;
+
+    public CreateSchoolClassParams(Character classLetter, Integer grade) {
+        if (grade == null || classLetter == null) {
+            throw new IllegalArgumentException();
+        }
+        this.grade = grade;
+        this.classLetter = classLetter;
+    }
 }

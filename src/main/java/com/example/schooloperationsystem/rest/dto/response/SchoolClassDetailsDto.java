@@ -10,9 +10,9 @@ import lombok.ToString;
 @ToString
 public class SchoolClassDetailsDto {
     @JsonProperty("grade")
-    private int grade;
+    private Integer grade;
 
     @JsonProperty("classLetter")
-    private char classLetter;
+    private Character classLetter;
 
 }

@@ -24,6 +24,7 @@ public class HeadMasterDetailsDto {
     @JsonProperty("dateOfBirth")
     private LocalDateTime dateOfBirth;
 
+    //todo please create AbstractErrorAwareDetailsDto that contains ErrorType, and extend from that
     @JsonProperty("errorType")
     private ErrorType errorType;
 

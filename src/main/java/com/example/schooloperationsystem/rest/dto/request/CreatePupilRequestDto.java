@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
+
 @Setter
 @Getter
 @ToString
@@ -16,6 +18,6 @@ public class CreatePupilRequestDto {
     private String lastName;
 
     @JsonProperty("dateOfBirth")
-    private String dateOfBirth;
+    private LocalDateTime dateOfBirth;
 
 }

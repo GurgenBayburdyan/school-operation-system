@@ -35,6 +35,7 @@ class SchoolClassServiceImpl implements SchoolClassService {
         log.debug("Executing add school class, params-{}", params);
 
         SchoolClass classEntity = new SchoolClass();
+
         classEntity.setGrade(params.getGrade());
         classEntity.setLetter(params.getClassLetter());
 

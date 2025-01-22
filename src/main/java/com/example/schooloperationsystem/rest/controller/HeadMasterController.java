@@ -1,5 +1,6 @@
 package com.example.schooloperationsystem.rest.controller;
 
+import com.example.schooloperationsystem.rest.dto.response.ErrorType;
 import com.example.schooloperationsystem.entity.HeadMaster;
 import com.example.schooloperationsystem.entity.SchoolClass;
 import com.example.schooloperationsystem.entity.Teacher;
@@ -20,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -49,18 +51,36 @@ public class HeadMasterController {
     public ResponseEntity<HeadMasterDetailsDto> create(@RequestBody CreateHeadMasterRequestDto requestDto) {
         log.info("Executing create head master for the provided request to - {}:", requestDto);
 
-        SchoolClass schoolClass = schoolClassService.getClassById(requestDto.getTeacherId());
-        Teacher teacher = teacherService.getById(requestDto.getTeacherId());
+        HeadMasterDetailsDto headMasterDetailsDto = new HeadMasterDetailsDto();
 
-        SchoolClassDto schoolClassDto = schoolClassMapper.mapToSchoolClassDto(schoolClass);
-        TeacherDto teacherDto = teacherMapper.mapToTeacherDto(teacher);
+        Optional<ErrorType> optionalErrorType = validateCreate(requestDto);
+        if (optionalErrorType.isPresent()) {
+            headMasterDetailsDto.setErrorType(optionalErrorType.get());
+        } else {
+            SchoolClass schoolClass = schoolClassService.getClassById(requestDto.getTeacherId());
+            Teacher teacher = teacherService.getById(requestDto.getTeacherId());
 
-        CreateHeadMasterParams params = new CreateHeadMasterParams(teacherDto, schoolClassDto);
+            SchoolClassDto schoolClassDto = schoolClassMapper.mapToSchoolClassDto(schoolClass);
+            TeacherDto teacherDto = teacherMapper.mapToTeacherDto(teacher);
 
-        HeadMaster headMaster = headMasterService.addHeadMaster(params);
-        ResponseEntity<HeadMasterDetailsDto> responseEntity = ResponseEntity.ok(headMasterMapper.map(headMaster));
+            CreateHeadMasterParams params = new CreateHeadMasterParams(teacherDto, schoolClassDto);
 
-        log.info("Successfully executed create head master rest API, response entity - {}", responseEntity);
-        return responseEntity;
+            HeadMaster headMaster = headMasterService.addHeadMaster(params);
+            ResponseEntity<HeadMasterDetailsDto> responseEntity = ResponseEntity.ok(headMasterMapper.map(headMaster));
+
+            log.info("Successfully executed create head master rest API, response entity - {}", responseEntity);
+            return responseEntity;
+        }
+
+        return ResponseEntity.ok(headMasterDetailsDto);
+    }
+
+    private Optional<ErrorType> validateCreate(CreateHeadMasterRequestDto requestDto) {
+        if (requestDto.getClassId() == null) {
+            return Optional.of(ErrorType.MISSING_SCHOOL_CLASS_ID);
+        } else if (requestDto.getTeacherId() == null) {
+            return Optional.of(ErrorType.MISSING_TEACHER_ID);
+        }
+        return Optional.empty();
     }
 }

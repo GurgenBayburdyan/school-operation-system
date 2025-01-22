@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
+
 @Setter
 @Getter
 @ToString
@@ -22,5 +24,5 @@ public class Pupil {
     private String lastName;
 
     @Column(name = "date_Of_Birth", nullable = false)
-    private String dateOfBirth;
+    private LocalDateTime dateOfBirth;
 }

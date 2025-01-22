@@ -1,5 +1,6 @@
 package com.example.schooloperationsystem.rest.controller;
 
+import com.example.schooloperationsystem.rest.dto.response.ErrorType;
 import com.example.schooloperationsystem.entity.Staff;
 import com.example.schooloperationsystem.mapper.StaffMapper;
 import com.example.schooloperationsystem.rest.dto.request.CreateStaffRequestDto;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @AllArgsConstructor
@@ -37,16 +39,35 @@ public class StaffController {
     public ResponseEntity<StaffDetailsDto> create(@RequestBody CreateStaffRequestDto requestDto) {
         log.info("Executing create staff for the provided request to - {}:", requestDto);
 
-        CreateStaffParams params = new CreateStaffParams(
-                requestDto.getFirstName(),
-                requestDto.getLastName(),
-                requestDto.getDateOfBirth()
-        );
+        StaffDetailsDto staffDetailsDto = new StaffDetailsDto();
 
-        Staff response = service.addStaff(params);
-        ResponseEntity<StaffDetailsDto> responseEntity = ResponseEntity.ok(mapper.mapToStaffDetailsDto(response));
+        Optional<ErrorType> optionalErrorType = validateCreate(requestDto);
 
-        log.info("Successfully executed create staff rest API, response entity - {}", responseEntity);
-        return responseEntity;
+        if (optionalErrorType.isPresent()) {
+            staffDetailsDto.setErrorType(optionalErrorType.get());
+        } else {
+            CreateStaffParams params = new CreateStaffParams(
+                    requestDto.getFirstName(),
+                    requestDto.getLastName(),
+                    requestDto.getDateOfBirth()
+            );
+            Staff response = service.addStaff(params);
+            ResponseEntity<StaffDetailsDto> responseEntity = ResponseEntity.ok(mapper.mapToStaffDetailsDto(response));
+            log.info("Successfully executed create staff rest API, response entity - {}", responseEntity);
+            return responseEntity;
+        }
+
+        return ResponseEntity.ok(staffDetailsDto);
+    }
+
+    private Optional<ErrorType> validateCreate(CreateStaffRequestDto requestDto) {
+        if (requestDto.getFirstName() == null) {
+            return Optional.of(ErrorType.MISSING_FIRST_NAME);
+        } else if (requestDto.getLastName() == null) {
+            return Optional.of(ErrorType.MISSING_LAST_NAME);
+        } else if (requestDto.getDateOfBirth() == null) {
+            return Optional.of(ErrorType.MISSING_DATE_OF_BIRTH);
+        }
+        return Optional.empty();
     }
 }

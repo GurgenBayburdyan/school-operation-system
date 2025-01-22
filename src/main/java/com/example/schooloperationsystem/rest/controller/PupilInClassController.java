@@ -1,5 +1,6 @@
 package com.example.schooloperationsystem.rest.controller;
 
+import com.example.schooloperationsystem.rest.dto.response.ErrorType;
 import com.example.schooloperationsystem.entity.PupilInClass;
 import com.example.schooloperationsystem.mapper.PupilInClassMapper;
 import com.example.schooloperationsystem.rest.dto.request.CreatePupilInClassRequestDto;
@@ -38,16 +39,35 @@ public class PupilInClassController {
     public ResponseEntity<PupilInClassDetailsDto> addPupilInClass(@RequestBody CreatePupilInClassRequestDto requestDto) {
         log.info("Executing add pupil in class for the provided request to-{}", requestDto);
 
-        CreatePupilInClassParams params = new CreatePupilInClassParams(
-                requestDto.getSchoolClassId(),
-                requestDto.getPupilId()
-        );
+        PupilInClassDetailsDto pupilInClassDetailsDto = new PupilInClassDetailsDto();
 
-        PupilInClass response = pupilInClassService.addPupil(params);
-        ResponseEntity<PupilInClassDetailsDto> responseEntity = ResponseEntity.ok(pupilInClassMapper.map(response));
+        Optional<ErrorType> optionalErrorType = validateCreate(requestDto);
 
-        log.info("Successfully executed add pupil in class rest API, response entity - {}", responseEntity);
-        return responseEntity;
+        if (optionalErrorType.isPresent()) {
+            pupilInClassDetailsDto.setErrorType(optionalErrorType.get());
+        } else {
+            CreatePupilInClassParams params = new CreatePupilInClassParams(
+                    requestDto.getSchoolClassId(),
+                    requestDto.getPupilId()
+            );
+
+            PupilInClass response = pupilInClassService.addPupil(params);
+            ResponseEntity<PupilInClassDetailsDto> responseEntity = ResponseEntity.ok(pupilInClassMapper.map(response));
+
+            log.info("Successfully executed add pupil in class rest API, response entity - {}", responseEntity);
+            return responseEntity;
+        }
+
+        return ResponseEntity.ok(pupilInClassDetailsDto);
+    }
+
+    private Optional<ErrorType> validateCreate(CreatePupilInClassRequestDto requestDto) {
+        if (requestDto.getPupilId() == null) {
+            return Optional.of(ErrorType.MISSING_PUPIL_ID);
+        } else if (requestDto.getSchoolClassId() == null) {
+            return Optional.of(ErrorType.MISSING_SCHOOL_CLASS_ID);
+        }
+        return Optional.empty();
     }
 
     @GetMapping("/{classId}")

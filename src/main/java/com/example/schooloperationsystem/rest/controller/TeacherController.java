@@ -1,5 +1,6 @@
 package com.example.schooloperationsystem.rest.controller;
 
+import com.example.schooloperationsystem.rest.dto.response.ErrorType;
 import com.example.schooloperationsystem.entity.Teacher;
 import com.example.schooloperationsystem.mapper.TeacherMapper;
 import com.example.schooloperationsystem.rest.dto.request.CreateTeacherRequestDto;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @AllArgsConstructor
@@ -36,13 +38,27 @@ public class TeacherController {
     public ResponseEntity<TeacherDetailsDto> createTeacher(@RequestBody CreateTeacherRequestDto requestDto) {
         log.info("Executing create teacher for the provided request to - {}:", requestDto);
 
-        CreateTeacherParams params = new CreateTeacherParams(
-                requestDto.getStaffId()
-        );
+        TeacherDetailsDto teacherDetailsDto = new TeacherDetailsDto();
+        Optional<ErrorType> teacherOptional = validateCreate(requestDto);
+        if (teacherOptional.isPresent()) {
+            teacherDetailsDto.setErrorType(teacherOptional.get());
+        } else {
+            CreateTeacherParams params = new CreateTeacherParams(
+                    requestDto.getStaffId()
+            );
+            Teacher response = service.create(params);
+            ResponseEntity<TeacherDetailsDto> responseEntity = ResponseEntity.ok(mapper.mapToTeacherDetailsDto(response));
+            log.info("Successfully executed create teacher rest API, response entity - {}", responseEntity);
+            return responseEntity;
+        }
 
-        Teacher response = service.create(params);
-        ResponseEntity<TeacherDetailsDto> responseEntity = ResponseEntity.ok(mapper.mapToTeacherDetailsDto(response));
-        log.info("Successfully executed create teacher rest API, response entity - {}", responseEntity);
-        return responseEntity;
+        return ResponseEntity.ok(teacherDetailsDto);
+    }
+
+    private Optional<ErrorType> validateCreate(CreateTeacherRequestDto requestDto) {
+        if (requestDto.getStaffId() == null) {
+            return Optional.of(ErrorType.MISSING_STAFF_ID);
+        }
+        return Optional.empty();
     }
 }

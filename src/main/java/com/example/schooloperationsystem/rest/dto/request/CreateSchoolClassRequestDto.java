@@ -14,5 +14,4 @@ public class CreateSchoolClassRequestDto {
 
     @JsonProperty("classLetter")
     private Character classLetter;
-
 }

@@ -2,22 +2,25 @@ package com.example.schooloperationsystem.service.params;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
 
 @Setter
 @Getter
+@ToString
 public class CreatePupilParams {
-    private String firstName;
-    private String lastName;
-    private LocalDateTime dateOfBirth;
+    private final String firstName;
+    private final String lastName;
+    private final LocalDateTime dateOfBirth;
 
     public CreatePupilParams(String firstName, String lastName, LocalDateTime dateOfBirth) {
-        if (firstName == null || lastName == null || dateOfBirth == null) {
-            throw new IllegalArgumentException();
-        }
+        Assert.notNull(firstName, "the first name should not be null");
         this.firstName = firstName;
+        Assert.notNull(firstName, "the last name should not be null");
         this.lastName = lastName;
+        Assert.notNull(firstName, "the date of birth should not be null");
         this.dateOfBirth = dateOfBirth;
     }
 }

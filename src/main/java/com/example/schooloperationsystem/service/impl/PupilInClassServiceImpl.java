@@ -55,11 +55,11 @@ class PupilInClassServiceImpl implements PupilInClassService {
 
     @Override
     @Transactional
-    //todo please validate pupil existence in controller, if not found return PUPIL_NOT_FOUND error. 
     public PupilInClass deletePupilById(Long id) {
         log.debug("Executing delete pupil in class by id, id-{}", id);
 
         Optional<PupilInClass> pupilInClassOptional = repository.findById(id);
+
         if (pupilInClassOptional.isPresent()) {
             PupilInClass pupilInClass = pupilInClassOptional.get();
             repository.delete(pupilInClass);

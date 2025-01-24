@@ -1,5 +1,6 @@
 package com.example.schooloperationsystem.rest.controller;
 
+import com.example.schooloperationsystem.rest.controller.validator.PupilInClassValidator;
 import com.example.schooloperationsystem.rest.dto.response.ErrorType;
 import com.example.schooloperationsystem.entity.PupilInClass;
 import com.example.schooloperationsystem.mapper.PupilInClassMapper;
@@ -23,6 +24,7 @@ public class PupilInClassController {
 
     private final PupilInClassService pupilInClassService;
     private final PupilInClassMapper pupilInClassMapper;
+    private final PupilInClassValidator pupilInClassValidator;
 
     @GetMapping
     public ResponseEntity<List<PupilInClassDetailsDto>> getPupilsInClass() {
@@ -39,13 +41,9 @@ public class PupilInClassController {
     public ResponseEntity<PupilInClassDetailsDto> addPupilInClass(@RequestBody CreatePupilInClassRequestDto requestDto) {
         log.info("Executing add pupil in class for the provided request to-{}", requestDto);
 
-        PupilInClassDetailsDto pupilInClassDetailsDto = new PupilInClassDetailsDto();
+        Optional<ErrorType> optionalErrorType = pupilInClassValidator.validateCreate(requestDto);
 
-        Optional<ErrorType> optionalErrorType = validateCreate(requestDto);
-
-        if (optionalErrorType.isPresent()) {
-            pupilInClassDetailsDto.setErrorType(optionalErrorType.get());
-        } else {
+        if (optionalErrorType.isEmpty()) {
             CreatePupilInClassParams params = new CreatePupilInClassParams(
                     requestDto.getSchoolClassId(),
                     requestDto.getPupilId()
@@ -58,26 +56,18 @@ public class PupilInClassController {
             return responseEntity;
         }
 
+        PupilInClassDetailsDto pupilInClassDetailsDto = new PupilInClassDetailsDto();
+        pupilInClassDetailsDto.setErrorType(optionalErrorType.get());
+        log.info("Executing create pupil in class failed, error-{}", optionalErrorType.get());
         return ResponseEntity.ok(pupilInClassDetailsDto);
     }
 
-    private Optional<ErrorType> validateCreate(CreatePupilInClassRequestDto requestDto) {
-        if (requestDto.getPupilId() == null) {
-            return Optional.of(ErrorType.MISSING_PUPIL_ID);
-        } else if (requestDto.getSchoolClassId() == null) {
-            return Optional.of(ErrorType.MISSING_SCHOOL_CLASS_ID);
-        }
-        return Optional.empty();
-    }
-
-    //todo please change mapping to /classes/{classId}
-    @GetMapping("/{classId}")
+    @GetMapping("/classes/{classId}")
     public ResponseEntity<List<PupilInClassDetailsDto>> getPupilsByClassId(@PathVariable("classId") Long classId) {
         log.info("Executing get pupil in class by class id-{}", classId);
 
         List<PupilInClass> response = pupilInClassService.getPupilsBySchoolClassId(classId);
-        //todo why Optional ?
-        ResponseEntity<List<PupilInClassDetailsDto>> responseEntity = ResponseEntity.of(Optional.ofNullable(pupilInClassMapper.mapList(response)));
+        ResponseEntity<List<PupilInClassDetailsDto>> responseEntity = ResponseEntity.ok(pupilInClassMapper.mapList(response));
 
         log.info("Successfully executed get pupil in class by class id rest API, response entity - {}", responseEntity);
         return responseEntity;
@@ -88,7 +78,14 @@ public class PupilInClassController {
         log.info("Executing delete pupil in class by id-{}", pupilId);
 
         PupilInClass response = pupilInClassService.deletePupilById(pupilId);
-        ResponseEntity<PupilInClassDetailsDto> responseEntity = ResponseEntity.ok(pupilInClassMapper.map(response));
+
+        PupilInClassDetailsDto pupilInClassDetailsDto = pupilInClassMapper.map(response);
+
+        if (response == null) {
+            pupilInClassDetailsDto.setErrorType(ErrorType.PUPIL_NOT_FOUND);
+        }
+
+        ResponseEntity<PupilInClassDetailsDto> responseEntity = ResponseEntity.ok(pupilInClassDetailsDto);
 
         log.info("Successfully executed delete pupil in class by id rest API, response entity - {}", responseEntity);
         return responseEntity;

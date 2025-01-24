@@ -2,17 +2,17 @@ package com.example.schooloperationsystem.service.params;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+import org.springframework.util.Assert;
 
 @Setter
 @Getter
+@ToString
 public class CreateTeacherParams {
-    private Long staffId;
+    private final Long staffId;
 
     public CreateTeacherParams(Long staffId) {
-        //todo Assert.notNull(staffId, "the staff id should not be null);
-        if (staffId == null) {
-            throw new IllegalArgumentException();
-        }
+        Assert.notNull(staffId, "the staff id should not be null");
         this.staffId = staffId;
     }
 }

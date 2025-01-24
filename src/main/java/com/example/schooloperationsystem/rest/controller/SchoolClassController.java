@@ -1,5 +1,6 @@
 package com.example.schooloperationsystem.rest.controller;
 
+import com.example.schooloperationsystem.rest.controller.validator.SchoolClassValidator;
 import com.example.schooloperationsystem.rest.dto.response.ErrorType;
 import com.example.schooloperationsystem.entity.SchoolClass;
 import com.example.schooloperationsystem.mapper.SchoolClassMapper;
@@ -23,6 +24,7 @@ public class SchoolClassController {
 
     private final SchoolClassService classService;
     private final SchoolClassMapper classMapper;
+    private final SchoolClassValidator schoolClassValidator;
 
     @GetMapping
     public ResponseEntity<List<SchoolClassDetailsDto>> getClasses() {
@@ -39,13 +41,9 @@ public class SchoolClassController {
     public ResponseEntity<SchoolClassDetailsDto> create(@RequestBody CreateSchoolClassRequestDto requestDto) {
         log.info("Executing create class for the provided request to - {}", requestDto);
 
-        SchoolClassDetailsDto schoolClassDetailsDto = new SchoolClassDetailsDto();
+        Optional<ErrorType> optionalErrorType = schoolClassValidator.validateCreate(requestDto);
 
-        Optional<ErrorType> optionalErrorType = validateCreate(requestDto);
-
-        if (optionalErrorType.isPresent()) {
-            schoolClassDetailsDto.setErrorType(optionalErrorType.get());
-        } else {
+        if (optionalErrorType.isEmpty()) {
             CreateSchoolClassParams params = new CreateSchoolClassParams(
                     requestDto.getClassLetter(),
                     requestDto.getGrade()
@@ -56,15 +54,9 @@ public class SchoolClassController {
             return responseEntity;
         }
 
+        SchoolClassDetailsDto schoolClassDetailsDto = new SchoolClassDetailsDto();
+        schoolClassDetailsDto.setErrorType(optionalErrorType.get());
+        log.info("Executing create class failed, error-{}", optionalErrorType.get());
         return ResponseEntity.ok(schoolClassDetailsDto);
-    }
-
-    private Optional<ErrorType> validateCreate(CreateSchoolClassRequestDto requestDto) {
-        if (requestDto.getGrade() == null) {
-            return Optional.of(ErrorType.MISSING_GRADE);
-        } else if (requestDto.getClassLetter() == null) {
-            return Optional.of(ErrorType.MISSING_CLASS_LETTER);
-        }
-        return Optional.empty();
     }
 }

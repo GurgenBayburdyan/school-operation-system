@@ -1,5 +1,6 @@
 package com.example.schooloperationsystem.rest.controller;
 
+import com.example.schooloperationsystem.rest.controller.validator.PupilValidator;
 import com.example.schooloperationsystem.rest.dto.response.ErrorType;
 import com.example.schooloperationsystem.entity.Pupil;
 import com.example.schooloperationsystem.mapper.PupilMapper;
@@ -20,8 +21,10 @@ import java.util.Optional;
 @AllArgsConstructor
 @RequestMapping("/pupils")
 public class PupilController {
+
     private final PupilService pupilService;
     private final PupilMapper pupilMapper;
+    private final PupilValidator pupilValidator;
 
     @GetMapping
     public ResponseEntity<List<PupilDetailsDto>> getPupils() {
@@ -39,13 +42,9 @@ public class PupilController {
     public ResponseEntity<PupilDetailsDto> addPupil(@RequestBody CreatePupilRequestDto requestDto) {
         log.info("Executing add pupil for the provided request to - {}:", requestDto);
 
-        PupilDetailsDto pupilDetailsDto = new PupilDetailsDto();
+        Optional<ErrorType> optionalErrorType = pupilValidator.validateCreate(requestDto);
 
-        Optional<ErrorType> optionalErrorType = validateCreate(requestDto);
-
-        if (optionalErrorType.isPresent()) {
-            pupilDetailsDto.setErrorType(optionalErrorType.get());
-        } else {
+        if (optionalErrorType.isEmpty()) {
             CreatePupilParams params = new CreatePupilParams(
                     requestDto.getFirstName(),
                     requestDto.getLastName(),
@@ -58,17 +57,10 @@ public class PupilController {
             log.info("Successfully executed add pupil rest API, response entity - {}", responseEntity);
             return responseEntity;
         }
-        return ResponseEntity.ok(pupilDetailsDto);
-    }
 
-    private Optional<ErrorType> validateCreate(CreatePupilRequestDto requestDto) {
-        if (requestDto.getFirstName() == null) {
-            return Optional.of(ErrorType.MISSING_FIRST_NAME);
-        } else if (requestDto.getLastName() == null) {
-            return Optional.of(ErrorType.MISSING_LAST_NAME);
-        } else if (requestDto.getDateOfBirth() == null) {
-            return Optional.of(ErrorType.MISSING_DATE_OF_BIRTH);
-        }
-        return Optional.empty();
+        PupilDetailsDto pupilDetailsDto = new PupilDetailsDto();
+        pupilDetailsDto.setErrorType(optionalErrorType.get());
+        log.info("Executing create pupil failed, error-{}", optionalErrorType.get());
+        return ResponseEntity.ok(pupilDetailsDto);
     }
 }

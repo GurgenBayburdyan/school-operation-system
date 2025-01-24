@@ -1,5 +1,6 @@
 package com.example.schooloperationsystem.rest.controller;
 
+import com.example.schooloperationsystem.rest.controller.validator.TeacherValidator;
 import com.example.schooloperationsystem.rest.dto.response.ErrorType;
 import com.example.schooloperationsystem.entity.Teacher;
 import com.example.schooloperationsystem.mapper.TeacherMapper;
@@ -23,6 +24,7 @@ public class TeacherController {
 
     private final TeacherService service;
     private final TeacherMapper mapper;
+    private final TeacherValidator teacherValidator;
 
     @GetMapping
     public ResponseEntity<List<TeacherDetailsDto>> getAllTeachers() {
@@ -38,11 +40,9 @@ public class TeacherController {
     public ResponseEntity<TeacherDetailsDto> createTeacher(@RequestBody CreateTeacherRequestDto requestDto) {
         log.info("Executing create teacher for the provided request to - {}:", requestDto);
 
-        TeacherDetailsDto teacherDetailsDto = new TeacherDetailsDto();
-        Optional<ErrorType> teacherOptional = validateCreate(requestDto);
-        if (teacherOptional.isPresent()) {
-            teacherDetailsDto.setErrorType(teacherOptional.get());
-        } else {
+        Optional<ErrorType> optionalErrorType = teacherValidator.validateCreate(requestDto);
+
+        if (optionalErrorType.isEmpty()) {
             CreateTeacherParams params = new CreateTeacherParams(
                     requestDto.getStaffId()
             );
@@ -52,13 +52,10 @@ public class TeacherController {
             return responseEntity;
         }
 
+        TeacherDetailsDto teacherDetailsDto = new TeacherDetailsDto();
+        teacherDetailsDto.setErrorType(optionalErrorType.get());
+        log.info("Executing create teacher failed, error-{}", optionalErrorType.get());
         return ResponseEntity.ok(teacherDetailsDto);
     }
 
-    private Optional<ErrorType> validateCreate(CreateTeacherRequestDto requestDto) {
-        if (requestDto.getStaffId() == null) {
-            return Optional.of(ErrorType.MISSING_STAFF_ID);
-        }
-        return Optional.empty();
-    }
 }

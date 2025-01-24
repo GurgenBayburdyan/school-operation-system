@@ -2,11 +2,10 @@ package com.example.schooloperationsystem.service.impl;
 
 import com.example.schooloperationsystem.entity.HeadMaster;
 import com.example.schooloperationsystem.entity.SchoolClass;
-import com.example.schooloperationsystem.entity.Staff;
 import com.example.schooloperationsystem.repository.HeadMasterRepository;
-import com.example.schooloperationsystem.rest.dto.SchoolClassDto;
-import com.example.schooloperationsystem.rest.dto.TeacherDto;
 import com.example.schooloperationsystem.service.HeadMasterService;
+import com.example.schooloperationsystem.service.SchoolClassService;
+import com.example.schooloperationsystem.service.TeacherService;
 import com.example.schooloperationsystem.service.params.CreateHeadMasterParams;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
@@ -22,6 +21,8 @@ import java.util.List;
 class HeadMasterServiceImpl implements HeadMasterService {
 
     private final HeadMasterRepository repository;
+    private final TeacherService teacherService;
+    private final SchoolClassService schoolClassService;
 
     @Override
     @Transactional(readOnly = true)
@@ -39,22 +40,10 @@ class HeadMasterServiceImpl implements HeadMasterService {
     public HeadMaster addHeadMaster(CreateHeadMasterParams params) {
         log.debug("Executing add headmaster, params-{}", params);
         HeadMaster headMaster = new HeadMaster();
-        Teacher teacher = new Teacher(); //todo teacherid should be provided in params, and here you should get teacher instead of creating it 
+        Teacher teacher = teacherService.getById(params.getTeacherId());
 
-        SchoolClass schoolClass = new SchoolClass();
+        SchoolClass schoolClass = schoolClassService.getClassById(params.getSchoolClassId());
 
-        TeacherDto teacherDto = params.getTeacherDto();
-        SchoolClassDto schoolClassDto = params.getSchoolClassDto();
-
-        Staff staff = new Staff();
-        staff.setFirstName(teacherDto.getStaffDto().getFirstName());
-        staff.setLastName(teacherDto.getStaffDto().getLastName());
-        staff.setDateOfBirth(teacherDto.getStaffDto().getDateOfBirth());
-
-        schoolClass.setGrade(schoolClassDto.getGrade());
-        schoolClass.setLetter(schoolClassDto.getClassLetter());
-
-        teacher.setStaff(staff);
         headMaster.setTeacher(teacher);
         headMaster.setSchoolClass(schoolClass);
 

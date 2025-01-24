@@ -1,21 +1,21 @@
 package com.example.schooloperationsystem.service.params;
 
-import com.example.schooloperationsystem.rest.dto.SchoolClassDto;
-import com.example.schooloperationsystem.rest.dto.TeacherDto;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+import org.springframework.util.Assert;
 
 @Setter
 @Getter
+@ToString
 public class CreateHeadMasterParams {
-    private TeacherDto teacherDto;
-    private SchoolClassDto schoolClassDto;
+    private final Long teacherId;
+    private final Long schoolClassId;
 
-    public CreateHeadMasterParams(TeacherDto teacherDto, SchoolClassDto schoolClassDto) {
-        if (teacherDto == null || schoolClassDto == null) {
-            throw new IllegalArgumentException();
-        }
-        this.teacherDto = teacherDto;
-        this.schoolClassDto = schoolClassDto;
+    public CreateHeadMasterParams(Long teacherId, Long schoolClassId) {
+        Assert.notNull(teacherId, "the teacher id should not be null");
+        this.teacherId = teacherId;
+        Assert.notNull(teacherId, "the school class id should not be null");
+        this.schoolClassId = schoolClassId;
     }
 }

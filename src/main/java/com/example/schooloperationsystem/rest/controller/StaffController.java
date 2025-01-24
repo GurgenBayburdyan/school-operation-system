@@ -1,5 +1,6 @@
 package com.example.schooloperationsystem.rest.controller;
 
+import com.example.schooloperationsystem.rest.controller.validator.StaffValidator;
 import com.example.schooloperationsystem.rest.dto.response.ErrorType;
 import com.example.schooloperationsystem.entity.Staff;
 import com.example.schooloperationsystem.mapper.StaffMapper;
@@ -23,6 +24,7 @@ public class StaffController {
 
     private final StaffService service;
     private final StaffMapper mapper;
+    private final StaffValidator staffValidator;
 
     @GetMapping
     public ResponseEntity<List<StaffDetailsDto>> getAllStaff() {
@@ -39,13 +41,9 @@ public class StaffController {
     public ResponseEntity<StaffDetailsDto> create(@RequestBody CreateStaffRequestDto requestDto) {
         log.info("Executing create staff for the provided request to - {}:", requestDto);
 
-        StaffDetailsDto staffDetailsDto = new StaffDetailsDto();
+        Optional<ErrorType> optionalErrorType = staffValidator.validateCreate(requestDto);
 
-        Optional<ErrorType> optionalErrorType = validateCreate(requestDto);
-
-        if (optionalErrorType.isPresent()) {
-            staffDetailsDto.setErrorType(optionalErrorType.get());
-        } else {
+        if (optionalErrorType.isEmpty())  {
             CreateStaffParams params = new CreateStaffParams(
                     requestDto.getFirstName(),
                     requestDto.getLastName(),
@@ -57,17 +55,10 @@ public class StaffController {
             return responseEntity;
         }
 
+        StaffDetailsDto staffDetailsDto = new StaffDetailsDto();
+        staffDetailsDto.setErrorType(optionalErrorType.get());
+        log.info("Executing create staff failed, error-{}", optionalErrorType.get());
         return ResponseEntity.ok(staffDetailsDto);
     }
 
-    private Optional<ErrorType> validateCreate(CreateStaffRequestDto requestDto) {
-        if (requestDto.getFirstName() == null) {
-            return Optional.of(ErrorType.MISSING_FIRST_NAME);
-        } else if (requestDto.getLastName() == null) {
-            return Optional.of(ErrorType.MISSING_LAST_NAME);
-        } else if (requestDto.getDateOfBirth() == null) {
-            return Optional.of(ErrorType.MISSING_DATE_OF_BIRTH);
-        }
-        return Optional.empty();
-    }
 }

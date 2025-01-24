@@ -51,8 +51,10 @@ public class HeadMasterController {
     public ResponseEntity<HeadMasterDetailsDto> create(@RequestBody CreateHeadMasterRequestDto requestDto) {
         log.info("Executing create head master for the provided request to - {}:", requestDto);
 
+        //do your best not to mutate objects later, the object should be created and returned immediately 
         HeadMasterDetailsDto headMasterDetailsDto = new HeadMasterDetailsDto();
 
+        //todo please create HeadMasterValidator and move validateCreate there
         Optional<ErrorType> optionalErrorType = validateCreate(requestDto);
         if (optionalErrorType.isPresent()) {
             headMasterDetailsDto.setErrorType(optionalErrorType.get());
@@ -60,6 +62,7 @@ public class HeadMasterController {
             SchoolClass schoolClass = schoolClassService.getClassById(requestDto.getTeacherId());
             Teacher teacher = teacherService.getById(requestDto.getTeacherId());
 
+            //todo let's first finish everything with services then do mapping
             SchoolClassDto schoolClassDto = schoolClassMapper.mapToSchoolClassDto(schoolClass);
             TeacherDto teacherDto = teacherMapper.mapToTeacherDto(teacher);
 
@@ -72,6 +75,7 @@ public class HeadMasterController {
             return responseEntity;
         }
 
+        //todo please write a log
         return ResponseEntity.ok(headMasterDetailsDto);
     }
 

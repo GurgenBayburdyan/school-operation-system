@@ -39,7 +39,7 @@ class HeadMasterServiceImpl implements HeadMasterService {
     public HeadMaster addHeadMaster(CreateHeadMasterParams params) {
         log.debug("Executing add headmaster, params-{}", params);
         HeadMaster headMaster = new HeadMaster();
-        Teacher teacher = new Teacher();
+        Teacher teacher = new Teacher(); //todo teacherid should be provided in params, and here you should get teacher instead of creating it 
 
         SchoolClass schoolClass = new SchoolClass();
 

@@ -70,11 +70,13 @@ public class PupilInClassController {
         return Optional.empty();
     }
 
+    //todo please change mapping to /classes/{classId}
     @GetMapping("/{classId}")
     public ResponseEntity<List<PupilInClassDetailsDto>> getPupilsByClassId(@PathVariable("classId") Long classId) {
         log.info("Executing get pupil in class by class id-{}", classId);
 
         List<PupilInClass> response = pupilInClassService.getPupilsBySchoolClassId(classId);
+        //todo why Optional ?
         ResponseEntity<List<PupilInClassDetailsDto>> responseEntity = ResponseEntity.of(Optional.ofNullable(pupilInClassMapper.mapList(response)));
 
         log.info("Successfully executed get pupil in class by class id rest API, response entity - {}", responseEntity);

@@ -22,5 +22,4 @@ public class PupilInClass {
     @OneToOne
     @JoinColumn(name = "pupil_id", nullable = false, foreignKey = @ForeignKey(name = "FK_PUPIL_IN_CLASS_PUPIL_ID"))
     private Pupil pupil;
-
 }

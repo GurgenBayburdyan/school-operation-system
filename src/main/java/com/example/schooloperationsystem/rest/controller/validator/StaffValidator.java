@@ -5,6 +5,7 @@ import com.example.schooloperationsystem.rest.dto.response.ErrorType;
 
 import java.util.Optional;
 
+//create inteface and DefaultStaffValidator implementation
 public class StaffValidator {
 
     public Optional<ErrorType> validateCreate(CreateStaffRequestDto requestDto) {

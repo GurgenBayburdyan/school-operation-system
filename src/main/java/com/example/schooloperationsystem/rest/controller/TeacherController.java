@@ -32,6 +32,7 @@ public class TeacherController {
 
         List<Teacher> response = service.getTeachers();
 
+        //todo please log response entity not response dto
         log.info("Successfully executed get teachers rest API, response entity - {}", response);
         return ResponseEntity.ok(mapper.mapList(response));
     }

@@ -9,10 +9,12 @@ import java.util.Optional;
 @Component
 public class HeadMasterValidator {
 
-    public Optional<ErrorType> validateCreate(CreateHeadMasterRequestDto requestDto) {
+    public Optional<ErrorType> validateCreate(//todo add final keyword here CreateHeadMasterRequestDto requestDto) {
         if (requestDto.getClassId() == null) {
+            //todo validate that scool class with the give id exists in database using schoolclassservice
             return Optional.of(ErrorType.MISSING_SCHOOL_CLASS_ID);
         } else if (requestDto.getTeacherId() == null) {
+            //todo same here and in all validator
             return Optional.of(ErrorType.MISSING_TEACHER_ID);
         }
         return Optional.empty();

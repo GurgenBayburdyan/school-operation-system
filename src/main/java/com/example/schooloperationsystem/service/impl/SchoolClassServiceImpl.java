@@ -35,7 +35,7 @@ class SchoolClassServiceImpl implements SchoolClassService {
         log.debug("Executing add school class, params-{}", params);
 
         SchoolClass classEntity = new SchoolClass();
-
+        
         classEntity.setGrade(params.getGrade());
         classEntity.setLetter(params.getClassLetter());
 
@@ -48,7 +48,7 @@ class SchoolClassServiceImpl implements SchoolClassService {
     public SchoolClass getClassById(Long id) {
         log.debug("Executing get school class by id, id-{}", id);
 
-        SchoolClass schoolClass = repository.findById(id).orElse(null);
+        SchoolClass schoolClass = repository.findById(id).orElse(null); //todo please use getOrElseThrow
 
         if (schoolClass != null) {
             log.debug("Successfully executed get school class by id, {}", schoolClass);

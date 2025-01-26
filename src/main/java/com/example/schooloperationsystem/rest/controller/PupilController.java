@@ -31,7 +31,7 @@ public class PupilController {
         log.info("Executing get all pupils rest API");
 
 
-        List<Pupil> response = pupilService.getPupils();
+        //todo please add final keword wherever possible List<Pupil> response = pupilService.getPupils();
         ResponseEntity<List<PupilDetailsDto>> responseEntity = ResponseEntity.ok(pupilMapper.mapList(response));
 
         log.info("Successfully executed get all pupils rest API, response entity - {}", responseEntity);
@@ -58,6 +58,7 @@ public class PupilController {
             return responseEntity;
         }
 
+        //move the below code right after validator
         PupilDetailsDto pupilDetailsDto = new PupilDetailsDto();
         pupilDetailsDto.setErrorType(optionalErrorType.get());
         log.info("Executing create pupil failed, error-{}", optionalErrorType.get());

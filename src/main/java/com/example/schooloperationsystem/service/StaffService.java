@@ -11,4 +11,6 @@ public interface StaffService {
     Staff add(CreateStaffParams params);
 
     Staff getById(Long id);
+
+    boolean existsById(Long id);
 }

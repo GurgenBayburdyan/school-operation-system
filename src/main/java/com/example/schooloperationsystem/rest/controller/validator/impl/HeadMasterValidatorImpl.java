@@ -20,23 +20,29 @@ public class HeadMasterValidatorImpl implements HeadMasterValidator {
     private final TeacherService teacherService;
 
     public Optional<ErrorType> validateCreate(final CreateHeadMasterRequestDto requestDto) {
-        log.trace("Executing validate create for request-{}", requestDto);
+        log.debug("Executing validate create for request-{}", requestDto);
 
         if (requestDto.getClassId() == null) {
-            log.trace("Validation failed: Missing class id");
+            log.debug("Validation failed: Missing class id");
             return Optional.of(ErrorType.MISSING_SCHOOL_CLASS_ID);
-        } else if (schoolClassService.getById(requestDto.getClassId()) == null) {
-            log.trace("Validation failed: No class with id-{}", requestDto.getTeacherId());
+        }
+
+        if (!schoolClassService.existsById(requestDto.getClassId())) {
+            log.debug("Validation failed: No class with id-{}", requestDto.getClassId());
             return Optional.of(ErrorType.CLASS_NOT_FOUND);
-        } else if (requestDto.getTeacherId() == null) {
-            log.trace("Validation failed: Missing teacher id");
+        }
+
+        if (requestDto.getTeacherId() == null) {
+            log.debug("Validation failed: Missing teacher id");
             return Optional.of(ErrorType.MISSING_TEACHER_ID);
-        } else if (teacherService.getById(requestDto.getTeacherId()) == null) {
-            log.trace("Validation failed: No teacher with id-{}", requestDto.getTeacherId());
+        }
+
+        if (!teacherService.existsById(requestDto.getTeacherId())) {
+            log.debug("Validation failed: No teacher with id-{}", requestDto.getTeacherId());
             return Optional.of(ErrorType.TEACHER_NOT_FOUND);
         }
 
-        log.trace("Validation executed successfully");
+        log.debug("Validation executed successfully");
         return Optional.empty();
     }
 

@@ -18,17 +18,19 @@ public class TeacherValidatorImpl implements TeacherValidator {
     private final StaffService staffService;
 
     public Optional<ErrorType> validateCreate(CreateTeacherRequestDto requestDto) {
-        log.trace("Executing validate create for request-{}", requestDto);
+        log.debug("Executing validate create for request-{}", requestDto);
 
         if (requestDto.getStaffId() == null) {
-            log.trace("Validation failed: Missing staff id");
+            log.debug("Validation failed: Missing staff id");
             return Optional.of(ErrorType.MISSING_STAFF_ID);
-        } else if (staffService.getById(requestDto.getStaffId()) == null) {
-            log.trace("Validation failed: No staff with id-{}", requestDto.getStaffId());
+        }
+
+        if (staffService.existsById(requestDto.getStaffId())) {
+            log.debug("Validation failed: No staff with id-{}", requestDto.getStaffId());
             return Optional.of(ErrorType.STAFF_NOT_FOUND);
         }
 
-        log.trace("Validation executed successfully");
+        log.debug("Validation executed successfully");
         return Optional.empty();
     }
 

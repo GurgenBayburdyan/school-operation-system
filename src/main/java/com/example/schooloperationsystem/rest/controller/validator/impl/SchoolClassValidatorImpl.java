@@ -13,17 +13,19 @@ import java.util.Optional;
 public class SchoolClassValidatorImpl implements SchoolClassValidator {
 
     public Optional<ErrorType> validateCreate(CreateSchoolClassRequestDto requestDto) {
-        log.trace("Executing validate create for request-{}", requestDto);
+        log.debug("Executing validate create for request-{}", requestDto);
 
         if (requestDto.getGrade() == null) {
-            log.trace("Validation failed: Missing grade");
+            log.debug("Validation failed: Missing grade");
             return Optional.of(ErrorType.MISSING_GRADE);
-        } else if (requestDto.getClassLetter() == null) {
-            log.trace("Validation failed: Missing class letter");
+        }
+
+        if (requestDto.getClassLetter() == null) {
+            log.debug("Validation failed: Missing class letter");
             return Optional.of(ErrorType.MISSING_CLASS_LETTER);
         }
 
-        log.trace("Validation executed successfully");
+        log.debug("Validation executed successfully");
         return Optional.empty();
     }
 

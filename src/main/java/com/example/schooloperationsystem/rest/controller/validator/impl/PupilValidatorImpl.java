@@ -13,20 +13,24 @@ import java.util.Optional;
 public class PupilValidatorImpl implements PupilValidator {
 
     public Optional<ErrorType> validateCreate(CreatePupilRequestDto requestDto) {
-        log.trace("Executing validate create for request-{}", requestDto);
+        log.debug("Executing validate create for request-{}", requestDto);
 
         if (requestDto.getFirstName() == null) {
-            log.trace("Validation failed: Missing first name");
+            log.debug("Validation failed: Missing first name");
             return Optional.of(ErrorType.MISSING_FIRST_NAME);
-        } else if (requestDto.getLastName() == null) {
-            log.trace("Validation failed: Missing last name");
+        }
+
+        if (requestDto.getLastName() == null) {
+            log.debug("Validation failed: Missing last name");
             return Optional.of(ErrorType.MISSING_LAST_NAME);
-        } else if (requestDto.getDateOfBirth() == null) {
-            log.trace("Validation failed: Missing date of birth");
+        }
+
+        if (requestDto.getDateOfBirth() == null) {
+            log.debug("Validation failed: Missing date of birth");
             return Optional.of(ErrorType.MISSING_DATE_OF_BIRTH);
         }
 
-        log.trace("Validation executed successfully");
+        log.debug("Validation executed successfully");
         return Optional.empty();
     }
 

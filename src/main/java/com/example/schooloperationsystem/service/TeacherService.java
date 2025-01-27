@@ -11,4 +11,6 @@ public interface TeacherService {
     Teacher create(CreateTeacherParams params);
 
     Teacher getById(Long id);
+
+    boolean existsById(Long id);
 }

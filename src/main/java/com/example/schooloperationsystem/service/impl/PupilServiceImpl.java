@@ -53,4 +53,10 @@ class PupilServiceImpl implements PupilService {
         log.debug("Successfully executed get pupil by id, {}", pupil);
         return pupil;
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean existsById(Long id) {
+        return repository.existsById(id);
+    }
 }

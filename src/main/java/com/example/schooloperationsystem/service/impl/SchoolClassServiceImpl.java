@@ -35,7 +35,7 @@ class SchoolClassServiceImpl implements SchoolClassService {
         log.debug("Executing add school class, params-{}", params);
 
         SchoolClass classEntity = new SchoolClass();
-        
+
         classEntity.setGrade(params.getGrade());
         classEntity.setLetter(params.getClassLetter());
 
@@ -53,5 +53,11 @@ class SchoolClassServiceImpl implements SchoolClassService {
         log.debug("Successfully executed get school class by id, {}", schoolClass);
         return schoolClass;
 
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean existsById(Long id) {
+        return repository.existsById(id);
     }
 }

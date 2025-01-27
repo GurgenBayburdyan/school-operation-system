@@ -12,4 +12,6 @@ public interface SchoolClassService {
     SchoolClass add(CreateSchoolClassParams params);
 
     SchoolClass getById(Long id);
+
+    boolean existsById(Long id);
 }

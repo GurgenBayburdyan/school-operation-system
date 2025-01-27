@@ -58,4 +58,9 @@ class StaffServiceImpl implements StaffService {
         log.debug("Successfully executed get staff by id, {}", staff);
         return staff;
     }
+
+    @Override
+    public boolean existsById(Long id) {
+        return repository.existsById(id);
+    }
 }

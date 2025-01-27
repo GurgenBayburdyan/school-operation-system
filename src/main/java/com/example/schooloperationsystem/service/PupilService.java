@@ -11,4 +11,6 @@ public interface PupilService {
     Pupil add(CreatePupilParams params);
 
     Pupil getById(Long id);
+
+    boolean existsById(Long id);
 }

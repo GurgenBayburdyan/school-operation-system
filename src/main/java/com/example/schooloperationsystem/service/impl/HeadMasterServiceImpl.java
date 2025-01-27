@@ -26,7 +26,7 @@ class HeadMasterServiceImpl implements HeadMasterService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<HeadMaster> getHeadMasters() {
+    public List<HeadMaster> get() {
         log.debug("Executing get all headmasters");
 
         List<HeadMaster> headMasters = repository.findAll();
@@ -37,12 +37,12 @@ class HeadMasterServiceImpl implements HeadMasterService {
 
     @Override
     @Transactional
-    public HeadMaster addHeadMaster(CreateHeadMasterParams params) {
+    public HeadMaster add(CreateHeadMasterParams params) {
         log.debug("Executing add headmaster, params-{}", params);
         HeadMaster headMaster = new HeadMaster();
         Teacher teacher = teacherService.getById(params.getTeacherId());
 
-        SchoolClass schoolClass = schoolClassService.getClassById(params.getSchoolClassId());
+        SchoolClass schoolClass = schoolClassService.getById(params.getSchoolClassId());
 
         headMaster.setTeacher(teacher);
         headMaster.setSchoolClass(schoolClass);

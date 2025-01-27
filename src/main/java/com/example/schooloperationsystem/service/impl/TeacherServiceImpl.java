@@ -23,7 +23,7 @@ class TeacherServiceImpl implements TeacherService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Teacher> getTeachers() {
+    public List<Teacher> get() {
         log.debug("Executing get all teachers");
 
         List<Teacher> teachers = repository.findAll();

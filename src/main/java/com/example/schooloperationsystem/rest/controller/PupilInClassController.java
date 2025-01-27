@@ -30,7 +30,7 @@ public class PupilInClassController {
     public ResponseEntity<List<PupilInClassDetailsDto>> getPupilsInClass() {
         log.info("Executing get all pupils in classes rest API");
 
-        List<PupilInClass> response = pupilInClassService.getPupilInClasses();
+        List<PupilInClass> response = pupilInClassService.get();
         ResponseEntity<List<PupilInClassDetailsDto>> responseEntity = ResponseEntity.ok(pupilInClassMapper.mapList(response));
 
         log.info("Successfully executed get pupils in class rest API, response entity - {}", responseEntity);
@@ -43,30 +43,30 @@ public class PupilInClassController {
 
         Optional<ErrorType> optionalErrorType = pupilInClassValidator.validateCreate(requestDto);
 
-        if (optionalErrorType.isEmpty()) {
+        if (optionalErrorType.isPresent()) {
+            PupilInClassDetailsDto pupilInClassDetailsDto = new PupilInClassDetailsDto();
+            pupilInClassDetailsDto.setErrorType(optionalErrorType.get());
+            log.info("Executing create pupil in class failed, error-{}", optionalErrorType.get());
+            return ResponseEntity.ok(pupilInClassDetailsDto);
+        } else {
             CreatePupilInClassParams params = new CreatePupilInClassParams(
                     requestDto.getSchoolClassId(),
                     requestDto.getPupilId()
             );
 
-            PupilInClass response = pupilInClassService.addPupil(params);
+            PupilInClass response = pupilInClassService.add(params);
             ResponseEntity<PupilInClassDetailsDto> responseEntity = ResponseEntity.ok(pupilInClassMapper.map(response));
 
             log.info("Successfully executed add pupil in class rest API, response entity - {}", responseEntity);
             return responseEntity;
         }
-
-        PupilInClassDetailsDto pupilInClassDetailsDto = new PupilInClassDetailsDto();
-        pupilInClassDetailsDto.setErrorType(optionalErrorType.get());
-        log.info("Executing create pupil in class failed, error-{}", optionalErrorType.get());
-        return ResponseEntity.ok(pupilInClassDetailsDto);
     }
 
     @GetMapping("/classes/{classId}")
     public ResponseEntity<List<PupilInClassDetailsDto>> getPupilsByClassId(@PathVariable("classId") Long classId) {
         log.info("Executing get pupil in class by class id-{}", classId);
 
-        List<PupilInClass> response = pupilInClassService.getPupilsBySchoolClassId(classId);
+        List<PupilInClass> response = pupilInClassService.getBySchoolClassId(classId);
         ResponseEntity<List<PupilInClassDetailsDto>> responseEntity = ResponseEntity.ok(pupilInClassMapper.mapList(response));
 
         log.info("Successfully executed get pupil in class by class id rest API, response entity - {}", responseEntity);
@@ -77,7 +77,7 @@ public class PupilInClassController {
     public ResponseEntity<PupilInClassDetailsDto> deletePupilById(@PathVariable("pupilId") Long pupilId) {
         log.info("Executing delete pupil in class by id-{}", pupilId);
 
-        PupilInClass response = pupilInClassService.deletePupilById(pupilId);
+        PupilInClass response = pupilInClassService.deleteById(pupilId);
 
         PupilInClassDetailsDto pupilInClassDetailsDto = pupilInClassMapper.map(response);
 

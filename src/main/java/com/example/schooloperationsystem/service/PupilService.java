@@ -6,9 +6,9 @@ import com.example.schooloperationsystem.service.params.CreatePupilParams;
 import java.util.List;
 
 public interface PupilService {
-    List<Pupil> getPupils();
+    List<Pupil> get();
 
-    Pupil addPupil(CreatePupilParams params);
+    Pupil add(CreatePupilParams params);
 
-    Pupil getPupilById(Long id);
+    Pupil getById(Long id);
 }

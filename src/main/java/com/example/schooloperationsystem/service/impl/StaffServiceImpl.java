@@ -21,7 +21,7 @@ class StaffServiceImpl implements StaffService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Staff> getStaff() {
+    public List<Staff> get() {
         log.debug("Executing get all staff");
 
         List<Staff> staffList = repository.findAll();
@@ -32,7 +32,7 @@ class StaffServiceImpl implements StaffService {
 
     @Override
     @Transactional
-    public Staff addStaff(CreateStaffParams params) {
+    public Staff add(CreateStaffParams params) {
         log.debug("Executing add staff, params-{}", params);
 
         Staff staff = new Staff();

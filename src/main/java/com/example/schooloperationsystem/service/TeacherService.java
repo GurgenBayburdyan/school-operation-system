@@ -6,7 +6,7 @@ import com.example.schooloperationsystem.service.params.CreateTeacherParams;
 import java.util.List;
 
 public interface TeacherService {
-    List<Teacher> getTeachers();
+    List<Teacher> get();
 
     Teacher create(CreateTeacherParams params);
 

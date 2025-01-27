@@ -27,7 +27,7 @@ class PupilInClassServiceImpl implements PupilInClassService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<PupilInClass> getPupilInClasses() {
+    public List<PupilInClass> get() {
         log.debug("Executing get all pupil in classes");
 
         List<PupilInClass> pupilInClasses = repository.findAll();
@@ -38,11 +38,11 @@ class PupilInClassServiceImpl implements PupilInClassService {
 
     @Override
     @Transactional
-    public PupilInClass addPupil(CreatePupilInClassParams params) {
+    public PupilInClass add(CreatePupilInClassParams params) {
         log.debug("Executing add pupil in class, params-{}", params);
 
-        Pupil pupil = pupilService.getPupilById(params.getPupilId());
-        SchoolClass schoolClass = schoolClassService.getClassById(params.getSchoolClassId());
+        Pupil pupil = pupilService.getById(params.getPupilId());
+        SchoolClass schoolClass = schoolClassService.getById(params.getSchoolClassId());
 
         PupilInClass pupilInClass = new PupilInClass();
 
@@ -55,7 +55,7 @@ class PupilInClassServiceImpl implements PupilInClassService {
 
     @Override
     @Transactional
-    public PupilInClass deletePupilById(Long id) {
+    public PupilInClass deleteById(Long id) {
         log.debug("Executing delete pupil in class by id, id-{}", id);
 
         Optional<PupilInClass> pupilInClassOptional = repository.findById(id);
@@ -74,7 +74,7 @@ class PupilInClassServiceImpl implements PupilInClassService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<PupilInClass> getPupilsBySchoolClassId(Long schoolClassId) {
+    public List<PupilInClass> getBySchoolClassId(Long schoolClassId) {
         log.debug("Executing get pupils in class by class id, id-{}", schoolClassId);
 
         List<PupilInClass> pupilInClasses = repository.getBySchoolClassId(schoolClassId);

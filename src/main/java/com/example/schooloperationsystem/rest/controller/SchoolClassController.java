@@ -30,7 +30,7 @@ public class SchoolClassController {
     public ResponseEntity<List<SchoolClassDetailsDto>> getClasses() {
         log.info("Executing get all classes rest API");
 
-        List<SchoolClass> response = classService.getClasses();
+        List<SchoolClass> response = classService.get();
         ResponseEntity<List<SchoolClassDetailsDto>> responseEntity = ResponseEntity.ok(classMapper.mapList(response));
 
         log.info("Successfully executed get classes rest API, response entity - {}", responseEntity);
@@ -43,20 +43,20 @@ public class SchoolClassController {
 
         Optional<ErrorType> optionalErrorType = schoolClassValidator.validateCreate(requestDto);
 
-        if (optionalErrorType.isEmpty()) {
+        if (optionalErrorType.isPresent()) {
+            SchoolClassDetailsDto schoolClassDetailsDto = new SchoolClassDetailsDto();
+            schoolClassDetailsDto.setErrorType(optionalErrorType.get());
+            log.info("Executing create class failed, error-{}", optionalErrorType.get());
+            return ResponseEntity.ok(schoolClassDetailsDto);
+        } else {
             CreateSchoolClassParams params = new CreateSchoolClassParams(
                     requestDto.getClassLetter(),
                     requestDto.getGrade()
             );
-            SchoolClass response = classService.addClass(params);
+            SchoolClass response = classService.add(params);
             ResponseEntity<SchoolClassDetailsDto> responseEntity = ResponseEntity.ok(classMapper.mapToSchoolClassDetailsDto(response));
             log.info("Successfully executed create staff rest API, response entity - {}", responseEntity);
             return responseEntity;
         }
-
-        SchoolClassDetailsDto schoolClassDetailsDto = new SchoolClassDetailsDto();
-        schoolClassDetailsDto.setErrorType(optionalErrorType.get());
-        log.info("Executing create class failed, error-{}", optionalErrorType.get());
-        return ResponseEntity.ok(schoolClassDetailsDto);
     }
 }

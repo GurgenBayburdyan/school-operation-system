@@ -30,11 +30,11 @@ public class TeacherController {
     public ResponseEntity<List<TeacherDetailsDto>> getAllTeachers() {
         log.info("Executing get all teachers rest API");
 
-        List<Teacher> response = service.getTeachers();
+        List<Teacher> response = service.get();
 
-        //todo please log response entity not response dto
-        log.info("Successfully executed get teachers rest API, response entity - {}", response);
-        return ResponseEntity.ok(mapper.mapList(response));
+        ResponseEntity<List<TeacherDetailsDto>> responseEntity = ResponseEntity.ok(mapper.mapList(response));
+        log.info("Successfully executed get teachers rest API, response entity - {}", responseEntity);
+        return responseEntity;
     }
 
     @PostMapping
@@ -43,7 +43,12 @@ public class TeacherController {
 
         Optional<ErrorType> optionalErrorType = teacherValidator.validateCreate(requestDto);
 
-        if (optionalErrorType.isEmpty()) {
+        if (optionalErrorType.isPresent()) {
+            TeacherDetailsDto teacherDetailsDto = new TeacherDetailsDto();
+            teacherDetailsDto.setErrorType(optionalErrorType.get());
+            log.info("Executing create teacher failed, error-{}", optionalErrorType.get());
+            return ResponseEntity.ok(teacherDetailsDto);
+        } else {
             CreateTeacherParams params = new CreateTeacherParams(
                     requestDto.getStaffId()
             );
@@ -52,11 +57,5 @@ public class TeacherController {
             log.info("Successfully executed create teacher rest API, response entity - {}", responseEntity);
             return responseEntity;
         }
-
-        TeacherDetailsDto teacherDetailsDto = new TeacherDetailsDto();
-        teacherDetailsDto.setErrorType(optionalErrorType.get());
-        log.info("Executing create teacher failed, error-{}", optionalErrorType.get());
-        return ResponseEntity.ok(teacherDetailsDto);
     }
-
 }

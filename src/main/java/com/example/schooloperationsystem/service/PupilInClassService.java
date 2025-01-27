@@ -6,11 +6,11 @@ import com.example.schooloperationsystem.service.params.CreatePupilInClassParams
 import java.util.List;
 
 public interface PupilInClassService {
-    List<PupilInClass> getPupilInClasses();
+    List<PupilInClass> get();
 
-    PupilInClass addPupil(CreatePupilInClassParams params);
+    PupilInClass add(CreatePupilInClassParams params);
 
-    PupilInClass deletePupilById(Long id);
+    PupilInClass deleteById(Long id);
 
-    List<PupilInClass> getPupilsBySchoolClassId(Long schoolClassId);
+    List<PupilInClass> getBySchoolClassId(Long schoolClassId);
 }

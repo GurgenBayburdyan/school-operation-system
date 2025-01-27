@@ -30,7 +30,7 @@ public class StaffController {
     public ResponseEntity<List<StaffDetailsDto>> getAllStaff() {
         log.info("Executing get all staff rest API");
 
-        List<Staff> response = service.getStaff();
+        List<Staff> response = service.get();
         ResponseEntity<List<StaffDetailsDto>> responseEntity = ResponseEntity.ok(mapper.mapList(response));
 
         log.info("Successfully executed get staff rest API, response entity - {}", responseEntity);
@@ -43,22 +43,21 @@ public class StaffController {
 
         Optional<ErrorType> optionalErrorType = staffValidator.validateCreate(requestDto);
 
-        if (optionalErrorType.isEmpty())  {
+        if (optionalErrorType.isPresent()) {
+            StaffDetailsDto staffDetailsDto = new StaffDetailsDto();
+            staffDetailsDto.setErrorType(optionalErrorType.get());
+            log.info("Executing create staff failed, error-{}", optionalErrorType.get());
+            return ResponseEntity.ok(staffDetailsDto);
+        } else {
             CreateStaffParams params = new CreateStaffParams(
                     requestDto.getFirstName(),
                     requestDto.getLastName(),
                     requestDto.getDateOfBirth()
             );
-            Staff response = service.addStaff(params);
+            Staff response = service.add(params);
             ResponseEntity<StaffDetailsDto> responseEntity = ResponseEntity.ok(mapper.mapToStaffDetailsDto(response));
             log.info("Successfully executed create staff rest API, response entity - {}", responseEntity);
             return responseEntity;
         }
-
-        StaffDetailsDto staffDetailsDto = new StaffDetailsDto();
-        staffDetailsDto.setErrorType(optionalErrorType.get());
-        log.info("Executing create staff failed, error-{}", optionalErrorType.get());
-        return ResponseEntity.ok(staffDetailsDto);
     }
-
 }

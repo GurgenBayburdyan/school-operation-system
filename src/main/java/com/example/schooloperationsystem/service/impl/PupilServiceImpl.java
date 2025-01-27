@@ -20,7 +20,7 @@ class PupilServiceImpl implements PupilService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Pupil> getPupils() {
+    public List<Pupil> get() {
         log.debug("Executing get all pupils");
 
         List<Pupil> pupils = repository.findAll();
@@ -31,7 +31,7 @@ class PupilServiceImpl implements PupilService {
 
     @Override
     @Transactional
-    public Pupil addPupil(CreatePupilParams params) {
+    public Pupil add(CreatePupilParams params) {
         log.debug("Executing add pupil, params-{}", params);
 
         Pupil pupil = new Pupil();
@@ -45,7 +45,7 @@ class PupilServiceImpl implements PupilService {
 
     @Override
     @Transactional(readOnly = true)
-    public Pupil getPupilById(Long id) {
+    public Pupil getById(Long id) {
         log.debug("Executing get pupil by id, id-{}", id);
 
         Pupil pupil = repository.getReferenceById(id);

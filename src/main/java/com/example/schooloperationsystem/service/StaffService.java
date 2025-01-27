@@ -6,9 +6,9 @@ import com.example.schooloperationsystem.service.params.CreateStaffParams;
 import java.util.List;
 
 public interface StaffService {
-    List<Staff> getStaff();
+    List<Staff> get();
 
-    Staff addStaff(CreateStaffParams params);
+    Staff add(CreateStaffParams params);
 
     Staff getById(Long id);
 }

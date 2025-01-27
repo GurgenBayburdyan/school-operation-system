@@ -7,9 +7,9 @@ import java.util.List;
 
 
 public interface SchoolClassService {
-    List<SchoolClass> getClasses();
+    List<SchoolClass> get();
 
-    SchoolClass addClass(CreateSchoolClassParams params);
+    SchoolClass add(CreateSchoolClassParams params);
 
-    SchoolClass getClassById(Long id);
+    SchoolClass getById(Long id);
 }

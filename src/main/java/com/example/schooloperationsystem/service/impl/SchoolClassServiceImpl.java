@@ -20,7 +20,7 @@ class SchoolClassServiceImpl implements SchoolClassService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<SchoolClass> getClasses() {
+    public List<SchoolClass> get() {
         log.debug("Executing get all school classes");
 
         List<SchoolClass> classes = repository.findAll();
@@ -31,7 +31,7 @@ class SchoolClassServiceImpl implements SchoolClassService {
 
     @Override
     @Transactional
-    public SchoolClass addClass(CreateSchoolClassParams params) {
+    public SchoolClass add(CreateSchoolClassParams params) {
         log.debug("Executing add school class, params-{}", params);
 
         SchoolClass classEntity = new SchoolClass();
@@ -45,18 +45,13 @@ class SchoolClassServiceImpl implements SchoolClassService {
 
     @Override
     @Transactional(readOnly = true)
-    public SchoolClass getClassById(Long id) {
+    public SchoolClass getById(Long id) {
         log.debug("Executing get school class by id, id-{}", id);
 
-        SchoolClass schoolClass = repository.findById(id).orElse(null); //todo please use getOrElseThrow
+        SchoolClass schoolClass = repository.findById(id).orElseThrow();
 
-        if (schoolClass != null) {
-            log.debug("Successfully executed get school class by id, {}", schoolClass);
-            return schoolClass;
-        } else {
-            log.debug("No school class found with id-{}", id);
-        }
+        log.debug("Successfully executed get school class by id, {}", schoolClass);
+        return schoolClass;
 
-        return null;
     }
 }

@@ -30,7 +30,7 @@ public class HeadMasterController {
     public ResponseEntity<List<HeadMasterDetailsDto>> getAllHeadMasters() {
         log.info("Executing get all head masters rest API");
 
-        List<HeadMaster> response = headMasterService.getHeadMasters();
+        List<HeadMaster> response = headMasterService.get();
         ResponseEntity<List<HeadMasterDetailsDto>> responseEntity = ResponseEntity.ok(headMasterMapper.mapList(response));
 
         log.info("Successfully executed get all head masters rest API, response entity - {}", responseEntity);
@@ -42,22 +42,24 @@ public class HeadMasterController {
         log.info("Executing create head master for the provided request to - {}:", requestDto);
 
         Optional<ErrorType> optionalErrorType = headMasterValidator.validateCreate(requestDto);
-        if (optionalErrorType.isEmpty()) {
+
+        if (optionalErrorType.isPresent()) {
+            HeadMasterDetailsDto headMasterDetailsDto = new HeadMasterDetailsDto();
+            headMasterDetailsDto.setErrorType(optionalErrorType.get());
+            log.info("Executing create headmaster failed, error-{}", optionalErrorType.get());
+            return ResponseEntity.ok(headMasterDetailsDto);
+        } else {
             CreateHeadMasterParams params = new CreateHeadMasterParams(
                     requestDto.getTeacherId(),
                     requestDto.getClassId()
             );
 
-            HeadMaster headMaster = headMasterService.addHeadMaster(params);
+            HeadMaster headMaster = headMasterService.add(params);
             ResponseEntity<HeadMasterDetailsDto> responseEntity = ResponseEntity.ok(headMasterMapper.map(headMaster));
 
             log.info("Successfully executed create head master rest API, response entity - {}", responseEntity);
             return responseEntity;
         }
 
-        HeadMasterDetailsDto headMasterDetailsDto = new HeadMasterDetailsDto();
-        headMasterDetailsDto.setErrorType(optionalErrorType.get());
-        log.info("Executing create headmaster failed, error-{}", optionalErrorType.get());
-        return ResponseEntity.ok(headMasterDetailsDto);
     }
 }

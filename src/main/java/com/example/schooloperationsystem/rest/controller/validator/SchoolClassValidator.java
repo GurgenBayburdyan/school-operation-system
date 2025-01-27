@@ -5,15 +5,8 @@ import com.example.schooloperationsystem.rest.dto.response.ErrorType;
 
 import java.util.Optional;
 
-public class SchoolClassValidator {
+public interface SchoolClassValidator {
 
-    public Optional<ErrorType> validateCreate(CreateSchoolClassRequestDto requestDto) {
-        if (requestDto.getGrade() == null) {
-            return Optional.of(ErrorType.MISSING_GRADE);
-        } else if (requestDto.getClassLetter() == null) {
-            return Optional.of(ErrorType.MISSING_CLASS_LETTER);
-        }
-        return Optional.empty();
-    }
+    Optional<ErrorType> validateCreate(CreateSchoolClassRequestDto requestDto);
 
 }

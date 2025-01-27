@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface HeadMasterService {
 
-    List<HeadMaster> getHeadMasters();
+    List<HeadMaster> get();
 
-    HeadMaster addHeadMaster(CreateHeadMasterParams params);
+    HeadMaster add(CreateHeadMasterParams params);
 
 }

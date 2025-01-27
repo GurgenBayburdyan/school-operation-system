@@ -14,17 +14,22 @@ import java.util.Optional;
 @Component
 @AllArgsConstructor
 @Slf4j
+    //todo must be package private
 public class PupilInClassValidatorImpl implements PupilInClassValidator {
 
     private final PupilService pupilService;
     private final SchoolClassService schoolClassService;
 
     public Optional<ErrorType> validateCreate(CreatePupilInClassRequestDto requestDto) {
+        //todo please change traco to debug
         log.trace("Executing validate create for request-{}", requestDto);
 
         if (requestDto.getPupilId() == null) {
             log.trace("Validation failed: Missing pupil id");
             return Optional.of(ErrorType.MISSING_PUPIL_ID);
+        //todo if else blocks are too much. there is no need to write else, because if will stop the method
+            //todo all getById methods must throw an exception if the entity not found
+            //todo for now we can replace getById with existsById
         } else if (pupilService.getById(requestDto.getPupilId()) == null) {
             log.trace("Validation failed: No pupil with id-{}", requestDto.getPupilId());
             return Optional.of(ErrorType.PUPIL_NOT_FOUND);

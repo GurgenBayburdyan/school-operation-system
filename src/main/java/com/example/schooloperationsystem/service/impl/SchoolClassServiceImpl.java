@@ -57,7 +57,7 @@ class SchoolClassServiceImpl implements SchoolClassService {
 
     @Override
     @Transactional(readOnly = true)
-    public boolean existsById(Long id) {
+    public Boolean existsById(Long id) {
         return repository.existsById(id);
     }
 }

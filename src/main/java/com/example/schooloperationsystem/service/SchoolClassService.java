@@ -13,5 +13,5 @@ public interface SchoolClassService {
 
     SchoolClass getById(Long id);
 
-    boolean existsById(Long id);
+    Boolean existsById(Long id);
 }

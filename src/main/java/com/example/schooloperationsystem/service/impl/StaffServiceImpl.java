@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -60,7 +61,26 @@ class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public boolean existsById(Long id) {
+    @Transactional
+    public Staff deleteById(Long id) {
+        log.debug("Executing delete staff by id, id-{}", id);
+
+        Optional<Staff> staffOptional = repository.findById(id);
+
+        if (staffOptional.isPresent()) {
+            Staff staff = staffOptional.get();
+            repository.delete(staff);
+
+            log.debug("Successfully executed delete staff, {}", staff);
+            return staff;
+        }
+
+        log.debug("No staff with id-{}", id);
+        return null;
+    }
+
+    @Override
+    public Boolean existsById(Long id) {
         return repository.existsById(id);
     }
 }

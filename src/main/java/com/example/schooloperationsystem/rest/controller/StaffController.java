@@ -60,4 +60,22 @@ public class StaffController {
             return responseEntity;
         }
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<StaffDetailsDto> delete(@PathVariable("id") Long id) {
+        log.info("Executing delete staff by id-{}", id);
+
+        Staff response = service.deleteById(id);
+
+        StaffDetailsDto staffDetailsDto = mapper.mapToStaffDetailsDto(response);
+
+        if (response == null) {
+            staffDetailsDto.setErrorType(ErrorType.STAFF_NOT_FOUND);
+        }
+
+        ResponseEntity<StaffDetailsDto> responseEntity = ResponseEntity.ok(staffDetailsDto);
+
+        log.info("Successfully executed delete staff by id rest API, response entity - {}", responseEntity);
+        return responseEntity;
+    }
 }

@@ -12,5 +12,5 @@ public interface PupilService {
 
     Pupil getById(Long id);
 
-    boolean existsById(Long id);
+    Boolean existsById(Long id);
 }

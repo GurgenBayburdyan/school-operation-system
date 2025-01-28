@@ -65,7 +65,7 @@ class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public boolean existsById(Long id) {
+    public Boolean existsById(Long id) {
         return repository.existsById(id);
     }
 }

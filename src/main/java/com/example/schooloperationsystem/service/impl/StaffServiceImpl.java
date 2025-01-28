@@ -1,7 +1,10 @@
 package com.example.schooloperationsystem.service.impl;
 
 import com.example.schooloperationsystem.entity.Staff;
+import com.example.schooloperationsystem.entity.Teacher;
+import com.example.schooloperationsystem.repository.HeadMasterRepository;
 import com.example.schooloperationsystem.repository.StaffRepository;
+import com.example.schooloperationsystem.repository.TeacherRepository;
 import com.example.schooloperationsystem.service.StaffService;
 import com.example.schooloperationsystem.service.params.CreateStaffParams;
 import jakarta.persistence.EntityNotFoundException;
@@ -19,6 +22,9 @@ import java.util.Optional;
 class StaffServiceImpl implements StaffService {
 
     private final StaffRepository repository;
+    private final TeacherRepository teacherRepository;
+    private final HeadMasterRepository headMasterRepository;
+
 
     @Override
     @Transactional(readOnly = true)
@@ -69,6 +75,13 @@ class StaffServiceImpl implements StaffService {
 
         if (staffOptional.isPresent()) {
             Staff staff = staffOptional.get();
+
+            Optional<Teacher> teacherOptional = teacherRepository.findById(id);
+
+            headMasterRepository.deleteByTeacher(teacherOptional.orElseThrow());
+
+            teacherRepository.deleteByStaff(staff);
+
             repository.delete(staff);
 
             log.debug("Successfully executed delete staff, {}", staff);

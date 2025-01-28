@@ -25,7 +25,7 @@ public class TeacherValidatorImpl implements TeacherValidator {
             return Optional.of(ErrorType.MISSING_STAFF_ID);
         }
 
-        if (staffService.existsById(requestDto.getStaffId())) {
+        if (!staffService.existsById(requestDto.getStaffId())) {
             log.debug("Validation failed: No staff with id-{}", requestDto.getStaffId());
             return Optional.of(ErrorType.STAFF_NOT_FOUND);
         }

@@ -42,6 +42,8 @@ public class PupilController {
     public ResponseEntity<PupilDetailsDto> addPupil(@RequestBody CreatePupilRequestDto requestDto) {
         log.info("Executing add pupil for the provided request to - {}:", requestDto);
 
+        //todo Please create PupilFacade interface and DefaultPupilFacade class that has PupilDetailsDto addPupil(CreatePupilRequestDto ) method;
+        //please do the same for all controllers and controller methods
         final Optional<ErrorType> optionalErrorType = pupilValidator.validateCreate(requestDto);
 
         if (optionalErrorType.isPresent()) {

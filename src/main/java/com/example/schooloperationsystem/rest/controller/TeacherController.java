@@ -1,10 +1,12 @@
 package com.example.schooloperationsystem.rest.controller;
 
+import com.example.schooloperationsystem.entity.PupilInClass;
 import com.example.schooloperationsystem.rest.controller.validator.TeacherValidator;
 import com.example.schooloperationsystem.rest.dto.response.ErrorType;
 import com.example.schooloperationsystem.entity.Teacher;
 import com.example.schooloperationsystem.mapper.TeacherMapper;
 import com.example.schooloperationsystem.rest.dto.request.CreateTeacherRequestDto;
+import com.example.schooloperationsystem.rest.dto.response.PupilInClassDetailsDto;
 import com.example.schooloperationsystem.rest.dto.response.TeacherDetailsDto;
 import com.example.schooloperationsystem.service.TeacherService;
 import com.example.schooloperationsystem.service.params.CreateTeacherParams;
@@ -57,5 +59,24 @@ public class TeacherController {
             log.info("Successfully executed create teacher rest API, response entity - {}", responseEntity);
             return responseEntity;
         }
+    }
+
+    @GetMapping("/{staffId}")
+    public ResponseEntity<TeacherDetailsDto> getByStaffId(@PathVariable("staffId") Long staffId) {
+        log.info("Executing get teacher by staff id-{}", staffId);
+
+        Teacher response = service.getByStaffId(staffId);
+
+        if (response == null) {
+            TeacherDetailsDto teacherDetailsDto=new TeacherDetailsDto();
+            teacherDetailsDto.setErrorType(ErrorType.TEACHER_NOT_FOUND);
+            return ResponseEntity.ok(teacherDetailsDto);
+        }
+
+        TeacherDetailsDto teacherDetailsDto = mapper.mapToTeacherDetailsDto(response);
+        ResponseEntity<TeacherDetailsDto> responseEntity = ResponseEntity.ok(teacherDetailsDto);
+
+        log.info("Successfully executed get teacher by staff id rest API, response entity - {}", responseEntity);
+        return responseEntity;
     }
 }

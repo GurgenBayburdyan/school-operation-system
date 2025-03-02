@@ -24,6 +24,7 @@ public class TeacherMapper {
 
         Staff staff = teacher.getStaff();
         TeacherDetailsDto detailsDto = new TeacherDetailsDto();
+        detailsDto.setId(teacher.getId());
         detailsDto.setFirstName(staff.getFirstName());
         detailsDto.setLastName(staff.getLastName());
         detailsDto.setDateOfBirth(staff.getDateOfBirth());
@@ -41,15 +42,15 @@ public class TeacherMapper {
         return detailsDtos;
     }
 
-    public TeacherDto mapToTeacherDto(Teacher teacher) {
-        log.trace("Mapping teacher - {} to teacher dto", teacher);
-        TeacherDto teacherDto = new TeacherDto();
-        Staff staff = teacher.getStaff();
-
-        StaffDto staffDto = staffMapper.mapToStaffDto(staff);
-
-        teacherDto.setStaffDto(staffDto);
-        log.trace("Mapped teacher dto {}", teacherDto);
-        return teacherDto;
-    }
+//    public TeacherDto mapToTeacherDto(Teacher teacher) {
+//        log.trace("Mapping teacher - {} to teacher dto", teacher);
+//        TeacherDto teacherDto = new TeacherDto();
+//        Staff staff = teacher.getStaff();
+//
+//        StaffDto staffDto = staffMapper.mapToStaffDto(staff);
+//
+//        teacherDto.setStaffDto(staffDto);
+//        log.trace("Mapped teacher dto {}", teacherDto);
+//        return teacherDto;
+//    }
 }

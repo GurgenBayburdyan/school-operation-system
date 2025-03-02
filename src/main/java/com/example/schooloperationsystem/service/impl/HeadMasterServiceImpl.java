@@ -1,6 +1,7 @@
 package com.example.schooloperationsystem.service.impl;
 
 import com.example.schooloperationsystem.entity.HeadMaster;
+import com.example.schooloperationsystem.entity.PupilInClass;
 import com.example.schooloperationsystem.entity.SchoolClass;
 import com.example.schooloperationsystem.repository.HeadMasterRepository;
 import com.example.schooloperationsystem.service.HeadMasterService;
@@ -39,7 +40,9 @@ class HeadMasterServiceImpl implements HeadMasterService {
     @Transactional
     public HeadMaster add(CreateHeadMasterParams params) {
         log.debug("Executing add headmaster, params-{}", params);
+        
         HeadMaster headMaster = new HeadMaster();
+
         Teacher teacher = teacherService.getById(params.getTeacherId());
 
         SchoolClass schoolClass = schoolClassService.getById(params.getSchoolClassId());
@@ -49,6 +52,23 @@ class HeadMasterServiceImpl implements HeadMasterService {
 
         log.debug("Successfully executed add headmaster, {}", headMaster);
         return repository.save(headMaster);
+    }
+
+    @Override
+    @Transactional
+    public void deleteByTeacherId(Long teacherId) {
+        repository.deleteByTeacher_Id(teacherId);
+    }
+
+    @Override
+    @Transactional
+    public HeadMaster getByTeacherId(Long teacherId) {
+        log.debug("Executing get head master by teacher id, id-{}", teacherId);
+
+        HeadMaster headMaster = repository.findByTeacher_Id(teacherId);
+
+        log.debug("Successfully executed get head master by teacher id, {}", headMaster);
+        return headMaster;
     }
 
 }

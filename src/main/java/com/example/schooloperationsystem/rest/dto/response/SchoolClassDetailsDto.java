@@ -9,10 +9,17 @@ import lombok.ToString;
 @Setter
 @ToString
 public class SchoolClassDetailsDto  extends AbstractErrorAwareDetailsDto {
+
+    @JsonProperty("id")
+    private Long id;
+
     @JsonProperty("grade")
     private Integer grade;
 
     @JsonProperty("classLetter")
     private Character classLetter;
+
+    @JsonProperty("schoolId")
+    private Long schoolId;
 
 }

@@ -30,6 +30,11 @@ public class PupilValidatorImpl implements PupilValidator {
             return Optional.of(ErrorType.MISSING_DATE_OF_BIRTH);
         }
 
+        if (requestDto.getSchoolId() == null) {
+            log.debug("Validation failed: Missing school id");
+            return Optional.of(ErrorType.MISSING_SCHOOL_ID);
+        }
+
         log.debug("Validation executed successfully");
         return Optional.empty();
     }

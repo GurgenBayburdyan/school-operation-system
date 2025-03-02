@@ -9,6 +9,7 @@ import lombok.ToString;
 @Getter
 @ToString
 public class CreatePupilInClassRequestDto {
+
     @JsonProperty("schoolClassId")
     private Long schoolClassId;
 

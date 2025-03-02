@@ -6,6 +6,7 @@ import com.example.schooloperationsystem.entity.SchoolClass;
 import com.example.schooloperationsystem.mapper.SchoolClassMapper;
 import com.example.schooloperationsystem.rest.dto.request.CreateSchoolClassRequestDto;
 import com.example.schooloperationsystem.rest.dto.response.SchoolClassDetailsDto;
+import com.example.schooloperationsystem.rest.facade.SchoolClassFacade;
 import com.example.schooloperationsystem.service.SchoolClassService;
 import com.example.schooloperationsystem.service.params.CreateSchoolClassParams;
 import lombok.AllArgsConstructor;
@@ -22,41 +23,20 @@ import java.util.Optional;
 @RequestMapping("/classes")
 public class SchoolClassController {
 
-    private final SchoolClassService classService;
-    private final SchoolClassMapper classMapper;
-    private final SchoolClassValidator schoolClassValidator;
+    private final SchoolClassFacade schoolClassFacade;
 
     @GetMapping
     public ResponseEntity<List<SchoolClassDetailsDto>> getClasses() {
-        log.info("Executing get all classes rest API");
-
-        List<SchoolClass> response = classService.get();
-        ResponseEntity<List<SchoolClassDetailsDto>> responseEntity = ResponseEntity.ok(classMapper.mapList(response));
-
-        log.info("Successfully executed get classes rest API, response entity - {}", responseEntity);
-        return responseEntity;
+        return ResponseEntity.ok(schoolClassFacade.getClasses());
     }
 
     @PostMapping
-    public ResponseEntity<SchoolClassDetailsDto> create(@RequestBody CreateSchoolClassRequestDto requestDto) {
-        log.info("Executing create class for the provided request to - {}", requestDto);
+    public ResponseEntity<SchoolClassDetailsDto> createClass(@RequestBody CreateSchoolClassRequestDto requestDto) {
+        return ResponseEntity.ok(schoolClassFacade.createClass(requestDto));
+    }
 
-        Optional<ErrorType> optionalErrorType = schoolClassValidator.validateCreate(requestDto);
-
-        if (optionalErrorType.isPresent()) {
-            SchoolClassDetailsDto schoolClassDetailsDto = new SchoolClassDetailsDto();
-            schoolClassDetailsDto.setErrorType(optionalErrorType.get());
-            log.info("Executing create class failed, error-{}", optionalErrorType.get());
-            return ResponseEntity.ok(schoolClassDetailsDto);
-        } else {
-            CreateSchoolClassParams params = new CreateSchoolClassParams(
-                    requestDto.getClassLetter(),
-                    requestDto.getGrade()
-            );
-            SchoolClass response = classService.add(params);
-            ResponseEntity<SchoolClassDetailsDto> responseEntity = ResponseEntity.ok(classMapper.mapToSchoolClassDetailsDto(response));
-            log.info("Successfully executed create staff rest API, response entity - {}", responseEntity);
-            return responseEntity;
-        }
+    @GetMapping("/{id}")
+    public ResponseEntity<SchoolClassDetailsDto> getClassById(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(schoolClassFacade.getClassById(id));
     }
 }

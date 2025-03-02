@@ -19,4 +19,7 @@ public class CreateStaffRequestDto {
 
     @JsonProperty("dateOfBirth")
     private LocalDateTime dateOfBirth;
+
+    @JsonProperty("schoolId")
+    private Long schoolId;
 }

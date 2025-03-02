@@ -25,4 +25,11 @@ public class Pupil {
 
     @Column(name = "date_Of_Birth", nullable = false)
     private LocalDateTime dateOfBirth;
+
+    @ManyToOne
+    @JoinColumn(name = "school_id", nullable = false)
+    private School school;
+
+    private LocalDateTime deletedAt;
+
 }

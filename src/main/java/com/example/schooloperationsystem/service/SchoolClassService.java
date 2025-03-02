@@ -2,6 +2,7 @@ package com.example.schooloperationsystem.service;
 
 import com.example.schooloperationsystem.service.params.CreateSchoolClassParams;
 import com.example.schooloperationsystem.entity.SchoolClass;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,4 +15,8 @@ public interface SchoolClassService {
     SchoolClass getById(Long id);
 
     Boolean existsById(Long id);
+
+    List<SchoolClass> getBySchoolId(Long schoolId);
+
+    SchoolClass deleteById(Long id);
 }

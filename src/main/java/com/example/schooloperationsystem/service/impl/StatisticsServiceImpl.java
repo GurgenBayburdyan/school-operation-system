@@ -1,10 +1,12 @@
 package com.example.schooloperationsystem.service.impl;
 
 import com.example.schooloperationsystem.entity.PupilInClass;
+import com.example.schooloperationsystem.entity.School;
 import com.example.schooloperationsystem.service.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,8 +21,10 @@ public class StatisticsServiceImpl implements StatisticsService {
     private final StaffService staffService;
     private final SchoolClassService schoolClassService;
     private final PupilInClassService pupilInClassService;
+    private final SchoolService schoolService;
 
     @Override
+    @Transactional(readOnly = true)
     public Integer pupilCount() {
         log.debug("Executing get pupil count");
 
@@ -31,6 +35,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Integer staffCount() {
         log.debug("Executing get staff count");
 
@@ -41,6 +46,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Integer classCount() {
         log.debug("Executing get class count");
 
@@ -51,6 +57,18 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public Integer schoolCount() {
+        log.debug("Executing get school count");
+
+        int count = schoolService.get().size();
+
+        log.debug("Successfully executed get school count-{}", count);
+        return count;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Map<Long, Integer> pupilsInClasses() {
         log.debug("Executing get pupils in classes");
 
@@ -69,6 +87,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Integer maxCountOfPupilsInClass() {
         log.debug("Executing get max pupils count in class");
 
@@ -86,6 +105,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Integer minCountOfPupilsInClass() {
         log.debug("Executing get min pupils count in class");
 

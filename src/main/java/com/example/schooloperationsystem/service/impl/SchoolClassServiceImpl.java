@@ -1,15 +1,20 @@
 package com.example.schooloperationsystem.service.impl;
 
+import com.example.schooloperationsystem.entity.School;
 import com.example.schooloperationsystem.repository.SchoolClassRepository;
 import com.example.schooloperationsystem.service.SchoolClassService;
+import com.example.schooloperationsystem.service.SchoolService;
 import com.example.schooloperationsystem.service.params.CreateSchoolClassParams;
 import com.example.schooloperationsystem.entity.SchoolClass;
+import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -17,6 +22,7 @@ import java.util.List;
 class SchoolClassServiceImpl implements SchoolClassService {
 
     private SchoolClassRepository repository;
+    private SchoolService schoolService;
 
     @Override
     @Transactional(readOnly = true)
@@ -34,13 +40,15 @@ class SchoolClassServiceImpl implements SchoolClassService {
     public SchoolClass add(CreateSchoolClassParams params) {
         log.debug("Executing add school class, params-{}", params);
 
-        SchoolClass classEntity = new SchoolClass();
+        SchoolClass schoolClass = new SchoolClass();
+        School school = schoolService.getById(params.getSchoolId());
 
-        classEntity.setGrade(params.getGrade());
-        classEntity.setLetter(params.getClassLetter());
+        schoolClass.setGrade(params.getGrade());
+        schoolClass.setLetter(params.getClassLetter());
+        schoolClass.setSchool(school);
 
-        log.debug("Successfully executed add school class, {}", classEntity);
-        return repository.save(classEntity);
+        log.debug("Successfully executed add school class, {}", schoolClass);
+        return repository.save(schoolClass);
     }
 
     @Override
@@ -48,9 +56,14 @@ class SchoolClassServiceImpl implements SchoolClassService {
     public SchoolClass getById(Long id) {
         log.debug("Executing get school class by id, id-{}", id);
 
-        SchoolClass schoolClass = repository.findById(id).orElseThrow();
+        SchoolClass schoolClass = repository.findById(id).orElse(null);
 
-        log.debug("Successfully executed get school class by id, {}", schoolClass);
+        if (schoolClass != null) {
+            log.debug("Successfully executed get class by id, {}", schoolClass);
+        } else {
+            log.debug("No class found with id-{}", id);
+        }
+
         return schoolClass;
 
     }
@@ -59,5 +72,28 @@ class SchoolClassServiceImpl implements SchoolClassService {
     @Transactional(readOnly = true)
     public Boolean existsById(Long id) {
         return repository.existsById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<SchoolClass> getBySchoolId(Long schoolId) {
+        return repository.findBySchool_IdAndSchool_DeletedAtIsNull(schoolId);
+    }
+
+    @Override
+    public SchoolClass deleteById(Long id) {
+        log.debug("Executing delete school class by id, id-{}", id);
+
+        Optional<SchoolClass> schoolClassOptional = repository.findById(id);
+
+        if (schoolClassOptional.isPresent()) {
+            SchoolClass schoolClass = schoolClassOptional.get();
+            repository.delete(schoolClass);
+            log.debug("Successfully deleted school class, id-{}", id);
+            return schoolClass;
+        }
+
+        log.debug("No school class found with id-{}", id);
+        return null;
     }
 }

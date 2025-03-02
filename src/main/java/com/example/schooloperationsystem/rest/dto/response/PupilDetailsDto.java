@@ -12,6 +12,9 @@ import java.time.LocalDateTime;
 @ToString
 public class PupilDetailsDto  extends AbstractErrorAwareDetailsDto {
 
+    @JsonProperty("id")
+    private Long id;
+
     @JsonProperty("firstName")
     private String firstName;
 
@@ -20,4 +23,7 @@ public class PupilDetailsDto  extends AbstractErrorAwareDetailsDto {
 
     @JsonProperty("dateOfBirth")
     private LocalDateTime dateOfBirth;
+
+    @JsonProperty("schoolId")
+    private Long schoolId;
 }

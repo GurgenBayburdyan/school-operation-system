@@ -11,4 +11,7 @@ public interface HeadMasterService {
 
     HeadMaster add(CreateHeadMasterParams params);
 
+    void deleteByTeacherId(Long teacherId);
+
+    HeadMaster getByTeacherId(Long teacherId);
 }

@@ -14,4 +14,7 @@ public class CreateSchoolClassRequestDto {
 
     @JsonProperty("classLetter")
     private Character classLetter;
+
+    @JsonProperty("schoolId")
+    private Long schoolId;
 }

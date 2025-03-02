@@ -17,9 +17,11 @@ public class StaffMapper {
         log.trace("Mapping staff - {} to staff details dto", staff);
 
         StaffDetailsDto staffDetailsDto = new StaffDetailsDto();
+        staffDetailsDto.setId(staff.getId());
         staffDetailsDto.setFirstName(staff.getFirstName());
         staffDetailsDto.setLastName(staff.getLastName());
         staffDetailsDto.setDateOfBirth(staff.getDateOfBirth());
+        staffDetailsDto.setSchoolId(staff.getSchool().getId());
 
         log.trace("Mapped staff - {}", staffDetailsDto);
         return staffDetailsDto;
@@ -32,12 +34,12 @@ public class StaffMapper {
         }
         return staffDetailsDtos;
     }
-
-    public StaffDto mapToStaffDto(Staff staff) {
-        StaffDto staffDto = new StaffDto();
-        staffDto.setFirstName(staff.getFirstName());
-        staffDto.setLastName(staff.getLastName());
-        staffDto.setDateOfBirth(staff.getDateOfBirth());
-        return staffDto;
-    }
+//
+//    public StaffDto mapToStaffDto(Staff staff) {
+//        StaffDto staffDto = new StaffDto();
+//        staffDto.setFirstName(staff.getFirstName());
+//        staffDto.setLastName(staff.getLastName());
+//        staffDto.setDateOfBirth(staff.getDateOfBirth());
+//        return staffDto;
+//    }
 }

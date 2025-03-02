@@ -16,9 +16,11 @@ public class PupilMapper {
         log.trace("Mapping pupil - {} to pupil details dto", pupil);
 
         PupilDetailsDto detailsDto = new PupilDetailsDto();
+        detailsDto.setId(pupil.getId());
         detailsDto.setFirstName(pupil.getFirstName());
         detailsDto.setLastName(pupil.getLastName());
         detailsDto.setDateOfBirth(pupil.getDateOfBirth());
+        detailsDto.setSchoolId(pupil.getSchool().getId());
 
         log.trace("Mapped pupil to {}", detailsDto);
         return detailsDto;

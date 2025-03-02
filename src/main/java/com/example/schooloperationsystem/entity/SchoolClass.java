@@ -21,4 +21,8 @@ public class SchoolClass {
     @Column(name = "class_letter", nullable = false)
     private Character letter;
 
+    @ManyToOne
+    @JoinColumn(name = "school_id", nullable = false)
+    private School school;
+
 }

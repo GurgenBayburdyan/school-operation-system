@@ -55,20 +55,19 @@ class PupilInClassServiceImpl implements PupilInClassService {
 
     @Override
     @Transactional
-    public PupilInClass deleteById(Long id) {
-        log.debug("Executing delete pupil in class by id, id-{}", id);
+    public PupilInClass deleteByPupilId(Long id) {
+        log.debug("Executing delete pupil in class by pupil id, id-{}", id);
 
-        Optional<PupilInClass> pupilInClassOptional = repository.findById(id);
+        PupilInClass pupilInClass = repository.findByPupil_Id(id);
 
-        if (pupilInClassOptional.isPresent()) {
-            PupilInClass pupilInClass = pupilInClassOptional.get();
+        if (pupilInClass != null) {
             repository.delete(pupilInClass);
 
             log.debug("Successfully executed delete pupil in class, {}", pupilInClass);
             return pupilInClass;
         }
 
-        log.debug("No pupil in class with id-{}", id);
+        log.debug("No pupil in class with pupil id-{}", id);
         return null;
     }
 
@@ -81,5 +80,15 @@ class PupilInClassServiceImpl implements PupilInClassService {
 
         log.debug("Successfully executed get pupils in class by class id, {}", pupilInClasses);
         return pupilInClasses;
+    }
+
+    @Override
+    public PupilInClass getByPupilId(Long pupilId) {
+        log.debug("Executing get pupil in class by pupil id, id-{}", pupilId);
+
+        PupilInClass pupilInClass = repository.findByPupil_Id(pupilId);
+
+        log.debug("Successfully executed get pupil in class by pupil id, {}", pupilInClass);
+        return pupilInClass;
     }
 }

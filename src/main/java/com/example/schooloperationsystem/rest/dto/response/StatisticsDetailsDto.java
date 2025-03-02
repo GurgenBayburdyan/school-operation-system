@@ -30,4 +30,7 @@ public class StatisticsDetailsDto {
     @JsonProperty("minCountOfPupilsInClass")
     private Integer minCountOfPupilsInClass;
 
+    @JsonProperty("schoolCount")
+    private Integer schoolCount;
+
 }

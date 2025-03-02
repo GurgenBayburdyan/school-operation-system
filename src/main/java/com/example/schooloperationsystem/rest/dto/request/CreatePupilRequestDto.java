@@ -20,4 +20,7 @@ public class CreatePupilRequestDto {
     @JsonProperty("dateOfBirth")
     private LocalDateTime dateOfBirth;
 
+    @JsonProperty("schoolId")
+    private Long schoolId;
+
 }

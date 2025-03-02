@@ -13,4 +13,6 @@ public interface TeacherService {
     Teacher getById(Long id);
 
     Boolean existsById(Long id);
+
+    Teacher getByStaffId(Long staffId);
 }

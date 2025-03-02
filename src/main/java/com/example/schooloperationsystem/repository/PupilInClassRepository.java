@@ -1,5 +1,6 @@
 package com.example.schooloperationsystem.repository;
 
+import com.example.schooloperationsystem.entity.Pupil;
 import com.example.schooloperationsystem.entity.PupilInClass;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -11,4 +12,7 @@ public interface PupilInClassRepository extends JpaRepository<PupilInClass, Long
 
     List<PupilInClass> getBySchoolClassId(Long classId);
 
+    PupilInClass findByPupil_Id(Long pupilId);
+
+    PupilInClass findByPupil(Pupil pupil);
 }

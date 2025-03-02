@@ -19,6 +19,7 @@ public class PupilInClassMapper {
 
         Pupil pupil = pupilInClass.getPupil();
         SchoolClass schoolClass = pupilInClass.getSchoolClass();
+
         PupilInClassDetailsDto detailsDto = new PupilInClassDetailsDto();
         detailsDto.setFirstName(pupil.getFirstName());
         detailsDto.setLastName(pupil.getLastName());

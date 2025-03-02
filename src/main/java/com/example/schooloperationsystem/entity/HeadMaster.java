@@ -16,11 +16,11 @@ public class HeadMaster {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "teacher_Id", nullable = false, foreignKey = @ForeignKey(name = "FK_HEAD_MASTER_TEACHER_ID"))
     private Teacher teacher;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "class_Id", nullable = false, foreignKey = @ForeignKey(name = "FK_HEAD_MASTER_CLASS_ID"))
     private SchoolClass schoolClass;
 

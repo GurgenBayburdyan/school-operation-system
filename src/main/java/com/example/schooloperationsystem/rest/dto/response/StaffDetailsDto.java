@@ -11,6 +11,10 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 public class StaffDetailsDto  extends AbstractErrorAwareDetailsDto {
+
+    @JsonProperty("id")
+    private Long id;
+
     @JsonProperty("firstName")
     private String firstName;
 
@@ -19,4 +23,7 @@ public class StaffDetailsDto  extends AbstractErrorAwareDetailsDto {
 
     @JsonProperty("dateOfBirth")
     private LocalDateTime dateOfBirth;
+
+    @JsonProperty("schoolId")
+    private Long schoolId;
 }

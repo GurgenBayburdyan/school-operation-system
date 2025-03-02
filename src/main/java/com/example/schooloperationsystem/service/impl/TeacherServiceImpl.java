@@ -68,4 +68,10 @@ class TeacherServiceImpl implements TeacherService {
     public Boolean existsById(Long id) {
         return repository.existsById(id);
     }
+
+    @Override
+    @Transactional
+    public Teacher getByStaffId(Long staffId) {
+        return repository.findByStaff_IdAndStaff_DeletedAtIsNull(staffId);
+    }
 }

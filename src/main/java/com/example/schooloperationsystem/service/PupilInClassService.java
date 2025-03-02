@@ -1,5 +1,6 @@
 package com.example.schooloperationsystem.service;
 
+import com.example.schooloperationsystem.entity.Pupil;
 import com.example.schooloperationsystem.entity.PupilInClass;
 import com.example.schooloperationsystem.service.params.CreatePupilInClassParams;
 
@@ -10,7 +11,9 @@ public interface PupilInClassService {
 
     PupilInClass add(CreatePupilInClassParams params);
 
-    PupilInClass deleteById(Long id);
+    PupilInClass deleteByPupilId(Long id);
 
     List<PupilInClass> getBySchoolClassId(Long schoolClassId);
+
+    PupilInClass getByPupilId(Long pupilId);
 }

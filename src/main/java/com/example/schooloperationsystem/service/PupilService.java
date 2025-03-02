@@ -13,4 +13,6 @@ public interface PupilService {
     Pupil getById(Long id);
 
     Boolean existsById(Long id);
+
+    Pupil deleteById(Long id);
 }

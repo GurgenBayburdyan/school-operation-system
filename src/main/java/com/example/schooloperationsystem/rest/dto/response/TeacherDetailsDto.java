@@ -11,6 +11,10 @@ import java.time.LocalDateTime;
 @Getter
 @ToString
 public class TeacherDetailsDto extends AbstractErrorAwareDetailsDto {
+
+    @JsonProperty("id")
+    private Long id;
+
     @JsonProperty("staffId")
     private Long staffId;
 

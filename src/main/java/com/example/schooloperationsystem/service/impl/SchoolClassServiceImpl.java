@@ -6,15 +6,12 @@ import com.example.schooloperationsystem.service.SchoolClassService;
 import com.example.schooloperationsystem.service.SchoolService;
 import com.example.schooloperationsystem.service.params.CreateSchoolClassParams;
 import com.example.schooloperationsystem.entity.SchoolClass;
-import jakarta.persistence.EntityExistsException;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -81,19 +78,11 @@ class SchoolClassServiceImpl implements SchoolClassService {
     }
 
     @Override
-    public SchoolClass deleteById(Long id) {
-        log.debug("Executing delete school class by id, id-{}", id);
+    @Transactional(readOnly = true)
+    public Boolean exists(Long schoolId, Integer grade, Character letter) {
+        SchoolClass schoolClass = repository.findBySchoolIdAndGradeAndLetter(schoolId, grade, letter);
 
-        Optional<SchoolClass> schoolClassOptional = repository.findById(id);
-
-        if (schoolClassOptional.isPresent()) {
-            SchoolClass schoolClass = schoolClassOptional.get();
-            repository.delete(schoolClass);
-            log.debug("Successfully deleted school class, id-{}", id);
-            return schoolClass;
-        }
-
-        log.debug("No school class found with id-{}", id);
-        return null;
+        return schoolClass != null;
     }
+
 }

@@ -1,6 +1,5 @@
 package com.example.schooloperationsystem.service;
 
-import com.example.schooloperationsystem.entity.Pupil;
 import com.example.schooloperationsystem.entity.PupilInClass;
 import com.example.schooloperationsystem.service.params.CreatePupilInClassParams;
 

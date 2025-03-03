@@ -1,10 +1,8 @@
 package com.example.schooloperationsystem.service.impl;
 
 import com.example.schooloperationsystem.entity.Pupil;
-import com.example.schooloperationsystem.entity.PupilInClass;
 import com.example.schooloperationsystem.entity.School;
 import com.example.schooloperationsystem.repository.PupilRepository;
-import com.example.schooloperationsystem.repository.SchoolRepository;
 import com.example.schooloperationsystem.service.PupilService;
 import com.example.schooloperationsystem.service.SchoolService;
 import com.example.schooloperationsystem.service.params.CreatePupilParams;

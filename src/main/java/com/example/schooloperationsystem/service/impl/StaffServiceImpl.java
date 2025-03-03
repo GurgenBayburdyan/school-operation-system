@@ -2,17 +2,12 @@ package com.example.schooloperationsystem.service.impl;
 
 import com.example.schooloperationsystem.entity.School;
 import com.example.schooloperationsystem.entity.Staff;
-import com.example.schooloperationsystem.entity.Teacher;
 import com.example.schooloperationsystem.repository.StaffRepository;
-import com.example.schooloperationsystem.service.HeadMasterService;
 import com.example.schooloperationsystem.service.SchoolService;
 import com.example.schooloperationsystem.service.StaffService;
-import com.example.schooloperationsystem.service.TeacherService;
 import com.example.schooloperationsystem.service.params.CreateStaffParams;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

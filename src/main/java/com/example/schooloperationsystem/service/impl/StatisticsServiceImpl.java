@@ -1,7 +1,6 @@
 package com.example.schooloperationsystem.service.impl;
 
 import com.example.schooloperationsystem.entity.PupilInClass;
-import com.example.schooloperationsystem.entity.School;
 import com.example.schooloperationsystem.service.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

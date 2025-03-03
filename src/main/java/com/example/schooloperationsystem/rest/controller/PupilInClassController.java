@@ -1,22 +1,14 @@
 package com.example.schooloperationsystem.rest.controller;
 
-import com.example.schooloperationsystem.rest.controller.validator.PupilInClassValidator;
-import com.example.schooloperationsystem.rest.dto.response.ErrorType;
-import com.example.schooloperationsystem.entity.PupilInClass;
-import com.example.schooloperationsystem.mapper.PupilInClassMapper;
 import com.example.schooloperationsystem.rest.dto.request.CreatePupilInClassRequestDto;
-import com.example.schooloperationsystem.rest.dto.response.PupilDetailsDto;
 import com.example.schooloperationsystem.rest.dto.response.PupilInClassDetailsDto;
 import com.example.schooloperationsystem.rest.facade.PupilInClassFacade;
-import com.example.schooloperationsystem.service.PupilInClassService;
-import com.example.schooloperationsystem.service.params.CreatePupilInClassParams;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @RestController

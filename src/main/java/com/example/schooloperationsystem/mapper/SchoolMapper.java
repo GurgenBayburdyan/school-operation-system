@@ -1,11 +1,6 @@
 package com.example.schooloperationsystem.mapper;
 
-
-import com.example.schooloperationsystem.entity.Pupil;
-import com.example.schooloperationsystem.entity.PupilInClass;
 import com.example.schooloperationsystem.entity.School;
-import com.example.schooloperationsystem.entity.SchoolClass;
-import com.example.schooloperationsystem.rest.dto.response.PupilInClassDetailsDto;
 import com.example.schooloperationsystem.rest.dto.response.SchoolDetailsDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

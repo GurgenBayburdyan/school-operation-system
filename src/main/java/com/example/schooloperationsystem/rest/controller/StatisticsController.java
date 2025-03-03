@@ -1,11 +1,8 @@
 package com.example.schooloperationsystem.rest.controller;
 
 import com.example.schooloperationsystem.rest.dto.response.StatisticsDetailsDto;
-import com.example.schooloperationsystem.rest.facade.StaffFacade;
 import com.example.schooloperationsystem.rest.facade.StatisticsFacade;
-import com.example.schooloperationsystem.service.*;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

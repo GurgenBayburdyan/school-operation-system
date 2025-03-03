@@ -1,7 +1,6 @@
 package com.example.schooloperationsystem.service.impl;
 
 import com.example.schooloperationsystem.entity.HeadMaster;
-import com.example.schooloperationsystem.entity.PupilInClass;
 import com.example.schooloperationsystem.entity.SchoolClass;
 import com.example.schooloperationsystem.repository.HeadMasterRepository;
 import com.example.schooloperationsystem.service.HeadMasterService;
@@ -52,12 +51,6 @@ class HeadMasterServiceImpl implements HeadMasterService {
 
         log.debug("Successfully executed add headmaster, {}", headMaster);
         return repository.save(headMaster);
-    }
-
-    @Override
-    @Transactional
-    public void deleteByTeacherId(Long teacherId) {
-        repository.deleteByTeacher_Id(teacherId);
     }
 
     @Override

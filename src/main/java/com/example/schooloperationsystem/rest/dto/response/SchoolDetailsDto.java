@@ -1,12 +1,9 @@
 package com.example.schooloperationsystem.rest.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import javax.swing.*;
 
 @Getter
 @Setter

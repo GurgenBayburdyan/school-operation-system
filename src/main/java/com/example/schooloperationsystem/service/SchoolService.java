@@ -15,6 +15,4 @@ public interface SchoolService {
 
     Boolean existsById(Long id);
 
-    School deleteById(Long id);
-
 }

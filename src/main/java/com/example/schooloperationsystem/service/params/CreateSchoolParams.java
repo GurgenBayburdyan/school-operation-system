@@ -3,7 +3,6 @@ package com.example.schooloperationsystem.service.params;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 @Getter
@@ -11,10 +10,10 @@ import org.springframework.util.Assert;
 @ToString
 public class CreateSchoolParams {
 
-    private Integer number;
-    private String namedAfter;
-    private String address;
-    private String photoUrl;
+    private final Integer number;
+    private final String namedAfter;
+    private final String address;
+    private final String photoUrl;
 
     public CreateSchoolParams(Integer number, String namedAfter, String address, String photoUrl) {
         Assert.notNull(number, "the number should not be null");

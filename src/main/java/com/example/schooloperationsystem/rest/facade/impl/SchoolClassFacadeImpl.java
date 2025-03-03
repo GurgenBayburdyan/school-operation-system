@@ -79,7 +79,19 @@ public class SchoolClassFacadeImpl implements SchoolClassFacade {
 
         SchoolClassDetailsDto schoolClassDetailsDto = classMapper.mapToSchoolClassDetailsDto(schoolClass);
 
-        log.info("Successfully executed get class by id rest API, response entity - {}", schoolClassDetailsDto);
+        log.info("Successfully executed get class by id rest API, response - {}", schoolClassDetailsDto);
         return schoolClassDetailsDto;
+    }
+
+    @Override
+    public List<SchoolClassDetailsDto> getClassesBySchoolId(Long schoolId) {
+        log.info("Executing get classes by school id, school id-{}", schoolId);
+
+        List<SchoolClass> schoolClasses = classService.getBySchoolId(schoolId);
+
+        List<SchoolClassDetailsDto> schoolClassDetailsDtos = classMapper.mapList(schoolClasses);
+
+        log.info("Successfully executed get classes by school id rest API, response - {}", schoolClassDetailsDtos);
+        return schoolClassDetailsDtos;
     }
 }

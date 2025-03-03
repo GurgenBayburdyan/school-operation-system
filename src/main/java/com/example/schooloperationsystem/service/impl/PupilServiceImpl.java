@@ -90,4 +90,14 @@ class PupilServiceImpl implements PupilService {
         return null;
     }
 
+    @Override
+    public List<Pupil> getBySchoolId(Long schoolId) {
+        log.debug("Executing get pupils by school id, id-{}", schoolId);
+
+        List<Pupil> pupils = repository.findAllBySchool_IdAndDeletedAtIsNull(schoolId);
+
+        log.debug("Successfully executed get all pupils by school id, {}", pupils);
+        return pupils;
+    }
+
 }

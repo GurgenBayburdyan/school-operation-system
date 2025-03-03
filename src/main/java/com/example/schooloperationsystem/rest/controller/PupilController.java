@@ -39,4 +39,9 @@ public class PupilController {
     public ResponseEntity<PupilDetailsDto> deletePupilById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(pupilFacade.deletePupilById(id));
     }
+
+    @GetMapping("/{schoolId}")
+    public ResponseEntity<List<PupilDetailsDto>> getPupilsBySchoolId(@PathVariable("schoolId") Long schoolId) {
+        return ResponseEntity.ok(pupilFacade.getPupilsBySchoolId(schoolId));
+    }
 }

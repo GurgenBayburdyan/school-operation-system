@@ -1,4 +1,4 @@
-package com.example.schooloperationsystem.rest.facade;
+package com.example.schooloperationsystem.rest.facade.impl;
 
 import com.example.schooloperationsystem.entity.Pupil;
 import com.example.schooloperationsystem.mapper.PupilMapper;
@@ -6,15 +6,12 @@ import com.example.schooloperationsystem.rest.controller.validator.PupilValidato
 import com.example.schooloperationsystem.rest.dto.request.CreatePupilRequestDto;
 import com.example.schooloperationsystem.rest.dto.response.ErrorType;
 import com.example.schooloperationsystem.rest.dto.response.PupilDetailsDto;
+import com.example.schooloperationsystem.rest.facade.PupilFacade;
 import com.example.schooloperationsystem.service.PupilService;
 import com.example.schooloperationsystem.service.params.CreatePupilParams;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
@@ -80,5 +77,17 @@ public class PupilFacadeImpl implements PupilFacade {
 
         log.info("Successfully executed delete pupil rest API, response - {}", pupilDetailsDto);
         return pupilDetailsDto;
+    }
+
+    @Override
+    public List<PupilDetailsDto> getPupilsBySchoolId(Long schoolId) {
+        log.info("Executing get all pupils by school id rest API, school id-{}", schoolId);
+
+        final List<Pupil> response = pupilService.getBySchoolId(schoolId);
+
+        List<PupilDetailsDto> pupilDetailsDtos = pupilMapper.mapList(response);
+
+        log.info("Successfully executed get all pupils by school id rest API, response - {}", pupilDetailsDtos);
+        return pupilDetailsDtos;
     }
 }

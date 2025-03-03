@@ -39,4 +39,9 @@ public class SchoolClassController {
     public ResponseEntity<SchoolClassDetailsDto> getClassById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(schoolClassFacade.getClassById(id));
     }
+
+    @GetMapping("/school/{schoolId}")
+    public ResponseEntity<List<SchoolClassDetailsDto>> getClassesBySchoolId(@PathVariable("schoolId") Long schoolId) {
+        return ResponseEntity.ok(schoolClassFacade.getClassesBySchoolId(schoolId));
+    }
 }

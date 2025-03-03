@@ -34,12 +34,4 @@ public class StaffMapper {
         }
         return staffDetailsDtos;
     }
-//
-//    public StaffDto mapToStaffDto(Staff staff) {
-//        StaffDto staffDto = new StaffDto();
-//        staffDto.setFirstName(staff.getFirstName());
-//        staffDto.setLastName(staff.getLastName());
-//        staffDto.setDateOfBirth(staff.getDateOfBirth());
-//        return staffDto;
-//    }
 }

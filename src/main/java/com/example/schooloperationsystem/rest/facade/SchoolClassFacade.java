@@ -14,4 +14,6 @@ public interface SchoolClassFacade {
     SchoolClassDetailsDto createClass(CreateSchoolClassRequestDto requestDto);
 
     SchoolClassDetailsDto getClassById(Long id);
+
+    List<SchoolClassDetailsDto> getClassesBySchoolId(Long schoolId);
 }

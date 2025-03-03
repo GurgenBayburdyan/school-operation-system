@@ -15,4 +15,6 @@ public interface PupilService {
     Boolean existsById(Long id);
 
     Pupil deleteById(Long id);
+
+    List<Pupil> getBySchoolId(Long schoolId);
 }

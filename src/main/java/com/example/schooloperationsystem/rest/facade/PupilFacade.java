@@ -27,4 +27,6 @@ public interface PupilFacade {
 
     PupilDetailsDto deletePupilById(Long id);
 
+    List<PupilDetailsDto> getPupilsBySchoolId(Long schoolId);
+
 }

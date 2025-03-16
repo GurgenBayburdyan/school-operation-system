@@ -28,7 +28,7 @@ public class Staff {
     private LocalDateTime dateOfBirth;
 
     @ManyToOne
-    @JoinColumn(name = "school_id", nullable = false)
+    @JoinColumn(name = "school_id", nullable = false) //todo add foergin key
     private School school;
 
     private LocalDateTime deletedAt;

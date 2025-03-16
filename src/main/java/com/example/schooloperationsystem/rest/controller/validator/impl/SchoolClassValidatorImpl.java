@@ -14,6 +14,7 @@ import java.util.Optional;
 @Component
 @Slf4j
 @AllArgsConstructor
+    //todo make package private
 public class SchoolClassValidatorImpl implements SchoolClassValidator {
 
     private final SchoolService schoolService;

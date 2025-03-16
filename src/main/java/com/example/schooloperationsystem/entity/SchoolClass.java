@@ -22,7 +22,7 @@ public class SchoolClass {
     private Character letter;
 
     @ManyToOne
-    @JoinColumn(name = "school_id", nullable = false)
+    @JoinColumn(name = "school_id", nullable = false) //todo add @ForeignKey annotation 
     private School school;
 
 }

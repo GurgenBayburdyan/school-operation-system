@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @Slf4j
@@ -19,27 +18,52 @@ public class PupilInClassController {
     private final PupilInClassFacade pupilInClassFacade;
 
     @GetMapping
-    public ResponseEntity<List<PupilInClassDetailsDto>> getPupilsInClass() {
-        return ResponseEntity.ok(pupilInClassFacade.getPupilsInClass());
+    public ResponseEntity<List<PupilInClassDetailsDto>> getAll() {
+        log.info("Executing get all pupils in classes rest API");
+
+        ResponseEntity<List<PupilInClassDetailsDto>> responseEntity = ResponseEntity.ok(pupilInClassFacade.getPupilsInClass());
+
+        log.info("Successfully executed get all pupils in classes, response entity-{}", responseEntity);
+        return responseEntity;
     }
 
     @PostMapping
-    public ResponseEntity<PupilInClassDetailsDto> addPupilInClass(@RequestBody CreatePupilInClassRequestDto requestDto) {
-        return ResponseEntity.ok(pupilInClassFacade.addPupilInClass(requestDto));
+    public ResponseEntity<PupilInClassDetailsDto> create(@RequestBody CreatePupilInClassRequestDto requestDto) {
+        log.info("Executing create pupil in classes rest API, request-{}", requestDto);
+
+        ResponseEntity<PupilInClassDetailsDto> responseEntity = ResponseEntity.ok(pupilInClassFacade.addPupilInClass(requestDto));
+
+        log.info("Successfully executed create pupil in class, response entity-{}", responseEntity);
+        return responseEntity;
     }
 
     @GetMapping("/classes/{classId}")
-    public ResponseEntity<List<PupilInClassDetailsDto>> getPupilsByClassId(@PathVariable("classId") Long classId) {
-        return ResponseEntity.ok(pupilInClassFacade.getPupilsByClassId(classId));
+    public ResponseEntity<List<PupilInClassDetailsDto>> getByClassId(@PathVariable("classId") Long classId) {
+        log.info("Executing get pupils in class by class id rest API, id-{}", classId);
+
+        ResponseEntity<List<PupilInClassDetailsDto>> responseEntity = ResponseEntity.ok(pupilInClassFacade.getPupilsByClassId(classId));
+
+        log.info("Successfully executed get pupils in class by class id, response entity-{}", responseEntity);
+        return responseEntity;
     }
 
     @DeleteMapping("/{pupilId}")
-    public ResponseEntity<PupilInClassDetailsDto> deletePupilByPupilId(@PathVariable("pupilId") Long pupilId) {
-        return ResponseEntity.ok(pupilInClassFacade.deletePupilByPupilId(pupilId));
+    public ResponseEntity<PupilInClassDetailsDto> deleteByPupilId(@PathVariable("pupilId") Long pupilId) {
+        log.info("Executing delete pupil in class by pupil id rest API, id-{}", pupilId);
+
+        ResponseEntity<PupilInClassDetailsDto> responseEntity = ResponseEntity.ok(pupilInClassFacade.deletePupilByPupilId(pupilId));
+
+        log.info("Successfully executed delete pupil in class by pupil id, response entity-{}", responseEntity);
+        return responseEntity;
     }
 
     @GetMapping("/{pupilId}")
-    public ResponseEntity<PupilInClassDetailsDto> getPupilInClassByPupilId(@PathVariable("pupilId") Long pupilId) {
-        return ResponseEntity.ok(pupilInClassFacade.getPupilInClassByPupilId(pupilId));
+    public ResponseEntity<PupilInClassDetailsDto> getByPupilId(@PathVariable("pupilId") Long pupilId) {
+        log.info("Executing get pupil in class by pupil id rest API, id-{}", pupilId);
+
+        ResponseEntity<PupilInClassDetailsDto> responseEntity = ResponseEntity.ok(pupilInClassFacade.getPupilInClassByPupilId(pupilId));
+
+        log.info("Successfully executed get pupils in class by pupil id, response entity-{}", responseEntity);
+        return responseEntity;
     }
 }

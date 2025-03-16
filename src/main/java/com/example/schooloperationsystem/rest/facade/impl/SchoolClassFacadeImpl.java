@@ -2,7 +2,7 @@ package com.example.schooloperationsystem.rest.facade.impl;
 
 import com.example.schooloperationsystem.entity.SchoolClass;
 import com.example.schooloperationsystem.mapper.SchoolClassMapper;
-import com.example.schooloperationsystem.rest.controller.validator.SchoolClassValidator;
+import com.example.schooloperationsystem.rest.facade.validator.SchoolClassValidator;
 import com.example.schooloperationsystem.rest.dto.request.CreateSchoolClassRequestDto;
 import com.example.schooloperationsystem.rest.dto.response.ErrorType;
 import com.example.schooloperationsystem.rest.dto.response.SchoolClassDetailsDto;
@@ -11,18 +11,14 @@ import com.example.schooloperationsystem.service.SchoolClassService;
 import com.example.schooloperationsystem.service.params.CreateSchoolClassParams;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @Slf4j
 @AllArgsConstructor
-public class SchoolClassFacadeImpl implements SchoolClassFacade {
+class SchoolClassFacadeImpl implements SchoolClassFacade {
 
     private final SchoolClassService classService;
     private final SchoolClassMapper classMapper;
@@ -46,8 +42,7 @@ public class SchoolClassFacadeImpl implements SchoolClassFacade {
         Optional<ErrorType> optionalErrorType = schoolClassValidator.validateCreate(requestDto);
 
         if (optionalErrorType.isPresent()) {
-            SchoolClassDetailsDto schoolClassDetailsDto = new SchoolClassDetailsDto();
-            schoolClassDetailsDto.setErrorType(optionalErrorType.get());
+            SchoolClassDetailsDto schoolClassDetailsDto = new SchoolClassDetailsDto(optionalErrorType.get());
             log.info("Executing create class failed, error-{}", optionalErrorType.get());
             return schoolClassDetailsDto;
         } else {
@@ -68,7 +63,7 @@ public class SchoolClassFacadeImpl implements SchoolClassFacade {
     public SchoolClassDetailsDto getClassById(Long id) {
         log.info("Executing get class by id, id-{}", id);
 
-        SchoolClass schoolClass = classService.getById(id);
+        SchoolClass schoolClass = classService.findById(id);
 
         if (schoolClass == null) {
             SchoolClassDetailsDto schoolClassDetailsDto = new SchoolClassDetailsDto();
@@ -87,7 +82,7 @@ public class SchoolClassFacadeImpl implements SchoolClassFacade {
     public List<SchoolClassDetailsDto> getClassesBySchoolId(Long schoolId) {
         log.info("Executing get classes by school id, school id-{}", schoolId);
 
-        List<SchoolClass> schoolClasses = classService.getBySchoolId(schoolId);
+        List<SchoolClass> schoolClasses = classService.findBySchoolId(schoolId);
 
         List<SchoolClassDetailsDto> schoolClassDetailsDtos = classMapper.mapList(schoolClasses);
 

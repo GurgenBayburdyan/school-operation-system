@@ -1,6 +1,6 @@
-package com.example.schooloperationsystem.rest.controller.validator.impl;
+package com.example.schooloperationsystem.rest.facade.validator.impl;
 
-import com.example.schooloperationsystem.rest.controller.validator.HeadMasterValidator;
+import com.example.schooloperationsystem.rest.facade.validator.HeadMasterValidator;
 import com.example.schooloperationsystem.rest.dto.request.CreateHeadMasterRequestDto;
 import com.example.schooloperationsystem.rest.dto.response.ErrorType;
 import com.example.schooloperationsystem.service.SchoolClassService;
@@ -8,7 +8,6 @@ import com.example.schooloperationsystem.service.TeacherService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
 import java.util.Optional;
 
 @Component

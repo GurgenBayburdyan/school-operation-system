@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
 import java.time.LocalDateTime;
 
 @Setter
@@ -26,5 +25,13 @@ public class TeacherDetailsDto extends AbstractErrorAwareDetailsDto {
 
     @JsonProperty("dateOfBirth")
     private LocalDateTime dateOfBirth;
+
+    public TeacherDetailsDto(ErrorType errorType) {
+        super(errorType);
+    }
+
+    public TeacherDetailsDto() {
+        super(null);
+    }
 
 }

@@ -2,7 +2,6 @@ package com.example.schooloperationsystem.service;
 
 import com.example.schooloperationsystem.entity.School;
 import com.example.schooloperationsystem.service.params.CreateSchoolParams;
-
 import java.util.List;
 
 public interface SchoolService {
@@ -11,8 +10,7 @@ public interface SchoolService {
 
     School create(CreateSchoolParams createSchoolParams);
 
-    School getById(Long schoolId);
-
     Boolean existsById(Long id);
 
+    School findById(Long id);
 }

@@ -19,6 +19,11 @@ public class StatisticsController {
 
     @GetMapping
     public ResponseEntity<StatisticsDetailsDto> getStatistics() {
-        return ResponseEntity.ok(statisticsFacade.getStatistics());
+        log.info("Executing get statistics rest API");
+
+        ResponseEntity<StatisticsDetailsDto> responseEntity = ResponseEntity.ok(statisticsFacade.getStatistics());
+
+        log.info("Successfully executed get statistics, response entity-{}", responseEntity);
+        return responseEntity;
     }
 }

@@ -7,12 +7,12 @@ import com.example.schooloperationsystem.service.HeadMasterService;
 import com.example.schooloperationsystem.service.SchoolClassService;
 import com.example.schooloperationsystem.service.TeacherService;
 import com.example.schooloperationsystem.service.params.CreateHeadMasterParams;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import com.example.schooloperationsystem.entity.Teacher;
-
 import java.util.List;
 
 @Slf4j
@@ -42,9 +42,9 @@ class HeadMasterServiceImpl implements HeadMasterService {
         
         HeadMaster headMaster = new HeadMaster();
 
-        Teacher teacher = teacherService.getById(params.getTeacherId());
+        Teacher teacher = teacherService.findById(params.getTeacherId());
 
-        SchoolClass schoolClass = schoolClassService.getById(params.getSchoolClassId());
+        SchoolClass schoolClass = schoolClassService.findById(params.getSchoolClassId());
 
         headMaster.setTeacher(teacher);
         headMaster.setSchoolClass(schoolClass);
@@ -55,10 +55,12 @@ class HeadMasterServiceImpl implements HeadMasterService {
 
     @Override
     @Transactional
-    public HeadMaster getByTeacherId(Long teacherId) {
+    public HeadMaster findByTeacherId(Long teacherId) {
         log.debug("Executing get head master by teacher id, id-{}", teacherId);
 
-        HeadMaster headMaster = repository.findByTeacher_Id(teacherId);
+        HeadMaster headMaster = repository.findByTeacher_Id(teacherId).orElseThrow(
+                ()->new EntityNotFoundException("Headmaster not found")
+        );
 
         log.debug("Successfully executed get head master by teacher id, {}", headMaster);
         return headMaster;

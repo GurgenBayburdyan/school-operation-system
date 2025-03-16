@@ -4,11 +4,11 @@ import com.example.schooloperationsystem.entity.School;
 import com.example.schooloperationsystem.repository.SchoolRepository;
 import com.example.schooloperationsystem.service.SchoolService;
 import com.example.schooloperationsystem.service.params.CreateSchoolParams;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 
 @Slf4j
@@ -47,17 +47,14 @@ public class SchoolServiceImpl implements SchoolService {
 
     @Override
     @Transactional(readOnly = true)
-    public School getById(Long id) {
+    public School findById(Long id) {
         log.debug("Executing get school by id, id-{}", id);
 
-        School school = repository.findByIdAndDeletedAtIsNull(id).orElse(null);
+        School school = repository.findByIdAndDeletedAtIsNull(id).orElseThrow(
+                () -> new EntityNotFoundException("School not found")
+        );
 
-        if (school != null) {
-            log.debug("Successfully executed get school by id, {}", school);
-        } else {
-            log.debug("No school found with id-{}", id);
-        }
-
+        log.debug("Successfully executed get school by id, {}", school);
         return school;
     }
 

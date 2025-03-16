@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
 import java.time.LocalDateTime;
 
 @Getter
@@ -30,6 +29,6 @@ public class School {
     @Column(name = "photo_url", length = 1000)
     private String photoUrl;
 
-    //todo add @Column annotation
+    @Column
     private LocalDateTime deletedAt;
 }

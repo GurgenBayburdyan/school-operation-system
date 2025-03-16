@@ -22,4 +22,12 @@ public class SchoolClassDetailsDto  extends AbstractErrorAwareDetailsDto {
     @JsonProperty("schoolId")
     private Long schoolId;
 
+    public SchoolClassDetailsDto(ErrorType errorType) {
+        super(errorType);
+    }
+
+    public SchoolClassDetailsDto() {
+        super(null);
+    }
+
 }

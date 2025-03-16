@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @Slf4j
@@ -19,17 +18,32 @@ public class TeacherController {
     private final TeacherFacade teacherFacade;
 
     @GetMapping
-    public ResponseEntity<List<TeacherDetailsDto>> getAllTeachers() {
-        return ResponseEntity.ok(teacherFacade.getAllTeachers());
+    public ResponseEntity<List<TeacherDetailsDto>> getAll() {
+        log.info("Executing get all teachers rest API");
+
+        ResponseEntity<List<TeacherDetailsDto>> responseEntity = ResponseEntity.ok(teacherFacade.getAllTeachers());
+
+        log.info("Successfully executed get all teachers, response entity-{}", responseEntity);
+        return responseEntity;
     }
 
     @PostMapping
-    public ResponseEntity<TeacherDetailsDto> createTeacher(@RequestBody CreateTeacherRequestDto requestDto) {
-        return ResponseEntity.ok(teacherFacade.createTeacher(requestDto));
+    public ResponseEntity<TeacherDetailsDto> create(@RequestBody CreateTeacherRequestDto requestDto) {
+        log.info("Executing create teacher rest API, request-{}", requestDto);
+
+        ResponseEntity<TeacherDetailsDto> responseEntity = ResponseEntity.ok(teacherFacade.createTeacher(requestDto));
+
+        log.info("Successfully executed create teacher, response entity-{}", responseEntity);
+        return responseEntity;
     }
 
     @GetMapping("/{staffId}")
     public ResponseEntity<TeacherDetailsDto> getByStaffId(@PathVariable("staffId") Long staffId) {
-        return ResponseEntity.ok(teacherFacade.getByStaffId(staffId));
+        log.info("Executing get teacher by staff id rest API, id-{}", staffId);
+
+        ResponseEntity<TeacherDetailsDto> responseEntity = ResponseEntity.ok(teacherFacade.getByStaffId(staffId));
+
+        log.info("Successfully executed get teacher by id, response entity-{}", responseEntity);
+        return responseEntity;
     }
 }

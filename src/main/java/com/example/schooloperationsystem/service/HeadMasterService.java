@@ -2,7 +2,6 @@ package com.example.schooloperationsystem.service;
 
 import com.example.schooloperationsystem.entity.HeadMaster;
 import com.example.schooloperationsystem.service.params.CreateHeadMasterParams;
-
 import java.util.List;
 
 public interface HeadMasterService {
@@ -11,5 +10,5 @@ public interface HeadMasterService {
 
     HeadMaster add(CreateHeadMasterParams params);
 
-    HeadMaster getByTeacherId(Long teacherId);
+    HeadMaster findByTeacherId(Long teacherId);
 }

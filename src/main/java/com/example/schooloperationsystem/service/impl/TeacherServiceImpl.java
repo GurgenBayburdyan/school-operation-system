@@ -6,11 +6,11 @@ import com.example.schooloperationsystem.repository.TeacherRepository;
 import com.example.schooloperationsystem.service.StaffService;
 import com.example.schooloperationsystem.service.TeacherService;
 import com.example.schooloperationsystem.service.params.CreateTeacherParams;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Slf4j
@@ -39,7 +39,7 @@ class TeacherServiceImpl implements TeacherService {
 
         Teacher teacher = new Teacher();
 
-        Staff staff = staffService.getById(params.getStaffId());
+        Staff staff = staffService.findById(params.getStaffId());
 
         teacher.setStaff(staff);
 
@@ -50,17 +50,14 @@ class TeacherServiceImpl implements TeacherService {
 
     @Override
     @Transactional(readOnly = true)
-    public Teacher getById(Long id) {
+    public Teacher findById(Long id) {
         log.debug("Executing get teacher by id, id-{}", id);
 
-        Teacher teacher = repository.findById(id).orElse(null);
+        Teacher teacher = repository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Teacher not found")
+        );
 
-        if (teacher != null) {
-            log.debug("Successfully executed get teacher by id, {}", teacher);
-        } else {
-            log.debug("No teacher found with id-{}", id);
-        }
-
+        log.debug("Successfully executed get teacher by id, {}", teacher);
         return teacher;
     }
 
@@ -71,7 +68,14 @@ class TeacherServiceImpl implements TeacherService {
 
     @Override
     @Transactional
-    public Teacher getByStaffId(Long staffId) {
-        return repository.findByStaff_IdAndStaff_DeletedAtIsNull(staffId);
+    public Teacher findByStaffId(Long staffId) {
+        log.debug("Executing get teacher by staff id, id-{}", staffId);
+
+        Teacher teacher = repository.findByStaff_Id(staffId).orElseThrow(
+                () -> new EntityNotFoundException("Teacher not found")
+        );
+
+        log.debug("Successfully executed get teacher by staff id, {}", teacher);
+        return teacher;
     }
 }

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @AllArgsConstructor
-public class StatisticsFacadeImpl implements StatisticsFacade {
+class StatisticsFacadeImpl implements StatisticsFacade {
     private final StatisticsService statisticsService;
 
     @Override

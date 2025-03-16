@@ -6,14 +6,13 @@ import com.example.schooloperationsystem.repository.PupilRepository;
 import com.example.schooloperationsystem.service.PupilService;
 import com.example.schooloperationsystem.service.SchoolService;
 import com.example.schooloperationsystem.service.params.CreatePupilParams;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -41,7 +40,7 @@ class PupilServiceImpl implements PupilService {
 
         Pupil pupil = new Pupil();
 
-        School school = schoolService.getById(params.getSchoolId());
+        School school = schoolService.findById(params.getSchoolId());
 
         pupil.setFirstName(params.getFirstName());
         pupil.setLastName(params.getLastName());
@@ -54,10 +53,12 @@ class PupilServiceImpl implements PupilService {
 
     @Override
     @Transactional(readOnly = true)
-    public Pupil getById(Long id) {
+    public Pupil findById(Long id) {
         log.debug("Executing get pupil by id, id-{}", id);
 
-        Pupil pupil = repository.getByIdAndDeletedAtIsNull(id);
+        Pupil pupil = repository.findByIdAndDeletedAtIsNull(id).orElseThrow(
+                () -> new EntityNotFoundException("Pupil not found")
+        );
 
         log.debug("Successfully executed get pupil by id, {}", pupil);
         return pupil;
@@ -73,23 +74,18 @@ class PupilServiceImpl implements PupilService {
     public Pupil deleteById(Long id) {
         log.debug("Executing delete pupil by id, id-{}", id);
 
-        Optional<Pupil> pupilOptional = repository.findById(id);
+        Pupil pupil = repository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Pupil not found")
+        );
 
-        if (pupilOptional.isPresent()) {
-            Pupil pupil = pupilOptional.get();
+        pupil.setDeletedAt(LocalDateTime.now());
 
-            pupil.setDeletedAt(LocalDateTime.now());
-
-            log.debug("Successfully executed delete pupil, {}", pupil);
-            return repository.save(pupil);
-        }
-
-        log.debug("No pupil with id-{}", id);
-        return null;
+        log.debug("Successfully executed delete pupil, {}", pupil);
+        return repository.save(pupil);
     }
 
     @Override
-    public List<Pupil> getBySchoolId(Long schoolId) {
+    public List<Pupil> findBySchoolId(Long schoolId) {
         log.debug("Executing get pupils by school id, id-{}", schoolId);
 
         List<Pupil> pupils = repository.findAllBySchool_IdAndDeletedAtIsNull(schoolId);

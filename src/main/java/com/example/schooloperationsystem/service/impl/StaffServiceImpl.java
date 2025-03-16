@@ -6,14 +6,13 @@ import com.example.schooloperationsystem.repository.StaffRepository;
 import com.example.schooloperationsystem.service.SchoolService;
 import com.example.schooloperationsystem.service.StaffService;
 import com.example.schooloperationsystem.service.params.CreateStaffParams;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -41,7 +40,7 @@ class StaffServiceImpl implements StaffService {
 
         Staff staff = new Staff();
 
-        School school = schoolService.getById(params.getSchoolId());
+        School school = schoolService.findById(params.getSchoolId());
 
         staff.setFirstName(params.getFirstName());
         staff.setLastName(params.getLastName());
@@ -54,17 +53,14 @@ class StaffServiceImpl implements StaffService {
 
     @Override
     @Transactional(readOnly = true)
-    public Staff getById(Long id) {
+    public Staff findById(Long id) {
         log.debug("Executing get staff by id, id-{}", id);
 
-        Staff staff = repository.findById(id).orElse(null);
+        Staff staff = repository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Staff not found")
+        );
 
-        if (staff != null) {
-            log.debug("Successfully executed get staff by id, {}", staff);
-        } else {
-            log.debug("No staff found with id, {}", id);
-        }
-
+        log.debug("Successfully executed get staff by id, {}", staff);
         return staff;
     }
 
@@ -73,19 +69,24 @@ class StaffServiceImpl implements StaffService {
     public Staff deleteById(Long id) {
         log.debug("Executing delete staff by id, id-{}", id);
 
-        Optional<Staff> staffOptional = repository.findById(id);
+        Staff staff = repository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Staff not found")
+        );
 
-        if (staffOptional.isPresent()) {
-            Staff staff = staffOptional.get();
+        staff.setDeletedAt(LocalDateTime.now());
 
-            staff.setDeletedAt(LocalDateTime.now());
+        log.debug("Successfully executed delete staff, {}", staff);
+        return repository.save(staff);
+    }
 
-            log.debug("Successfully executed delete staff, {}", staff);
-            return repository.save(staff);
-        }
+    @Override
+    public List<Staff> findBySchoolId(Long schoolId) {
+        log.debug("Executing get all staff by school id, id-{}", schoolId);
 
-        log.debug("No staff with id-{}", id);
-        return null;
+        List<Staff> staffList = repository.findAllBySchool_IdAndDeletedAtIsNull(schoolId);
+
+        log.debug("Successfully executed get all staff by school id, {}", staffList);
+        return staffList;
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.example.schooloperationsystem.rest.facade.impl;
 
 import com.example.schooloperationsystem.entity.HeadMaster;
 import com.example.schooloperationsystem.mapper.HeadMasterMapper;
-import com.example.schooloperationsystem.rest.controller.validator.HeadMasterValidator;
+import com.example.schooloperationsystem.rest.facade.validator.HeadMasterValidator;
 import com.example.schooloperationsystem.rest.dto.request.CreateHeadMasterRequestDto;
 import com.example.schooloperationsystem.rest.dto.response.ErrorType;
 import com.example.schooloperationsystem.rest.dto.response.HeadMasterDetailsDto;
@@ -12,16 +12,13 @@ import com.example.schooloperationsystem.service.params.CreateHeadMasterParams;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @Slf4j
 @AllArgsConstructor
-public class HeadMasterFacadeImpl implements HeadMasterFacade {
+class HeadMasterFacadeImpl implements HeadMasterFacade {
 
     private final HeadMasterService headMasterService;
     private final HeadMasterMapper headMasterMapper;
@@ -45,8 +42,7 @@ public class HeadMasterFacadeImpl implements HeadMasterFacade {
         Optional<ErrorType> optionalErrorType = headMasterValidator.validateCreate(requestDto);
 
         if (optionalErrorType.isPresent()) {
-            HeadMasterDetailsDto headMasterDetailsDto = new HeadMasterDetailsDto();
-            headMasterDetailsDto.setErrorType(optionalErrorType.get());
+            HeadMasterDetailsDto headMasterDetailsDto = new HeadMasterDetailsDto(optionalErrorType.get());
             log.info("Executing create headmaster failed, error-{}", optionalErrorType.get());
             return headMasterDetailsDto;
         } else {
@@ -67,7 +63,7 @@ public class HeadMasterFacadeImpl implements HeadMasterFacade {
     public HeadMasterDetailsDto getHeadMasterByTeacherId(Long teacherId) {
         log.info("Executing get head master by teacher id-{}", teacherId);
 
-        HeadMaster response=headMasterService.getByTeacherId(teacherId);
+        HeadMaster response=headMasterService.findByTeacherId(teacherId);
 
         if (response == null) {
             HeadMasterDetailsDto headMasterDetailsDto=new HeadMasterDetailsDto();

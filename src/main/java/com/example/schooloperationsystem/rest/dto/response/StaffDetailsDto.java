@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
 import java.time.LocalDateTime;
 
 @Getter
@@ -26,4 +25,12 @@ public class StaffDetailsDto  extends AbstractErrorAwareDetailsDto {
 
     @JsonProperty("schoolId")
     private Long schoolId;
+
+    public StaffDetailsDto(ErrorType errorType) {
+        super(errorType);
+    }
+
+    public StaffDetailsDto() {
+        super(null);
+    }
 }

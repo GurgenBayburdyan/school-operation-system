@@ -8,11 +8,11 @@ import com.example.schooloperationsystem.service.PupilInClassService;
 import com.example.schooloperationsystem.service.PupilService;
 import com.example.schooloperationsystem.service.SchoolClassService;
 import com.example.schooloperationsystem.service.params.CreatePupilInClassParams;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Slf4j
@@ -40,8 +40,8 @@ class PupilInClassServiceImpl implements PupilInClassService {
     public PupilInClass add(CreatePupilInClassParams params) {
         log.debug("Executing add pupil in class, params-{}", params);
 
-        Pupil pupil = pupilService.getById(params.getPupilId());
-        SchoolClass schoolClass = schoolClassService.getById(params.getSchoolClassId());
+        Pupil pupil = pupilService.findById(params.getPupilId());
+        SchoolClass schoolClass = schoolClassService.findById(params.getSchoolClassId());
 
         PupilInClass pupilInClass = new PupilInClass();
 
@@ -57,22 +57,19 @@ class PupilInClassServiceImpl implements PupilInClassService {
     public PupilInClass deleteByPupilId(Long id) {
         log.debug("Executing delete pupil in class by pupil id, id-{}", id);
 
-        PupilInClass pupilInClass = repository.findByPupil_Id(id);
+        PupilInClass pupilInClass = repository.findByPupil_Id(id).orElseThrow(
+                () -> new EntityNotFoundException("Pupil in class not found")
+        );
 
-        if (pupilInClass != null) {
-            repository.delete(pupilInClass);
+        repository.delete(pupilInClass);
 
-            log.debug("Successfully executed delete pupil in class, {}", pupilInClass);
-            return pupilInClass;
-        }
-
-        log.debug("No pupil in class with pupil id-{}", id);
-        return null;
+        log.debug("Successfully executed delete pupil in class, {}", pupilInClass);
+        return pupilInClass;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<PupilInClass> getBySchoolClassId(Long schoolClassId) {
+    public List<PupilInClass> findBySchoolClassId(Long schoolClassId) {
         log.debug("Executing get pupils in class by class id, id-{}", schoolClassId);
 
         List<PupilInClass> pupilInClasses = repository.getBySchoolClassId(schoolClassId);
@@ -82,10 +79,12 @@ class PupilInClassServiceImpl implements PupilInClassService {
     }
 
     @Override
-    public PupilInClass getByPupilId(Long pupilId) {
+    public PupilInClass findByPupilId(Long pupilId) {
         log.debug("Executing get pupil in class by pupil id, id-{}", pupilId);
 
-        PupilInClass pupilInClass = repository.findByPupil_Id(pupilId);
+        PupilInClass pupilInClass = repository.findByPupil_Id(pupilId).orElseThrow(
+                () -> new EntityNotFoundException("Pupil in class not found")
+        );
 
         log.debug("Successfully executed get pupil in class by pupil id, {}", pupilInClass);
         return pupilInClass;

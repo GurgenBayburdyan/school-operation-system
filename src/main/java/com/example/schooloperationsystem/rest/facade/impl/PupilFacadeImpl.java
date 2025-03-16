@@ -2,7 +2,7 @@ package com.example.schooloperationsystem.rest.facade.impl;
 
 import com.example.schooloperationsystem.entity.Pupil;
 import com.example.schooloperationsystem.mapper.PupilMapper;
-import com.example.schooloperationsystem.rest.controller.validator.PupilValidator;
+import com.example.schooloperationsystem.rest.facade.validator.PupilValidator;
 import com.example.schooloperationsystem.rest.dto.request.CreatePupilRequestDto;
 import com.example.schooloperationsystem.rest.dto.response.ErrorType;
 import com.example.schooloperationsystem.rest.dto.response.PupilDetailsDto;
@@ -12,14 +12,13 @@ import com.example.schooloperationsystem.service.params.CreatePupilParams;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @Slf4j
 @AllArgsConstructor
-public class PupilFacadeImpl implements PupilFacade {
+class PupilFacadeImpl implements PupilFacade {
 
     private final PupilService pupilService;
     private final PupilMapper pupilMapper;
@@ -43,8 +42,7 @@ public class PupilFacadeImpl implements PupilFacade {
         final Optional<ErrorType> optionalErrorType = pupilValidator.validateCreate(requestDto);
 
         if (optionalErrorType.isPresent()) {
-            PupilDetailsDto pupilDetailsDto = new PupilDetailsDto();
-            pupilDetailsDto.setErrorType(optionalErrorType.get());
+            PupilDetailsDto pupilDetailsDto = new PupilDetailsDto(optionalErrorType.get());
             log.info("Executing create pupil failed, error-{}", optionalErrorType.get());
             return pupilDetailsDto;
         } else {
@@ -83,7 +81,7 @@ public class PupilFacadeImpl implements PupilFacade {
     public List<PupilDetailsDto> getPupilsBySchoolId(Long schoolId) {
         log.info("Executing get all pupils by school id rest API, school id-{}", schoolId);
 
-        final List<Pupil> response = pupilService.getBySchoolId(schoolId);
+        final List<Pupil> response = pupilService.findBySchoolId(schoolId);
 
         List<PupilDetailsDto> pupilDetailsDtos = pupilMapper.mapList(response);
 

@@ -1,13 +1,12 @@
-package com.example.schooloperationsystem.rest.controller.validator.impl;
+package com.example.schooloperationsystem.rest.facade.validator.impl;
 
-import com.example.schooloperationsystem.rest.controller.validator.TeacherValidator;
+import com.example.schooloperationsystem.rest.facade.validator.TeacherValidator;
 import com.example.schooloperationsystem.rest.dto.request.CreateTeacherRequestDto;
 import com.example.schooloperationsystem.rest.dto.response.ErrorType;
 import com.example.schooloperationsystem.service.StaffService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
 import java.util.Optional;
 
 @Component

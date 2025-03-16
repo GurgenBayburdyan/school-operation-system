@@ -2,7 +2,7 @@ package com.example.schooloperationsystem.rest.facade.impl;
 
 import com.example.schooloperationsystem.entity.Teacher;
 import com.example.schooloperationsystem.mapper.TeacherMapper;
-import com.example.schooloperationsystem.rest.controller.validator.TeacherValidator;
+import com.example.schooloperationsystem.rest.facade.validator.TeacherValidator;
 import com.example.schooloperationsystem.rest.dto.request.CreateTeacherRequestDto;
 import com.example.schooloperationsystem.rest.dto.response.ErrorType;
 import com.example.schooloperationsystem.rest.dto.response.TeacherDetailsDto;
@@ -12,14 +12,13 @@ import com.example.schooloperationsystem.service.params.CreateTeacherParams;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @Slf4j
 @AllArgsConstructor
-public class TeacherFacadeImpl implements TeacherFacade {
+class TeacherFacadeImpl implements TeacherFacade {
 
     private final TeacherService service;
     private final TeacherMapper mapper;
@@ -43,8 +42,7 @@ public class TeacherFacadeImpl implements TeacherFacade {
         Optional<ErrorType> optionalErrorType = teacherValidator.validateCreate(requestDto);
 
         if (optionalErrorType.isPresent()) {
-            TeacherDetailsDto teacherDetailsDto = new TeacherDetailsDto();
-            teacherDetailsDto.setErrorType(optionalErrorType.get());
+            TeacherDetailsDto teacherDetailsDto = new TeacherDetailsDto(optionalErrorType.get());
             log.info("Executing create teacher failed, error-{}", optionalErrorType.get());
             return teacherDetailsDto;
         } else {
@@ -62,13 +60,7 @@ public class TeacherFacadeImpl implements TeacherFacade {
     public TeacherDetailsDto getByStaffId(Long staffId) {
         log.info("Executing get teacher by staff id-{}", staffId);
 
-        Teacher response = service.getByStaffId(staffId);
-
-        if (response == null) {
-            TeacherDetailsDto teacherDetailsDto = new TeacherDetailsDto();
-            teacherDetailsDto.setErrorType(ErrorType.TEACHER_NOT_FOUND);
-            return teacherDetailsDto;
-        }
+        Teacher response = service.findByStaffId(staffId);
 
         TeacherDetailsDto teacherDetailsDto = mapper.mapToTeacherDetailsDto(response);
 

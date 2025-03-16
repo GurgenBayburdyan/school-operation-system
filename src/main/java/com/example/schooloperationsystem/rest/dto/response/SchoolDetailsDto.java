@@ -23,4 +23,12 @@ public class SchoolDetailsDto extends AbstractErrorAwareDetailsDto {
 
     @JsonProperty("photoUrl")
     private String photoUrl;
+
+    public SchoolDetailsDto(ErrorType errorType) {
+        super(errorType);
+    }
+
+    public SchoolDetailsDto() {
+        super(null);
+    }
 }

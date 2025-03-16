@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
 import java.time.LocalDateTime;
 
 @Setter
@@ -28,7 +27,7 @@ public class Staff {
     private LocalDateTime dateOfBirth;
 
     @ManyToOne
-    @JoinColumn(name = "school_id", nullable = false) //todo add foergin key
+    @JoinColumn(name = "school_id", nullable = false, foreignKey = @ForeignKey(name = "FK_STAFF_SCHOOL_ID"))
     private School school;
 
     private LocalDateTime deletedAt;

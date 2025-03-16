@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @Slf4j
@@ -19,22 +18,42 @@ public class SchoolClassController {
     private final SchoolClassFacade schoolClassFacade;
 
     @GetMapping
-    public ResponseEntity<List<SchoolClassDetailsDto>> getClasses() {
-        return ResponseEntity.ok(schoolClassFacade.getClasses());
+    public ResponseEntity<List<SchoolClassDetailsDto>> getAll() {
+        log.info("Executing get all classes rest API");
+
+        ResponseEntity<List<SchoolClassDetailsDto>> responseEntity = ResponseEntity.ok(schoolClassFacade.getClasses());
+
+        log.info("Successfully executed get all classes, response entity-{}", responseEntity);
+        return responseEntity;
     }
 
     @PostMapping
-    public ResponseEntity<SchoolClassDetailsDto> createClass(@RequestBody CreateSchoolClassRequestDto requestDto) {
-        return ResponseEntity.ok(schoolClassFacade.createClass(requestDto));
+    public ResponseEntity<SchoolClassDetailsDto> create(@RequestBody CreateSchoolClassRequestDto requestDto) {
+        log.info("Executing create class rest API, request-{}", requestDto);
+
+        ResponseEntity<SchoolClassDetailsDto> responseEntity = ResponseEntity.ok(schoolClassFacade.createClass(requestDto));
+
+        log.info("Successfully executed create classes, response entity-{}", responseEntity);
+        return responseEntity;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SchoolClassDetailsDto> getClassById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(schoolClassFacade.getClassById(id));
+    public ResponseEntity<SchoolClassDetailsDto> getById(@PathVariable("id") Long id) {
+        log.info("Executing get class by id rest API, id-{}", id);
+
+        ResponseEntity<SchoolClassDetailsDto> responseEntity = ResponseEntity.ok(schoolClassFacade.getClassById(id));
+
+        log.info("Successfully executed get class by id, response entity-{}", responseEntity);
+        return responseEntity;
     }
 
     @GetMapping("/school/{schoolId}")
-    public ResponseEntity<List<SchoolClassDetailsDto>> getClassesBySchoolId(@PathVariable("schoolId") Long schoolId) {
-        return ResponseEntity.ok(schoolClassFacade.getClassesBySchoolId(schoolId));
+    public ResponseEntity<List<SchoolClassDetailsDto>> getBySchoolId(@PathVariable("schoolId") Long schoolId) {
+        log.info("Executing get classes by school id rest API, id-{}", schoolId);
+
+        ResponseEntity<List<SchoolClassDetailsDto>> responseEntity = ResponseEntity.ok(schoolClassFacade.getClassesBySchoolId(schoolId));
+
+        log.info("Successfully executed get classes by school id, response entity-{}", responseEntity);
+        return responseEntity;
     }
 }

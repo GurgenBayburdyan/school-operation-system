@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @Slf4j
@@ -20,16 +19,31 @@ public class HeadMasterController {
 
     @GetMapping
     public ResponseEntity<List<HeadMasterDetailsDto>> getAllHeadMasters() {
-        return ResponseEntity.ok(headMasterFacade.getAllHeadMasters());
+        log.info("Executing get all headmasters rest API");
+
+        ResponseEntity<List<HeadMasterDetailsDto>> responseEntity = ResponseEntity.ok(headMasterFacade.getAllHeadMasters());
+
+        log.info("Successfully executed get all headmasters, response entity-{}", responseEntity);
+        return responseEntity;
     }
 
     @PostMapping
     public ResponseEntity<HeadMasterDetailsDto> create(@RequestBody CreateHeadMasterRequestDto requestDto) {
-        return ResponseEntity.ok(headMasterFacade.create(requestDto));
+        log.info("Executing create headmaster rest API, request-{}", requestDto);
+
+        ResponseEntity<HeadMasterDetailsDto> responseEntity = ResponseEntity.ok(headMasterFacade.create(requestDto));
+
+        log.info("Successfully executed create headmaster, response entity-{}", responseEntity);
+        return responseEntity;
     }
 
     @GetMapping("/{teacherId}")
     public ResponseEntity<HeadMasterDetailsDto> getHeadMasterByTeacherId(@PathVariable("teacherId") Long teacherId) {
-        return ResponseEntity.ok(headMasterFacade.getHeadMasterByTeacherId(teacherId));
+        log.info("Executing get headmaster by teacher id rest API, teacher id-{}", teacherId);
+
+        ResponseEntity<HeadMasterDetailsDto> responseEntity = ResponseEntity.ok(headMasterFacade.getHeadMasterByTeacherId(teacherId));
+
+        log.info("Successfully executed get headmaster by teacher id, response entity-{}", responseEntity);
+        return responseEntity;
     }
 }

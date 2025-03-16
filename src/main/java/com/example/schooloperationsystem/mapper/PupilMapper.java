@@ -4,7 +4,6 @@ import com.example.schooloperationsystem.entity.Pupil;
 import com.example.schooloperationsystem.rest.dto.response.PupilDetailsDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.List;
 

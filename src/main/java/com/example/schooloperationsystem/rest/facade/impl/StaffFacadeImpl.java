@@ -2,7 +2,7 @@ package com.example.schooloperationsystem.rest.facade.impl;
 
 import com.example.schooloperationsystem.entity.Staff;
 import com.example.schooloperationsystem.mapper.StaffMapper;
-import com.example.schooloperationsystem.rest.controller.validator.StaffValidator;
+import com.example.schooloperationsystem.rest.facade.validator.StaffValidator;
 import com.example.schooloperationsystem.rest.dto.request.CreateStaffRequestDto;
 import com.example.schooloperationsystem.rest.dto.response.ErrorType;
 import com.example.schooloperationsystem.rest.dto.response.StaffDetailsDto;
@@ -11,17 +11,14 @@ import com.example.schooloperationsystem.service.StaffService;
 import com.example.schooloperationsystem.service.params.CreateStaffParams;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @Slf4j
 @AllArgsConstructor
-public class StaffFacadeImpl implements StaffFacade {
+class StaffFacadeImpl implements StaffFacade {
     private final StaffService service;
     private final StaffMapper mapper;
     private final StaffValidator staffValidator;
@@ -45,8 +42,7 @@ public class StaffFacadeImpl implements StaffFacade {
         Optional<ErrorType> optionalErrorType = staffValidator.validateCreate(requestDto);
 
         if (optionalErrorType.isPresent()) {
-            StaffDetailsDto staffDetailsDto = new StaffDetailsDto();
-            staffDetailsDto.setErrorType(optionalErrorType.get());
+            StaffDetailsDto staffDetailsDto = new StaffDetailsDto(optionalErrorType.get());
             log.info("Executing create staff failed, error-{}", optionalErrorType.get());
             return staffDetailsDto;
         } else {
@@ -80,5 +76,16 @@ public class StaffFacadeImpl implements StaffFacade {
 
         log.info("Successfully executed delete staff by id rest API, response - {}", staffDetailsDto);
         return staffDetailsDto;
+    }
+
+    @Override
+    public List<StaffDetailsDto> getAllStaffBySchoolId(Long schoolId) {
+        log.info("Executing get all staff by school id rest API, id-{}", schoolId);
+
+        List<Staff> response = service.findBySchoolId(schoolId);
+        List<StaffDetailsDto> staffDetailsDtos = mapper.mapList(response);
+
+        log.info("Successfully executed get staff by school id rest API, response - {}", staffDetailsDtos);
+        return staffDetailsDtos;
     }
 }

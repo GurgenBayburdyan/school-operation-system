@@ -1,18 +1,22 @@
-package com.example.schooloperationsystem.rest.controller.validator.impl;
+package com.example.schooloperationsystem.rest.facade.validator.impl;
 
-import com.example.schooloperationsystem.rest.controller.validator.StaffValidator;
-import com.example.schooloperationsystem.rest.dto.request.CreateStaffRequestDto;
+import com.example.schooloperationsystem.rest.facade.validator.PupilValidator;
+import com.example.schooloperationsystem.rest.dto.request.CreatePupilRequestDto;
 import com.example.schooloperationsystem.rest.dto.response.ErrorType;
+import com.example.schooloperationsystem.service.SchoolService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
 import java.util.Optional;
 
 @Component
 @Slf4j
-public class StaffValidatorImpl implements StaffValidator {
+@AllArgsConstructor
+public class PupilValidatorImpl implements PupilValidator {
 
-    public Optional<ErrorType> validateCreate(CreateStaffRequestDto requestDto) {
+    private final SchoolService schoolService;
+
+    public Optional<ErrorType> validateCreate(CreatePupilRequestDto requestDto) {
         log.debug("Executing validate create for request-{}", requestDto);
 
         if (requestDto.getFirstName() == null) {
@@ -33,6 +37,11 @@ public class StaffValidatorImpl implements StaffValidator {
         if (requestDto.getSchoolId() == null) {
             log.debug("Validation failed: Missing school id");
             return Optional.of(ErrorType.MISSING_SCHOOL_ID);
+        }
+
+        if (!schoolService.existsById(requestDto.getSchoolId())) {
+            log.debug("Validation failed: No school with id-{}", requestDto.getSchoolId());
+            return Optional.of(ErrorType.SCHOOL_NOT_FOUND);
         }
 
         log.debug("Validation executed successfully");

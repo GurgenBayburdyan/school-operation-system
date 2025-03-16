@@ -30,5 +30,6 @@ public class School {
     @Column(name = "photo_url", length = 1000)
     private String photoUrl;
 
+    //todo add @Column annotation
     private LocalDateTime deletedAt;
 }

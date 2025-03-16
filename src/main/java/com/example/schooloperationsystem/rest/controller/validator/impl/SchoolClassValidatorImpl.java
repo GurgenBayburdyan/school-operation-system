@@ -20,6 +20,11 @@ public class SchoolClassValidatorImpl implements SchoolClassValidator {
     private final SchoolService schoolService;
     private final SchoolClassService schoolClassService;
 
+    //todo crate a unit test for validateCreate method.
+    //the create SchoolClassValidatorImplUnitTest class in test folder in the same package. 
+    //create testValdiateCreate method annotated with @Test annotation.
+    //read about mockito, JUnit, assertj. pass CreateSchoolClassRequestDto that has null grade and assert that returned optional of MISSING_GRADE
+    //mock shcool service, so the existsById returns false and assert SCHOOL_NOT_FOUND error
     public Optional<ErrorType> validateCreate(CreateSchoolClassRequestDto requestDto) {
         log.debug("Executing validate create for request-{}", requestDto);
 

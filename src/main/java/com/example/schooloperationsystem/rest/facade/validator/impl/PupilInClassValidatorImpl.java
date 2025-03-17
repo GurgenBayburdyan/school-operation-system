@@ -26,14 +26,14 @@ class PupilInClassValidatorImpl implements PupilInClassValidator {
             return Optional.of(ErrorType.MISSING_PUPIL_ID);
         }
 
-        if (!pupilService.existsById(requestDto.getPupilId())) {
-            log.debug("Validation failed: No pupil with id-{}", requestDto.getPupilId());
-            return Optional.of(ErrorType.PUPIL_NOT_FOUND);
-        }
-
         if (requestDto.getSchoolClassId() == null) {
             log.debug("Validation failed: Missing class id");
             return Optional.of(ErrorType.MISSING_SCHOOL_CLASS_ID);
+        }
+
+        if (!pupilService.existsById(requestDto.getPupilId())) {
+            log.debug("Validation failed: No pupil with id-{}", requestDto.getPupilId());
+            return Optional.of(ErrorType.PUPIL_NOT_FOUND);
         }
 
         if (!schoolClassService.existsById(requestDto.getSchoolClassId())) {

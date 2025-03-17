@@ -12,6 +12,7 @@ import com.example.schooloperationsystem.service.params.CreateTeacherParams;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +26,7 @@ class TeacherFacadeImpl implements TeacherFacade {
     private final TeacherValidator teacherValidator;
 
     @Override
-    public List<TeacherDetailsDto> getAllTeachers() {
+    public List<TeacherDetailsDto> getAll() {
         log.info("Executing get all teachers rest API");
 
         List<Teacher> response = service.get();
@@ -36,7 +37,7 @@ class TeacherFacadeImpl implements TeacherFacade {
     }
 
     @Override
-    public TeacherDetailsDto createTeacher(CreateTeacherRequestDto requestDto) {
+    public TeacherDetailsDto create(CreateTeacherRequestDto requestDto) {
         log.info("Executing create teacher for the provided request to - {}:", requestDto);
 
         Optional<ErrorType> optionalErrorType = teacherValidator.validateCreate(requestDto);

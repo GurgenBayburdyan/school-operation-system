@@ -18,10 +18,10 @@ public class HeadMasterController {
     private final HeadMasterFacade headMasterFacade;
 
     @GetMapping
-    public ResponseEntity<List<HeadMasterDetailsDto>> getAllHeadMasters() {
+    public ResponseEntity<List<HeadMasterDetailsDto>> getAll() {
         log.info("Executing get all headmasters rest API");
 
-        ResponseEntity<List<HeadMasterDetailsDto>> responseEntity = ResponseEntity.ok(headMasterFacade.getAllHeadMasters());
+        ResponseEntity<List<HeadMasterDetailsDto>> responseEntity = ResponseEntity.ok(headMasterFacade.getAll());
 
         log.info("Successfully executed get all headmasters, response entity-{}", responseEntity);
         return responseEntity;
@@ -38,10 +38,10 @@ public class HeadMasterController {
     }
 
     @GetMapping("/{teacherId}")
-    public ResponseEntity<HeadMasterDetailsDto> getHeadMasterByTeacherId(@PathVariable("teacherId") Long teacherId) {
+    public ResponseEntity<HeadMasterDetailsDto> getByTeacherId(@PathVariable("teacherId") Long teacherId) {
         log.info("Executing get headmaster by teacher id rest API, teacher id-{}", teacherId);
 
-        ResponseEntity<HeadMasterDetailsDto> responseEntity = ResponseEntity.ok(headMasterFacade.getHeadMasterByTeacherId(teacherId));
+        ResponseEntity<HeadMasterDetailsDto> responseEntity = ResponseEntity.ok(headMasterFacade.getByTeacherId(teacherId));
 
         log.info("Successfully executed get headmaster by teacher id, response entity-{}", responseEntity);
         return responseEntity;

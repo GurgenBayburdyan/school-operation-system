@@ -26,14 +26,14 @@ public class HeadMasterValidatorImpl implements HeadMasterValidator {
             return Optional.of(ErrorType.MISSING_SCHOOL_CLASS_ID);
         }
 
-        if (!schoolClassService.existsById(requestDto.getClassId())) {
-            log.debug("Validation failed: No class with id-{}", requestDto.getClassId());
-            return Optional.of(ErrorType.CLASS_NOT_FOUND);
-        }
-
         if (requestDto.getTeacherId() == null) {
             log.debug("Validation failed: Missing teacher id");
             return Optional.of(ErrorType.MISSING_TEACHER_ID);
+        }
+
+        if (!schoolClassService.existsById(requestDto.getClassId())) {
+            log.debug("Validation failed: No class with id-{}", requestDto.getClassId());
+            return Optional.of(ErrorType.CLASS_NOT_FOUND);
         }
 
         if (!teacherService.existsById(requestDto.getTeacherId())) {

@@ -14,7 +14,7 @@ class StatisticsFacadeImpl implements StatisticsFacade {
     private final StatisticsService statisticsService;
 
     @Override
-    public StatisticsDetailsDto getStatistics() {
+    public StatisticsDetailsDto getAll() {
         log.info("Executing get statistics rest API");
 
         StatisticsDetailsDto statisticsDetailsDto = new StatisticsDetailsDto();

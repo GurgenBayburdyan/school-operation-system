@@ -5,35 +5,39 @@ import com.example.schooloperationsystem.rest.dto.response.ErrorType;
 import com.example.schooloperationsystem.rest.facade.validator.PupilInClassValidator;
 import com.example.schooloperationsystem.service.PupilService;
 import com.example.schooloperationsystem.service.SchoolClassService;
-import lombok.AllArgsConstructor;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-
-@AllArgsConstructor
+@ExtendWith(MockitoExtension.class)
 class PupilInClassValidatorImplTest {
 
     @Mock
-    private final PupilService pupilService;
+    private PupilService pupilService;
 
     @Mock
-    private final SchoolClassService schoolClassService;
+    private SchoolClassService schoolClassService;
 
-    @InjectMocks
-    private final PupilInClassValidator pupilInClassValidator;
+    private PupilInClassValidator pupilInClassValidator;
+
+    @BeforeEach
+    void setUp() {
+        pupilInClassValidator = new PupilInClassValidatorImpl(pupilService, schoolClassService);
+    }
 
     @Test
     void validateCreate_MissingPupilId() {
         CreatePupilInClassRequestDto requestDto = new CreatePupilInClassRequestDto();
         requestDto.setPupilId(null);
         requestDto.setSchoolClassId(1L);
-        when(schoolClassService.existsById(1L)).thenReturn(true);
         Optional<ErrorType> errorType = pupilInClassValidator.validateCreate(requestDto);
-        assert errorType.isPresent();
-        assert errorType.get().equals(ErrorType.MISSING_PUPIL_ID);
+        assertThat(errorType).contains(ErrorType.MISSING_PUPIL_ID);
     }
 
     @Test
@@ -41,10 +45,8 @@ class PupilInClassValidatorImplTest {
         CreatePupilInClassRequestDto requestDto = new CreatePupilInClassRequestDto();
         requestDto.setPupilId(1L);
         requestDto.setSchoolClassId(null);
-        when(pupilService.existsById(1L)).thenReturn(true);
         Optional<ErrorType> errorType = pupilInClassValidator.validateCreate(requestDto);
-        assert errorType.isPresent();
-        assert errorType.get().equals(ErrorType.MISSING_SCHOOL_CLASS_ID);
+        assertThat(errorType).contains(ErrorType.MISSING_SCHOOL_CLASS_ID);
     }
 
     @Test
@@ -53,10 +55,10 @@ class PupilInClassValidatorImplTest {
         requestDto.setPupilId(1L);
         requestDto.setSchoolClassId(1L);
         when(pupilService.existsById(1L)).thenReturn(false);
-        when(schoolClassService.existsById(1L)).thenReturn(true);
         Optional<ErrorType> errorType = pupilInClassValidator.validateCreate(requestDto);
-        assert errorType.isPresent();
-        assert errorType.get().equals(ErrorType.PUPIL_NOT_FOUND);
+        assertThat(errorType).contains(ErrorType.PUPIL_NOT_FOUND);
+
+        verify(pupilService).existsById(1L);
     }
 
     @Test
@@ -67,7 +69,8 @@ class PupilInClassValidatorImplTest {
         when(pupilService.existsById(1L)).thenReturn(true);
         when(schoolClassService.existsById(1L)).thenReturn(false);
         Optional<ErrorType> errorType = pupilInClassValidator.validateCreate(requestDto);
-        assert errorType.isPresent();
-        assert errorType.get().equals(ErrorType.CLASS_NOT_FOUND);
+        assertThat(errorType).contains(ErrorType.CLASS_NOT_FOUND);
+
+        verify(pupilService).existsById(1L);
     }
 }

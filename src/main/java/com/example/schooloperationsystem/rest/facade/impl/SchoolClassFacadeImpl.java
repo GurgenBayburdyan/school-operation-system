@@ -25,7 +25,7 @@ class SchoolClassFacadeImpl implements SchoolClassFacade {
     private final SchoolClassValidator schoolClassValidator;
 
     @Override
-    public List<SchoolClassDetailsDto> getClasses() {
+    public List<SchoolClassDetailsDto> getAll() {
         log.info("Executing get all classes rest API");
 
         List<SchoolClass> response = classService.get();
@@ -36,7 +36,7 @@ class SchoolClassFacadeImpl implements SchoolClassFacade {
     }
 
     @Override
-    public SchoolClassDetailsDto createClass(CreateSchoolClassRequestDto requestDto) {
+    public SchoolClassDetailsDto create(CreateSchoolClassRequestDto requestDto) {
         log.info("Executing create class for the provided request to - {}", requestDto);
 
         Optional<ErrorType> optionalErrorType = schoolClassValidator.validateCreate(requestDto);
@@ -60,7 +60,7 @@ class SchoolClassFacadeImpl implements SchoolClassFacade {
     }
 
     @Override
-    public SchoolClassDetailsDto getClassById(Long id) {
+    public SchoolClassDetailsDto getById(Long id) {
         log.info("Executing get class by id, id-{}", id);
 
         SchoolClass schoolClass = classService.findById(id);
@@ -79,7 +79,7 @@ class SchoolClassFacadeImpl implements SchoolClassFacade {
     }
 
     @Override
-    public List<SchoolClassDetailsDto> getClassesBySchoolId(Long schoolId) {
+    public List<SchoolClassDetailsDto> getBySchoolId(Long schoolId) {
         log.info("Executing get classes by school id, school id-{}", schoolId);
 
         List<SchoolClass> schoolClasses = classService.findBySchoolId(schoolId);

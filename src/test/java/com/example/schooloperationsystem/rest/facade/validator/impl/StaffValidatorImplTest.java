@@ -4,22 +4,29 @@ import com.example.schooloperationsystem.rest.dto.request.CreateStaffRequestDto;
 import com.example.schooloperationsystem.rest.dto.response.ErrorType;
 import com.example.schooloperationsystem.rest.facade.validator.StaffValidator;
 import com.example.schooloperationsystem.service.SchoolService;
-import lombok.AllArgsConstructor;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDateTime;
 import java.util.Optional;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@AllArgsConstructor
+@ExtendWith(MockitoExtension.class)
 class StaffValidatorImplTest {
 
     @Mock
-    private final SchoolService schoolService;
+    private SchoolService schoolService;
 
-    @InjectMocks
-    private final StaffValidator staffValidator;
+    private StaffValidator staffValidator;
+
+    @BeforeEach
+    void setUp() {
+        staffValidator = new StaffValidatorImpl(schoolService);
+    }
 
     @Test
     void validateCreate_MissingFirstName() {
@@ -28,10 +35,8 @@ class StaffValidatorImplTest {
         requestDto.setLastName("lastName");
         requestDto.setDateOfBirth(LocalDateTime.now());
         requestDto.setSchoolId(1L);
-        when(schoolService.existsById(1L)).thenReturn(true);
         Optional<ErrorType> errorType = staffValidator.validateCreate(requestDto);
-        assert errorType.isPresent();
-        assert errorType.get().equals(ErrorType.MISSING_FIRST_NAME);
+        assertThat(errorType).contains(ErrorType.MISSING_FIRST_NAME);
     }
 
     @Test
@@ -41,10 +46,8 @@ class StaffValidatorImplTest {
         requestDto.setLastName(null);
         requestDto.setDateOfBirth(LocalDateTime.now());
         requestDto.setSchoolId(1L);
-        when(schoolService.existsById(1L)).thenReturn(true);
         Optional<ErrorType> errorType = staffValidator.validateCreate(requestDto);
-        assert errorType.isPresent();
-        assert errorType.get().equals(ErrorType.MISSING_LAST_NAME);
+        assertThat(errorType).contains(ErrorType.MISSING_LAST_NAME);
     }
 
     @Test
@@ -54,10 +57,8 @@ class StaffValidatorImplTest {
         requestDto.setLastName("lastName");
         requestDto.setDateOfBirth(null);
         requestDto.setSchoolId(1L);
-        when(schoolService.existsById(1L)).thenReturn(true);
         Optional<ErrorType> errorType = staffValidator.validateCreate(requestDto);
-        assert errorType.isPresent();
-        assert errorType.get().equals(ErrorType.MISSING_DATE_OF_BIRTH);
+        assertThat(errorType).contains(ErrorType.MISSING_DATE_OF_BIRTH);
     }
 
     @Test
@@ -68,8 +69,7 @@ class StaffValidatorImplTest {
         requestDto.setDateOfBirth(LocalDateTime.now());
         requestDto.setSchoolId(null);
         Optional<ErrorType> errorType = staffValidator.validateCreate(requestDto);
-        assert errorType.isPresent();
-        assert errorType.get().equals(ErrorType.MISSING_SCHOOL_ID);
+        assertThat(errorType).contains(ErrorType.MISSING_SCHOOL_ID);
     }
 
     @Test
@@ -81,7 +81,8 @@ class StaffValidatorImplTest {
         requestDto.setSchoolId(1L);
         when(schoolService.existsById(1L)).thenReturn(false);
         Optional<ErrorType> errorType = staffValidator.validateCreate(requestDto);
-        assert errorType.isPresent();
-        assert errorType.get().equals(ErrorType.SCHOOL_NOT_FOUND);
+        assertThat(errorType).contains(ErrorType.SCHOOL_NOT_FOUND);
+
+        verify(schoolService).existsById(1L);
     }
 }

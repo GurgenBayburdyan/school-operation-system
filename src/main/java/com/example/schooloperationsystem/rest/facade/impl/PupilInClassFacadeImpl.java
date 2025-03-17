@@ -25,7 +25,7 @@ class PupilInClassFacadeImpl implements PupilInClassFacade {
     private final PupilInClassValidator pupilInClassValidator;
 
     @Override
-    public List<PupilInClassDetailsDto> getPupilsInClass() {
+    public List<PupilInClassDetailsDto> getAll() {
         log.info("Executing get all pupils in classes rest API");
 
         List<PupilInClass> response = pupilInClassService.get();
@@ -36,7 +36,7 @@ class PupilInClassFacadeImpl implements PupilInClassFacade {
     }
 
     @Override
-    public PupilInClassDetailsDto addPupilInClass(CreatePupilInClassRequestDto requestDto) {
+    public PupilInClassDetailsDto create(CreatePupilInClassRequestDto requestDto) {
         log.info("Executing add pupil in class for the provided request to-{}", requestDto);
 
         Optional<ErrorType> optionalErrorType = pupilInClassValidator.validateCreate(requestDto);
@@ -60,7 +60,7 @@ class PupilInClassFacadeImpl implements PupilInClassFacade {
     }
 
     @Override
-    public List<PupilInClassDetailsDto> getPupilsByClassId(Long classId) {
+    public List<PupilInClassDetailsDto> getByClassId(Long classId) {
         log.info("Executing get pupil in class by class id-{}", classId);
 
         List<PupilInClass> response = pupilInClassService.findBySchoolClassId(classId);
@@ -71,7 +71,7 @@ class PupilInClassFacadeImpl implements PupilInClassFacade {
     }
 
     @Override
-    public PupilInClassDetailsDto deletePupilByPupilId(Long pupilId) {
+    public PupilInClassDetailsDto deleteByPupilId(Long pupilId) {
         log.info("Executing delete pupil in class by id-{}", pupilId);
 
         PupilInClass response = pupilInClassService.deleteByPupilId(pupilId);
@@ -91,7 +91,7 @@ class PupilInClassFacadeImpl implements PupilInClassFacade {
     }
 
     @Override
-    public PupilInClassDetailsDto getPupilInClassByPupilId(Long pupilId) {
+    public PupilInClassDetailsDto getByPupilId(Long pupilId) {
         log.info("Executing get pupil in class by pupil id-{}", pupilId);
 
         PupilInClass response = pupilInClassService.findByPupilId(pupilId);

@@ -62,6 +62,7 @@ class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Boolean existsById(Long id) {
         return repository.existsById(id);
     }

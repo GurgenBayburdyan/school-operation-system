@@ -25,7 +25,7 @@ class HeadMasterFacadeImpl implements HeadMasterFacade {
     private final HeadMasterValidator headMasterValidator;
 
     @Override
-    public List<HeadMasterDetailsDto> getAllHeadMasters() {
+    public List<HeadMasterDetailsDto> getAll() {
         log.info("Executing get all head masters rest API");
 
         List<HeadMaster> response = headMasterService.get();
@@ -60,7 +60,7 @@ class HeadMasterFacadeImpl implements HeadMasterFacade {
     }
 
     @Override
-    public HeadMasterDetailsDto getHeadMasterByTeacherId(Long teacherId) {
+    public HeadMasterDetailsDto getByTeacherId(Long teacherId) {
         log.info("Executing get head master by teacher id-{}", teacherId);
 
         HeadMaster response=headMasterService.findByTeacherId(teacherId);

@@ -3,16 +3,23 @@ package com.example.schooloperationsystem.rest.facade.validator.impl;
 import com.example.schooloperationsystem.rest.dto.request.CreateSchoolRequestDto;
 import com.example.schooloperationsystem.rest.dto.response.ErrorType;
 import com.example.schooloperationsystem.rest.facade.validator.SchoolValidator;
-import lombok.AllArgsConstructor;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
-@AllArgsConstructor
+import static org.assertj.core.api.Assertions.assertThat;
+
+@ExtendWith(MockitoExtension.class)
 class SchoolValidatorImplTest {
 
-    @InjectMocks
-    private final SchoolValidator schoolValidator;
+    private SchoolValidator schoolValidator;
+
+    @BeforeEach
+    void setUp() {
+        schoolValidator = new SchoolValidatorImpl();
+    }
 
     @Test
     void validateCreate_MissingAddress() {
@@ -22,8 +29,7 @@ class SchoolValidatorImplTest {
         requestDto.setNumber(1234);
         requestDto.setPhotoUrl("photoUrl");
         Optional<ErrorType> errorType = schoolValidator.validateCreate(requestDto);
-        assert errorType.isPresent();
-        assert errorType.get().equals(ErrorType.MISSING_ADDRESS);
+        assertThat(errorType).contains(ErrorType.MISSING_ADDRESS);
     }
 
     @Test
@@ -34,8 +40,7 @@ class SchoolValidatorImplTest {
         requestDto.setNumber(1234);
         requestDto.setPhotoUrl("photoUrl");
         Optional<ErrorType> errorType = schoolValidator.validateCreate(requestDto);
-        assert errorType.isPresent();
-        assert errorType.get().equals(ErrorType.MISSING_NAMED_AFTER);
+        assertThat(errorType).contains(ErrorType.MISSING_NAMED_AFTER);
     }
 
     @Test
@@ -46,8 +51,7 @@ class SchoolValidatorImplTest {
         requestDto.setNumber(null);
         requestDto.setPhotoUrl("photoUrl");
         Optional<ErrorType> errorType = schoolValidator.validateCreate(requestDto);
-        assert errorType.isPresent();
-        assert errorType.get().equals(ErrorType.MISSING_NUMBER);
+        assertThat(errorType).contains(ErrorType.MISSING_NUMBER);
     }
 
     @Test
@@ -58,7 +62,6 @@ class SchoolValidatorImplTest {
         requestDto.setNumber(1234);
         requestDto.setPhotoUrl(null);
         Optional<ErrorType> errorType = schoolValidator.validateCreate(requestDto);
-        assert errorType.isPresent();
-        assert errorType.get().equals(ErrorType.MISSING_PHOTO_URL);
+        assertThat(errorType).contains(ErrorType.MISSING_PHOTO_URL);
     }
 }

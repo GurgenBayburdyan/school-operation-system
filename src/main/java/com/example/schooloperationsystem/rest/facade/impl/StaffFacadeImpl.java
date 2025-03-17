@@ -25,7 +25,7 @@ class StaffFacadeImpl implements StaffFacade {
     private final StaffMapper staffMapper;
 
     @Override
-    public List<StaffDetailsDto> getAllStaff() {
+    public List<StaffDetailsDto> getAll() {
         log.info("Executing get all staff rest API");
 
         List<Staff> response = service.get();
@@ -79,7 +79,7 @@ class StaffFacadeImpl implements StaffFacade {
     }
 
     @Override
-    public List<StaffDetailsDto> getAllStaffBySchoolId(Long schoolId) {
+    public List<StaffDetailsDto> getBySchoolId(Long schoolId) {
         log.info("Executing get all staff by school id rest API, id-{}", schoolId);
 
         List<Staff> response = service.findBySchoolId(schoolId);

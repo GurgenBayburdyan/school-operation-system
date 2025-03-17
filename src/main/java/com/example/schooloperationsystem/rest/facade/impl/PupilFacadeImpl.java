@@ -25,7 +25,7 @@ class PupilFacadeImpl implements PupilFacade {
     private final PupilValidator pupilValidator;
 
     @Override
-    public List<PupilDetailsDto> getPupils() {
+    public List<PupilDetailsDto> getAll() {
         log.info("Executing get all pupils rest API");
 
         final List<Pupil> response = pupilService.get();
@@ -37,7 +37,7 @@ class PupilFacadeImpl implements PupilFacade {
     }
 
     @Override
-    public PupilDetailsDto addPupil(CreatePupilRequestDto requestDto) {
+    public PupilDetailsDto create(CreatePupilRequestDto requestDto) {
         log.info("Executing add pupil for the provided request to - {}:", requestDto);
         final Optional<ErrorType> optionalErrorType = pupilValidator.validateCreate(requestDto);
 
@@ -60,7 +60,7 @@ class PupilFacadeImpl implements PupilFacade {
     }
 
     @Override
-    public PupilDetailsDto deletePupilById(Long id) {
+    public PupilDetailsDto deleteById(Long id) {
         log.info("Executing delete pupil by id, id - {}:", id);
 
         Pupil response = pupilService.deleteById(id);
@@ -78,7 +78,7 @@ class PupilFacadeImpl implements PupilFacade {
     }
 
     @Override
-    public List<PupilDetailsDto> getPupilsBySchoolId(Long schoolId) {
+    public List<PupilDetailsDto> getBySchoolId(Long schoolId) {
         log.info("Executing get all pupils by school id rest API, school id-{}", schoolId);
 
         final List<Pupil> response = pupilService.findBySchoolId(schoolId);

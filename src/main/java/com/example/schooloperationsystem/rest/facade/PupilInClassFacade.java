@@ -5,13 +5,13 @@ import com.example.schooloperationsystem.rest.dto.response.PupilInClassDetailsDt
 import java.util.List;
 
 public interface PupilInClassFacade {
-    List<PupilInClassDetailsDto> getPupilsInClass();
+    List<PupilInClassDetailsDto> getAll();
 
-    PupilInClassDetailsDto addPupilInClass(CreatePupilInClassRequestDto requestDto);
+    PupilInClassDetailsDto create(CreatePupilInClassRequestDto requestDto);
 
-    List<PupilInClassDetailsDto> getPupilsByClassId(Long classId);
+    List<PupilInClassDetailsDto> getByClassId(Long classId);
 
-    PupilInClassDetailsDto deletePupilByPupilId(Long pupilId);
+    PupilInClassDetailsDto deleteByPupilId(Long pupilId);
 
-    PupilInClassDetailsDto getPupilInClassByPupilId(Long pupilId);
+    PupilInClassDetailsDto getByPupilId(Long pupilId);
 }

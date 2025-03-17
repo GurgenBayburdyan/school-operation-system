@@ -3,39 +3,45 @@ package com.example.schooloperationsystem.rest.facade.validator.impl;
 import com.example.schooloperationsystem.rest.dto.request.CreateTeacherRequestDto;
 import com.example.schooloperationsystem.rest.dto.response.ErrorType;
 import com.example.schooloperationsystem.service.StaffService;
-import lombok.AllArgsConstructor;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@AllArgsConstructor
+@ExtendWith(MockitoExtension.class)
 class TeacherValidatorImplTest {
 
     @Mock
-    private final StaffService staffService;
+    private StaffService staffService;
 
-    @InjectMocks
     private TeacherValidatorImpl teacherValidator;
+
+    @BeforeEach
+    void setUp() {
+        teacherValidator = new TeacherValidatorImpl(staffService);
+    }
 
     @Test
     void validateCreate_MissingStaffId() {
         CreateTeacherRequestDto requestDto = new CreateTeacherRequestDto();
         requestDto.setStaffId(null);
-        when(staffService.existsById(1L)).thenReturn(true);
         Optional<ErrorType> errorType = teacherValidator.validateCreate(requestDto);
-        assert errorType.isPresent();
-        assert errorType.get().equals(ErrorType.MISSING_STAFF_ID);
+        assertThat(errorType).contains(ErrorType.MISSING_STAFF_ID);
     }
 
     @Test
-    void validateCreate_PupilNotFound() {
+    void validateCreate_StaffNotFound() {
         CreateTeacherRequestDto requestDto = new CreateTeacherRequestDto();
         requestDto.setStaffId(1L);
         when(staffService.existsById(1L)).thenReturn(false);
         Optional<ErrorType> errorType = teacherValidator.validateCreate(requestDto);
-        assert errorType.isPresent();
-        assert errorType.get().equals(ErrorType.STAFF_NOT_FOUND);
+        assertThat(errorType).contains(ErrorType.STAFF_NOT_FOUND);
+
+        verify(staffService).existsById(1L);
     }
 }

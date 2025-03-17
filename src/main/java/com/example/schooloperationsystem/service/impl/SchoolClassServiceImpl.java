@@ -18,8 +18,8 @@ import java.util.List;
 @AllArgsConstructor
 class SchoolClassServiceImpl implements SchoolClassService {
 
-    private SchoolClassRepository repository;
-    private SchoolService schoolService;
+    private final SchoolClassRepository repository;
+    private final SchoolService schoolService;
 
     @Override
     @Transactional(readOnly = true)

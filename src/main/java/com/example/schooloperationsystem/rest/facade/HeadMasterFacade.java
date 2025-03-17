@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
 public interface HeadMasterFacade {
-    List<HeadMasterDetailsDto> getAllHeadMasters();
+    List<HeadMasterDetailsDto> getAll();
 
     HeadMasterDetailsDto create(@RequestBody CreateHeadMasterRequestDto requestDto);
 
-    HeadMasterDetailsDto getHeadMasterByTeacherId(Long teacherId);
+    HeadMasterDetailsDto getByTeacherId(Long teacherId);
 }

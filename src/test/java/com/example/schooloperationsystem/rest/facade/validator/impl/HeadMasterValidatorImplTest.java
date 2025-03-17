@@ -4,34 +4,38 @@ import com.example.schooloperationsystem.rest.dto.request.CreateHeadMasterReques
 import com.example.schooloperationsystem.rest.dto.response.ErrorType;
 import com.example.schooloperationsystem.service.SchoolClassService;
 import com.example.schooloperationsystem.service.TeacherService;
-import lombok.AllArgsConstructor;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@AllArgsConstructor
+@ExtendWith(MockitoExtension.class)
 class HeadMasterValidatorImplTest {
+    @Mock
+    private SchoolClassService schoolClassService;
 
     @Mock
-    private final SchoolClassService schoolClassService;
+    private TeacherService teacherService;
 
-    @Mock
-    private final TeacherService teacherService;
+    private HeadMasterValidatorImpl headMasterValidator;
 
-    @InjectMocks
-    private final HeadMasterValidatorImpl headMasterValidator;
+    @BeforeEach
+    void setUp() {
+        headMasterValidator = new HeadMasterValidatorImpl(schoolClassService, teacherService);
+    }
 
     @Test
     void validateCreate_MissingClassId() {
         CreateHeadMasterRequestDto requestDto = new CreateHeadMasterRequestDto();
         requestDto.setTeacherId(1L);
         requestDto.setClassId(null);
-        when(teacherService.existsById(1L)).thenReturn(true);
         Optional<ErrorType> errorType = headMasterValidator.validateCreate(requestDto);
-        assert errorType.isPresent();
-        assert errorType.get().equals(ErrorType.MISSING_SCHOOL_CLASS_ID);
+        assertThat(errorType).contains(ErrorType.MISSING_SCHOOL_CLASS_ID);
     }
 
     @Test
@@ -39,10 +43,8 @@ class HeadMasterValidatorImplTest {
         CreateHeadMasterRequestDto requestDto = new CreateHeadMasterRequestDto();
         requestDto.setTeacherId(null);
         requestDto.setClassId(1L);
-        when(schoolClassService.existsById(1L)).thenReturn(true);
         Optional<ErrorType> errorType = headMasterValidator.validateCreate(requestDto);
-        assert errorType.isPresent();
-        assert errorType.get().equals(ErrorType.MISSING_TEACHER_ID);
+        assertThat(errorType).contains(ErrorType.MISSING_TEACHER_ID);
     }
 
     @Test
@@ -51,10 +53,10 @@ class HeadMasterValidatorImplTest {
         requestDto.setTeacherId(1L);
         requestDto.setClassId(1L);
         when(schoolClassService.existsById(1L)).thenReturn(false);
-        when(teacherService.existsById(1L)).thenReturn(true);
         Optional<ErrorType> errorType = headMasterValidator.validateCreate(requestDto);
-        assert errorType.isPresent();
-        assert errorType.get().equals(ErrorType.CLASS_NOT_FOUND);
+        assertThat(errorType).contains(ErrorType.CLASS_NOT_FOUND);
+
+        verify(schoolClassService).existsById(1L);
     }
 
     @Test
@@ -65,7 +67,9 @@ class HeadMasterValidatorImplTest {
         when(schoolClassService.existsById(1L)).thenReturn(true);
         when(teacherService.existsById(1L)).thenReturn(false);
         Optional<ErrorType> errorType = headMasterValidator.validateCreate(requestDto);
-        assert errorType.isPresent();
-        assert errorType.get().equals(ErrorType.TEACHER_NOT_FOUND);
+        assertThat(errorType).contains(ErrorType.TEACHER_NOT_FOUND);
+
+        verify(schoolClassService).existsById(1L);
+        verify(teacherService).existsById(1L);
     }
 }

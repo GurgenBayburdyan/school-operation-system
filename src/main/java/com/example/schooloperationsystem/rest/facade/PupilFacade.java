@@ -6,12 +6,12 @@ import java.util.List;
 
 public interface PupilFacade {
 
-    List<PupilDetailsDto> getPupils();
+    List<PupilDetailsDto> getAll();
 
-    PupilDetailsDto addPupil(CreatePupilRequestDto requestDto);
+    PupilDetailsDto create(CreatePupilRequestDto requestDto);
 
-    PupilDetailsDto deletePupilById(Long id);
+    PupilDetailsDto deleteById(Long id);
 
-    List<PupilDetailsDto> getPupilsBySchoolId(Long schoolId);
+    List<PupilDetailsDto> getBySchoolId(Long schoolId);
 
 }

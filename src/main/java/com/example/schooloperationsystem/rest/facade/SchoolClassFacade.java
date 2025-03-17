@@ -5,11 +5,11 @@ import com.example.schooloperationsystem.rest.dto.response.SchoolClassDetailsDto
 import java.util.List;
 
 public interface SchoolClassFacade {
-    List<SchoolClassDetailsDto> getClasses();
+    List<SchoolClassDetailsDto> getAll();
 
-    SchoolClassDetailsDto createClass(CreateSchoolClassRequestDto requestDto);
+    SchoolClassDetailsDto create(CreateSchoolClassRequestDto requestDto);
 
-    SchoolClassDetailsDto getClassById(Long id);
+    SchoolClassDetailsDto getById(Long id);
 
-    List<SchoolClassDetailsDto> getClassesBySchoolId(Long schoolId);
+    List<SchoolClassDetailsDto> getBySchoolId(Long schoolId);
 }

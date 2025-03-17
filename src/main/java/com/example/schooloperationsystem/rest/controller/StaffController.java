@@ -21,7 +21,7 @@ public class StaffController {
     public ResponseEntity<List<StaffDetailsDto>> getAll() {
         log.info("Executing get all staff rest API");
 
-        ResponseEntity<List<StaffDetailsDto>> responseEntity = ResponseEntity.ok(staffFacade.getAllStaff());
+        ResponseEntity<List<StaffDetailsDto>> responseEntity = ResponseEntity.ok(staffFacade.getAll());
 
         log.info("Successfully executed get all staff, response entity-{}", responseEntity);
         return responseEntity;
@@ -51,7 +51,7 @@ public class StaffController {
     public ResponseEntity<List<StaffDetailsDto>> getBySchoolId(@PathVariable("schoolId") Long schoolId) {
         log.info("Executing get staff by school id rest API, id-{}", schoolId);
 
-        ResponseEntity<List<StaffDetailsDto>> responseEntity = ResponseEntity.ok(staffFacade.getAllStaffBySchoolId(schoolId));
+        ResponseEntity<List<StaffDetailsDto>> responseEntity = ResponseEntity.ok(staffFacade.getBySchoolId(schoolId));
 
         log.info("Successfully executed get staff by school id, response entity-{}", responseEntity);
         return responseEntity;

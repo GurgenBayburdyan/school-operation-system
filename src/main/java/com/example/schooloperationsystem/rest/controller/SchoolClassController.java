@@ -21,7 +21,7 @@ public class SchoolClassController {
     public ResponseEntity<List<SchoolClassDetailsDto>> getAll() {
         log.info("Executing get all classes rest API");
 
-        ResponseEntity<List<SchoolClassDetailsDto>> responseEntity = ResponseEntity.ok(schoolClassFacade.getClasses());
+        ResponseEntity<List<SchoolClassDetailsDto>> responseEntity = ResponseEntity.ok(schoolClassFacade.getAll());
 
         log.info("Successfully executed get all classes, response entity-{}", responseEntity);
         return responseEntity;
@@ -31,7 +31,7 @@ public class SchoolClassController {
     public ResponseEntity<SchoolClassDetailsDto> create(@RequestBody CreateSchoolClassRequestDto requestDto) {
         log.info("Executing create class rest API, request-{}", requestDto);
 
-        ResponseEntity<SchoolClassDetailsDto> responseEntity = ResponseEntity.ok(schoolClassFacade.createClass(requestDto));
+        ResponseEntity<SchoolClassDetailsDto> responseEntity = ResponseEntity.ok(schoolClassFacade.create(requestDto));
 
         log.info("Successfully executed create classes, response entity-{}", responseEntity);
         return responseEntity;
@@ -41,7 +41,7 @@ public class SchoolClassController {
     public ResponseEntity<SchoolClassDetailsDto> getById(@PathVariable("id") Long id) {
         log.info("Executing get class by id rest API, id-{}", id);
 
-        ResponseEntity<SchoolClassDetailsDto> responseEntity = ResponseEntity.ok(schoolClassFacade.getClassById(id));
+        ResponseEntity<SchoolClassDetailsDto> responseEntity = ResponseEntity.ok(schoolClassFacade.getById(id));
 
         log.info("Successfully executed get class by id, response entity-{}", responseEntity);
         return responseEntity;
@@ -51,7 +51,7 @@ public class SchoolClassController {
     public ResponseEntity<List<SchoolClassDetailsDto>> getBySchoolId(@PathVariable("schoolId") Long schoolId) {
         log.info("Executing get classes by school id rest API, id-{}", schoolId);
 
-        ResponseEntity<List<SchoolClassDetailsDto>> responseEntity = ResponseEntity.ok(schoolClassFacade.getClassesBySchoolId(schoolId));
+        ResponseEntity<List<SchoolClassDetailsDto>> responseEntity = ResponseEntity.ok(schoolClassFacade.getBySchoolId(schoolId));
 
         log.info("Successfully executed get classes by school id, response entity-{}", responseEntity);
         return responseEntity;

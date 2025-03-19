@@ -41,7 +41,7 @@ public class StaffController {
     public ResponseEntity<StaffDetailsDto> deleteById(@PathVariable("id") Long id) {
         log.info("Executing delete staff by id rest API, id-{}", id);
 
-        ResponseEntity<StaffDetailsDto> responseEntity = ResponseEntity.ok(staffFacade.delete(id));
+        ResponseEntity<StaffDetailsDto> responseEntity = ResponseEntity.ok(staffFacade.deleteById(id));
 
         log.info("Successfully executed delete staff by id, response entity-{}", responseEntity);
         return responseEntity;

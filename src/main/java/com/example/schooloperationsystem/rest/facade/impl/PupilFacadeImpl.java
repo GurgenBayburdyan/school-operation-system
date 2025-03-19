@@ -46,12 +46,7 @@ class PupilFacadeImpl implements PupilFacade {
             log.info("Executing create pupil failed, error-{}", optionalErrorType.get());
             return pupilDetailsDto;
         } else {
-            final CreatePupilParams params = new CreatePupilParams(
-                    requestDto.getFirstName(),
-                    requestDto.getLastName(),
-                    requestDto.getDateOfBirth(),
-                    requestDto.getSchoolId()
-            );
+            final CreatePupilParams params = pupilMapper.fromRequestDtoToParams(requestDto);
 
             final Pupil response = pupilService.add(params);
             log.info("Successfully executed add pupil rest API, response - {}", response);

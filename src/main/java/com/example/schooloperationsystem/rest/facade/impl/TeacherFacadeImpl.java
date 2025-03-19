@@ -47,11 +47,10 @@ class TeacherFacadeImpl implements TeacherFacade {
             log.info("Executing create teacher failed, error-{}", optionalErrorType.get());
             return teacherDetailsDto;
         } else {
-            CreateTeacherParams params = new CreateTeacherParams(
-                    requestDto.getStaffId()
-            );
+            CreateTeacherParams params = mapper.fromRequestDtoToParams(requestDto);
+
             Teacher response = service.create(params);
-            TeacherDetailsDto teacherDetailsDto = mapper.mapToTeacherDetailsDto(response);
+            TeacherDetailsDto teacherDetailsDto = mapper.map(response);
             log.info("Successfully executed create teacher rest API, response - {}", teacherDetailsDto);
             return teacherDetailsDto;
         }
@@ -63,7 +62,13 @@ class TeacherFacadeImpl implements TeacherFacade {
 
         Teacher response = service.findByStaffId(staffId);
 
-        TeacherDetailsDto teacherDetailsDto = mapper.mapToTeacherDetailsDto(response);
+        if (response == null) {
+            TeacherDetailsDto teacherDetailsDto = new TeacherDetailsDto();
+            teacherDetailsDto.setErrorType(ErrorType.TEACHER_NOT_FOUND);
+            return teacherDetailsDto;
+        }
+
+        TeacherDetailsDto teacherDetailsDto = mapper.map(response);
 
         log.info("Successfully executed get teacher by staff id rest API, response - {}", teacherDetailsDto);
         return teacherDetailsDto;

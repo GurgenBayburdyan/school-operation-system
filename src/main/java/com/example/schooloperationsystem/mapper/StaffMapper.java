@@ -1,7 +1,9 @@
 package com.example.schooloperationsystem.mapper;
 
 import com.example.schooloperationsystem.entity.Staff;
+import com.example.schooloperationsystem.rest.dto.request.CreateStaffRequestDto;
 import com.example.schooloperationsystem.rest.dto.response.StaffDetailsDto;
+import com.example.schooloperationsystem.service.params.CreateStaffParams;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;
@@ -11,7 +13,7 @@ import java.util.List;
 @Component
 public class StaffMapper {
 
-    public StaffDetailsDto mapToStaffDetailsDto(Staff staff) {
+    public StaffDetailsDto map(Staff staff) {
         log.trace("Mapping staff - {} to staff details dto", staff);
 
         StaffDetailsDto staffDetailsDto = new StaffDetailsDto();
@@ -28,8 +30,12 @@ public class StaffMapper {
     public List<StaffDetailsDto> mapList(List<Staff> staffs) {
         List<StaffDetailsDto> staffDetailsDtos = new ArrayList<>();
         for (Staff staff : staffs) {
-            staffDetailsDtos.add(mapToStaffDetailsDto(staff));
+            staffDetailsDtos.add(map(staff));
         }
         return staffDetailsDtos;
+    }
+
+    public CreateStaffParams fromRequestDtoToParams(CreateStaffRequestDto requestDto) {
+        return new CreateStaffParams(requestDto.getFirstName(), requestDto.getLastName(), requestDto.getDateOfBirth(), requestDto.getSchoolId());
     }
 }

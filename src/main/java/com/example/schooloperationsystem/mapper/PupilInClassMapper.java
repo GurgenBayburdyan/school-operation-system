@@ -3,9 +3,12 @@ package com.example.schooloperationsystem.mapper;
 import com.example.schooloperationsystem.entity.Pupil;
 import com.example.schooloperationsystem.entity.PupilInClass;
 import com.example.schooloperationsystem.entity.SchoolClass;
+import com.example.schooloperationsystem.rest.dto.request.CreatePupilInClassRequestDto;
 import com.example.schooloperationsystem.rest.dto.response.PupilInClassDetailsDto;
+import com.example.schooloperationsystem.service.params.CreatePupilInClassParams;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,5 +39,9 @@ public class PupilInClassMapper {
             detailsDtos.add(map(pupilInClass));
         }
         return detailsDtos;
+    }
+
+    public CreatePupilInClassParams fromRequestDtoToParams(CreatePupilInClassRequestDto requestDto) {
+        return new CreatePupilInClassParams(requestDto.getSchoolClassId(), requestDto.getPupilId());
     }
 }

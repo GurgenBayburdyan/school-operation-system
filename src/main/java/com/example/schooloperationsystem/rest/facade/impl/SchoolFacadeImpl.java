@@ -12,6 +12,7 @@ import com.example.schooloperationsystem.service.params.CreateSchoolParams;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -25,32 +26,6 @@ class SchoolFacadeImpl implements SchoolFacade {
     private final SchoolValidator schoolValidator;
 
     @Override
-    public SchoolDetailsDto create(CreateSchoolRequestDto requestDto) {
-        log.debug("Executing create school for the provided request to - {}", requestDto);
-
-        final Optional<ErrorType> optionalErrorType = schoolValidator.validateCreate(requestDto);
-
-        if (optionalErrorType.isPresent()) {
-            SchoolDetailsDto schoolClassDetailsDto = new SchoolDetailsDto(optionalErrorType.get());
-            log.info("Executing create school failed, error-{}", optionalErrorType.get());
-            return schoolClassDetailsDto;
-        }
-
-        final CreateSchoolParams params = new CreateSchoolParams(
-                requestDto.getNumber(),
-                requestDto.getNamedAfter(),
-                requestDto.getAddress(),
-                requestDto.getPhotoUrl()
-        );
-
-        final School response = schoolService.create(params);
-        final SchoolDetailsDto schoolDetailsDto = schoolMapper.map(response);
-
-        log.debug("Successfully executed create school rest API, response - {}", schoolDetailsDto);
-        return schoolDetailsDto;
-    }
-
-    @Override
     public List<SchoolDetailsDto> get() {
         log.debug("Executing get all schools rest API");
 
@@ -62,10 +37,37 @@ class SchoolFacadeImpl implements SchoolFacade {
     }
 
     @Override
+    public SchoolDetailsDto create(CreateSchoolRequestDto requestDto) {
+        log.debug("Executing create school for the provided request to - {}", requestDto);
+
+        final Optional<ErrorType> optionalErrorType = schoolValidator.validateCreate(requestDto);
+
+        if (optionalErrorType.isPresent()) {
+            SchoolDetailsDto schoolClassDetailsDto = new SchoolDetailsDto(optionalErrorType.get());
+            log.info("Executing create school failed, error-{}", optionalErrorType.get());
+            return schoolClassDetailsDto;
+        }
+
+        final CreateSchoolParams params = schoolMapper.fromRequestDtoToParams(requestDto);
+
+        final School response = schoolService.create(params);
+        final SchoolDetailsDto schoolDetailsDto = schoolMapper.map(response);
+
+        log.debug("Successfully executed create school rest API, response - {}", schoolDetailsDto);
+        return schoolDetailsDto;
+    }
+
+    @Override
     public SchoolDetailsDto getById(Long id) {
         log.info("Executing get school by id-{}", id);
 
         School response = schoolService.findById(id);
+
+        if (response == null) {
+            SchoolDetailsDto schoolDetailsDto = new SchoolDetailsDto();
+            schoolDetailsDto.setErrorType(ErrorType.SCHOOL_NOT_FOUND);
+            return schoolDetailsDto;
+        }
 
         SchoolDetailsDto schoolDetailsDto = schoolMapper.map(response);
 

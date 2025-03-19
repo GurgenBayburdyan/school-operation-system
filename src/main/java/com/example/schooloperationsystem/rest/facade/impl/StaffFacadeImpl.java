@@ -20,7 +20,6 @@ import java.util.Optional;
 @AllArgsConstructor
 class StaffFacadeImpl implements StaffFacade {
     private final StaffService service;
-    private final StaffMapper mapper;
     private final StaffValidator staffValidator;
     private final StaffMapper staffMapper;
 
@@ -29,7 +28,7 @@ class StaffFacadeImpl implements StaffFacade {
         log.info("Executing get all staff rest API");
 
         List<Staff> response = service.get();
-        List<StaffDetailsDto> staffDetailsDtos = mapper.mapList(response);
+        List<StaffDetailsDto> staffDetailsDtos = staffMapper.mapList(response);
 
         log.info("Successfully executed get staff rest API, response - {}", staffDetailsDtos);
         return staffDetailsDtos;
@@ -46,21 +45,17 @@ class StaffFacadeImpl implements StaffFacade {
             log.info("Executing create staff failed, error-{}", optionalErrorType.get());
             return staffDetailsDto;
         } else {
-            CreateStaffParams params = new CreateStaffParams(
-                    requestDto.getFirstName(),
-                    requestDto.getLastName(),
-                    requestDto.getDateOfBirth(),
-                    requestDto.getSchoolId()
-            );
+            CreateStaffParams params = staffMapper.fromRequestDtoToParams(requestDto);
+
             Staff response = service.add(params);
-            StaffDetailsDto staffDetailsDto = mapper.mapToStaffDetailsDto(response);
+            StaffDetailsDto staffDetailsDto = staffMapper.map(response);
             log.info("Successfully executed create staff rest API, response - {}", staffDetailsDto);
             return staffDetailsDto;
         }
     }
 
     @Override
-    public StaffDetailsDto delete(Long id) {
+    public StaffDetailsDto deleteById(Long id) {
         log.info("Executing delete staff by id-{}", id);
 
         Staff response = service.deleteById(id);
@@ -72,7 +67,7 @@ class StaffFacadeImpl implements StaffFacade {
         }
 
 
-        StaffDetailsDto staffDetailsDto = staffMapper.mapToStaffDetailsDto(response);
+        StaffDetailsDto staffDetailsDto = staffMapper.map(response);
 
         log.info("Successfully executed delete staff by id rest API, response - {}", staffDetailsDto);
         return staffDetailsDto;
@@ -83,7 +78,7 @@ class StaffFacadeImpl implements StaffFacade {
         log.info("Executing get all staff by school id rest API, id-{}", schoolId);
 
         List<Staff> response = service.findBySchoolId(schoolId);
-        List<StaffDetailsDto> staffDetailsDtos = mapper.mapList(response);
+        List<StaffDetailsDto> staffDetailsDtos = staffMapper.mapList(response);
 
         log.info("Successfully executed get staff by school id rest API, response - {}", staffDetailsDtos);
         return staffDetailsDtos;

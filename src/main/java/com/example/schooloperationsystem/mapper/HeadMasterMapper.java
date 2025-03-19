@@ -3,7 +3,9 @@ package com.example.schooloperationsystem.mapper;
 import com.example.schooloperationsystem.entity.HeadMaster;
 import com.example.schooloperationsystem.entity.Staff;
 import com.example.schooloperationsystem.entity.Teacher;
+import com.example.schooloperationsystem.rest.dto.request.CreateHeadMasterRequestDto;
 import com.example.schooloperationsystem.rest.dto.response.HeadMasterDetailsDto;
+import com.example.schooloperationsystem.service.params.CreateHeadMasterParams;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,5 +41,9 @@ public class HeadMasterMapper {
             detailsDtos.add(map(headMaster));
         }
         return detailsDtos;
+    }
+
+    public CreateHeadMasterParams fromRequestDtoToParams(CreateHeadMasterRequestDto requestDto){
+        return new CreateHeadMasterParams(requestDto.getTeacherId(), requestDto.getClassId());
     }
 }

@@ -1,9 +1,12 @@
 package com.example.schooloperationsystem.mapper;
 
 import com.example.schooloperationsystem.entity.School;
+import com.example.schooloperationsystem.rest.dto.request.CreateSchoolRequestDto;
 import com.example.schooloperationsystem.rest.dto.response.SchoolDetailsDto;
+import com.example.schooloperationsystem.service.params.CreateSchoolParams;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,5 +34,9 @@ public class SchoolMapper {
             detailsDtos.add(map(school));
         }
         return detailsDtos;
+    }
+
+    public CreateSchoolParams fromRequestDtoToParams(CreateSchoolRequestDto requestDto) {
+        return new CreateSchoolParams(requestDto.getNumber(), requestDto.getNamedAfter(), requestDto.getAddress(), requestDto.getPhotoUrl());
     }
 }

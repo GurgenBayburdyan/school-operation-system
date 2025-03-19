@@ -21,7 +21,7 @@ public class TeacherController {
     public ResponseEntity<List<TeacherDetailsDto>> getAll() {
         log.info("Executing get all teachers rest API");
 
-        ResponseEntity<List<TeacherDetailsDto>> responseEntity = ResponseEntity.ok(teacherFacade.getAllTeachers());
+        ResponseEntity<List<TeacherDetailsDto>> responseEntity = ResponseEntity.ok(teacherFacade.getAll());
 
         log.info("Successfully executed get all teachers, response entity-{}", responseEntity);
         return responseEntity;
@@ -31,7 +31,7 @@ public class TeacherController {
     public ResponseEntity<TeacherDetailsDto> create(@RequestBody CreateTeacherRequestDto requestDto) {
         log.info("Executing create teacher rest API, request-{}", requestDto);
 
-        ResponseEntity<TeacherDetailsDto> responseEntity = ResponseEntity.ok(teacherFacade.createTeacher(requestDto));
+        ResponseEntity<TeacherDetailsDto> responseEntity = ResponseEntity.ok(teacherFacade.create(requestDto));
 
         log.info("Successfully executed create teacher, response entity-{}", responseEntity);
         return responseEntity;

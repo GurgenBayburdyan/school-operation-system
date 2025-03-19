@@ -1,7 +1,9 @@
 package com.example.schooloperationsystem.mapper;
 
 import com.example.schooloperationsystem.entity.Pupil;
+import com.example.schooloperationsystem.rest.dto.request.CreatePupilRequestDto;
 import com.example.schooloperationsystem.rest.dto.response.PupilDetailsDto;
+import com.example.schooloperationsystem.service.params.CreatePupilParams;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;
@@ -31,5 +33,14 @@ public class PupilMapper {
             detailsDtos.add(map(pupil));
         }
         return detailsDtos;
+    }
+
+    public CreatePupilParams fromRequestDtoToParams(CreatePupilRequestDto requestDto) {
+        return new CreatePupilParams(
+                requestDto.getFirstName(),
+                requestDto.getLastName(),
+                requestDto.getDateOfBirth(),
+                requestDto.getSchoolId()
+        );
     }
 }

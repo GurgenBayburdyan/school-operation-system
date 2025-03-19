@@ -46,13 +46,9 @@ class SchoolClassFacadeImpl implements SchoolClassFacade {
             log.info("Executing create class failed, error-{}", optionalErrorType.get());
             return schoolClassDetailsDto;
         } else {
-            CreateSchoolClassParams params = new CreateSchoolClassParams(
-                    requestDto.getClassLetter(),
-                    requestDto.getGrade(),
-                    requestDto.getSchoolId()
-            );
+            CreateSchoolClassParams params = classMapper.fromRequestDtoToParams(requestDto);
             SchoolClass response = classService.add(params);
-            SchoolClassDetailsDto schoolClassDetailsDto = classMapper.mapToSchoolClassDetailsDto(response);
+            SchoolClassDetailsDto schoolClassDetailsDto = classMapper.map(response);
 
             log.info("Successfully executed create class rest API, response - {}", schoolClassDetailsDto);
             return schoolClassDetailsDto;
@@ -72,7 +68,7 @@ class SchoolClassFacadeImpl implements SchoolClassFacade {
             return schoolClassDetailsDto;
         }
 
-        SchoolClassDetailsDto schoolClassDetailsDto = classMapper.mapToSchoolClassDetailsDto(schoolClass);
+        SchoolClassDetailsDto schoolClassDetailsDto = classMapper.map(schoolClass);
 
         log.info("Successfully executed get class by id rest API, response - {}", schoolClassDetailsDto);
         return schoolClassDetailsDto;

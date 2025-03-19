@@ -9,7 +9,7 @@ public interface StaffFacade {
 
     StaffDetailsDto create(CreateStaffRequestDto requestDto);
 
-    StaffDetailsDto delete(Long id);
+    StaffDetailsDto deleteById(Long id);
 
     List<StaffDetailsDto> getBySchoolId(Long schoolId);
 }

@@ -46,10 +46,7 @@ class PupilInClassFacadeImpl implements PupilInClassFacade {
             log.info("Executing create pupil in class failed, error-{}", optionalErrorType.get());
             return pupilInClassDetailsDto;
         } else {
-            CreatePupilInClassParams params = new CreatePupilInClassParams(
-                    requestDto.getSchoolClassId(),
-                    requestDto.getPupilId()
-            );
+            CreatePupilInClassParams params = pupilInClassMapper.fromRequestDtoToParams(requestDto);
 
             PupilInClass response = pupilInClassService.add(params);
             PupilInClassDetailsDto pupilInClassDetailsDto = pupilInClassMapper.map(response);
@@ -78,7 +75,7 @@ class PupilInClassFacadeImpl implements PupilInClassFacade {
 
 
         if (response == null) {
-            PupilInClassDetailsDto pupilInClassDetailsDto = pupilInClassMapper.map(response);
+            PupilInClassDetailsDto pupilInClassDetailsDto = new PupilInClassDetailsDto();
             pupilInClassDetailsDto.setErrorType(ErrorType.PUPIL_NOT_FOUND);
             log.info("Executing delete pupil in class by pupil id failed, error-{}", pupilInClassDetailsDto.getErrorType());
             return pupilInClassDetailsDto;

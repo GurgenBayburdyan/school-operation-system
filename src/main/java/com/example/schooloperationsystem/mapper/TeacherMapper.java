@@ -2,7 +2,9 @@ package com.example.schooloperationsystem.mapper;
 
 import com.example.schooloperationsystem.entity.Staff;
 import com.example.schooloperationsystem.entity.Teacher;
+import com.example.schooloperationsystem.rest.dto.request.CreateTeacherRequestDto;
 import com.example.schooloperationsystem.rest.dto.response.TeacherDetailsDto;
+import com.example.schooloperationsystem.service.params.CreateTeacherParams;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -13,7 +15,7 @@ import java.util.List;
 @Component
 @AllArgsConstructor
 public class TeacherMapper {
-    public TeacherDetailsDto mapToTeacherDetailsDto(Teacher teacher) {
+    public TeacherDetailsDto map(Teacher teacher) {
         log.trace("Mapping teacher - {} to teacher details dto", teacher);
 
         Staff staff = teacher.getStaff();
@@ -31,8 +33,12 @@ public class TeacherMapper {
     public List<TeacherDetailsDto> mapList(List<Teacher> teachers) {
         List<TeacherDetailsDto> detailsDtos = new ArrayList<>();
         for (Teacher teacher : teachers) {
-            detailsDtos.add(mapToTeacherDetailsDto(teacher));
+            detailsDtos.add(map(teacher));
         }
         return detailsDtos;
+    }
+
+    public CreateTeacherParams fromRequestDtoToParams(CreateTeacherRequestDto requestDto) {
+        return new CreateTeacherParams(requestDto.getStaffId());
     }
 }

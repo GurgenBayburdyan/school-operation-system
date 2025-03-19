@@ -21,7 +21,7 @@ public class StatisticsController {
     public ResponseEntity<StatisticsDetailsDto> getStatistics() {
         log.info("Executing get statistics rest API");
 
-        ResponseEntity<StatisticsDetailsDto> responseEntity = ResponseEntity.ok(statisticsFacade.getStatistics());
+        ResponseEntity<StatisticsDetailsDto> responseEntity = ResponseEntity.ok(statisticsFacade.getAll());
 
         log.info("Successfully executed get statistics, response entity-{}", responseEntity);
         return responseEntity;
